@@ -19,15 +19,42 @@
             </tree>
         </field>
     </record>
+    <record model="ir.ui.view" id="pivot_settle_history_vehicle">
+        <field name="name">pivot.settle.history.vehicle</field>
+        <field name="model">settle.history</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <pivot string="Timesheet">
+                <field name="claimheader" string="Claim No." type="row"/>
+                <field name="risk_id" type="row"/>
+                <field name="coverage" type="col"/>
+                <field name="status" type="col"/>
+                <field name="settle_date" interval="year" type="col"/>
+
+            </pivot>
+        </field>
+    </record>
+
     <record model="ir.actions.act_window" id="action_settlement_vehicle">
          <field name="name">Vehicle Settlement</field>
          <field name="type">ir.actions.act_window</field>
          <field name="res_model">settle.history</field>
          <field name="view_type">form</field>
-         <field name="view_mode">tree,form</field>
-         <field name="view_id" ref="tree_settle_history_vehicle"/>
+         <field name="view_mode">tree,form,pivot</field>
          <field name='domain'>[('risk_type','=','vehicle')]</field>
          <field name="context">{'create':False,'edit':False}</field>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_settlement_vehicle_tree">
+         <field name="sequence" eval="1"/>
+         <field name="view_mode">tree</field>
+         <field name="view_id" ref="tree_settle_history_vehicle"/>
+         <field name="act_window_id" ref="action_settlement_vehicle"/>
+    </record>
+    <record model="ir.actions.act_window.view" id="action_settlement_vehicle_pivot">
+         <field name="sequence" eval="1"/>
+         <field name="view_mode">pivot</field>
+         <field name="view_id" ref="pivot_settle_history_vehicle"/>
+         <field name="act_window_id" ref="action_settlement_vehicle"/>
     </record>
 
     <record model="ir.ui.view" id="tree_settle_history_person">
@@ -53,7 +80,7 @@
          <field name="type">ir.actions.act_window</field>
          <field name="res_model">settle.history</field>
          <field name="view_type">form</field>
-         <field name="view_mode">tree,form</field>
+         <field name="view_mode">tree,form,pivot</field>
          <field name="view_id" ref="tree_settle_history_person"/>
          <field name='domain'>[('risk_type','=','person')]</field>
          <field name="context">{'create':False,'edit':False}</field>
@@ -83,7 +110,7 @@
          <field name="type">ir.actions.act_window</field>
          <field name="res_model">settle.history</field>
          <field name="view_type">form</field>
-         <field name="view_mode">tree,form</field>
+         <field name="view_mode">tree,form,pivot</field>
          <field name="view_id" ref="tree_settle_history_cargo"/>
          <field name='domain'>[('risk_type','=','cargo')]</field>
          <field name="context">{'create':False,'edit':False}</field>

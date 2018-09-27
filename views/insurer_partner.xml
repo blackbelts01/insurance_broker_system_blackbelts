@@ -6,8 +6,6 @@
         <field name="arch" type="xml">
             <xpath expr="//group/group/field[@name='type']" position="after">
                 <field name="insurer_branch" attrs="{'invisible': [('insurer_type','=',False)]}" />
-                <field name="holding_type" attrs="{'invisible': [('company_type','!=','company')]}" readonly="1" force_save="1"/>
-                <field name="holding_company" attrs="{'invisible': [('company_type','!=','company'),('holding_type','!=',False)]}"/>
             </xpath>
             <xpath expr="//group/group" position="inside">
                 <field name="insurer_type" readonly="1" force_save="1" attrs="{'invisible': ['|',('customer','=',True),('agent','=',True)]}"/>

@@ -1,0 +1,97 @@
+<odoo>
+    <record id="view_partner_form_inherit_insurer" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/group/field[@name='type']" position="after">
+                <field name="insurer_type" readonly="1" force_save="1"/>
+                <field name="insurer_branch" attrs="{'invisible': [('insurer_type','=',False)]}" />
+                <field name="holding_type" attrs="{'invisible': [('company_type','!=','company')]}" readonly="1" force_save="1"/>
+                <field name="holding_company" attrs="{'invisible': [('company_type','!=','company'),('holding_type','!=',False)]}"/>
+            </xpath>
+            <xpath expr="//group/group" position="inside">
+                <field name="insurer_type" readonly="1" force_save="1" attrs="{'invisible': ['|',('customer','=',True),('agent','=',True)]}"/>
+                <field name="agent" readonly="1" force_save="1" attrs="{'invisible': ['|',('customer','=',True),('insurer_type','=',True)]}"/>
+                <field name="holding_type" attrs="{'invisible': [('company_type','!=','company')]}"  force_save="1"/>
+                <field name="holding_company" attrs="{'invisible': [('holding_type','=',False)]}"/>
+                <field name="numberofchildren" attrs="{'invisible': ['|',('insurer_type','=',True),('agent','=',True)]}"/>
+            </xpath>
+            <xpath expr="//sheet/div/field[@name='company_type']" position="attributes">
+                <attribute name="attrs">{'readonly': ['|',('insurer_type', '=', True),('agent', '=', True)]}</attribute>
+                <!--<field name="company_type" widget="radio" class="oe_edit_only" options="{'horizontal': true}" attrs="{'invisible': [('insurer_type', '=', True)]}"/>-->
+            </xpath>
+        </field>
+    </record>
+    <record id="view_partners_form_policy" model="ir.ui.view">
+        <field name="name">view.res.partner.form.crm.inherited2</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field eval="18" name="priority"/>
+        <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="arch" type="xml">
+            <data>
+                <button name="toggle_active" position="before">
+                    <button class="oe_stat_button o_res_partner_tip_opp" type="object"
+                            name="show_partner_policies"
+                            icon="fa-star" attrs="{'invisible': [('customer','=', False)]}">
+                        <field string="Policies " name="policy_count" widget="statinfo"/>
+                    </button>
+                </button>
+            </data>
+        </field>
+    </record>
+    <record id="view_partners_form_policy_claim" model="ir.ui.view">
+        <field name="name">view.res.partner.form.crm.inherited3</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field eval="18" name="priority"/>
+        <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="arch" type="xml">
+            <data>
+                <button name="toggle_active" position="before">
+                    <button class="oe_stat_button o_res_partner_tip_opp" type="object"
+                            name="show_partner_claim"
+                            icon="fa-pencil-square-o" attrs="{'invisible': [('customer','=', False)]}">
+                        <field string="Claims" name="claim_count" widget="statinfo"/>
+                    </button>
+                </button>
+            </data>
+        </field>
+    </record>
+    <record id="res_partner_view_remove" model="ir.ui.view">
+            <field name="name">res.partner.view.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="20"/>
+            <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='%(sale.act_res_partner_2_sale_order)d']" position="attributes">
+                   <attribute name="invisible">1</attribute>
+               </xpath>
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                   <attribute name="invisible">1</attribute>
+               </xpath>
+                <xpath expr="//field[@name='vat']" position="attributes">
+                   <attribute name="invisible">1</attribute>
+               </xpath>
+            </field>
+    </record>
+    <record id="view_partner_search" model="ir.ui.view">
+            <field name="name">Partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter name="customer" string="Individual Customer"
+                            domain="[('customer', '=', True)]"/>
+
+                   <filter name="insurer" string="Insurer"
+                            domain="[('insurer_type', '=', True)]"/>
+
+                   <filter name="agent" string="Agent"
+                           domain="[('agent', '=', True)]"/>
+                </xpath>
+            </field>
+    </record>
+</odoo>

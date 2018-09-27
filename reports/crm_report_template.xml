@@ -1,0 +1,111 @@
+<odoo>
+    <data>
+        <template id="crm_report_document">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h3><strong>Opportunity: <span t-field="o.name"/></strong></h3>
+                            <div class="row">
+                                <div class="col-xs-6" t-if="o.partner_id">
+                                    <t>
+                                        <strong>Customer: </strong>
+                                    </t><span t-field="o.partner_id"/>
+                                </div>
+                                <div class="col-xs-6" t-if="o.user_id">
+                                    <t>
+                                        <strong>Sales person: </strong>
+                                    </t><span t-field="o.user_id"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6" t-if="o.insurance_type">
+                                    <t>
+                                        <strong>Insurance Type: </strong>
+                                    </t><span t-field="o.insurance_type"/>
+                                </div>
+                                <div class="col-xs-6" t-if="o.LOB">
+                                    <t>
+                                        <strong>Line of Business: </strong>
+                                    </t><span t-field="o.LOB"/>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                            </div>
+                             <br/>
+
+                            <table class="table table-condensed">
+                                 <h4>Risks:</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Risk ID</th>
+                                        <th>Risk Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.objectrisks" t-as="risk">
+                                        <td><span t-field="risk.risk"/></td>
+                                        <td><span t-field="risk.risk_description"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                             <br/>
+                            <table class="table table-condensed">
+                                <h4>Propsals:</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Proposal ID</th>
+                                        <th>Insurer</th>
+                                        <th>Product</th>
+                                        <th>Premium</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.proposal_opp" t-as="p">
+                                        <td><span t-field="p.proposal_id"/></td>
+                                        <td><span t-field="p.Company"/></td>
+                                        <td><span t-field="p.product_pol"/></td>
+                                        <td><span t-field="p.premium"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                              <br/>
+
+                            <table class="table table-condensed">
+                                <h4>Covers lines:</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Proposal ID</th>
+                                        <th>Insurer</th>
+                                        <th>Product</th>
+                                        <th>Risk ID</th>
+                                        <th>Risk Description</th>
+                                        <th>Cover</th>
+                                        <th>Rate</th>
+                                        <th>Net Premium</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.coverage_line" t-as="cover">
+                                        <td><span t-field="cover.proposal_id"/></td>
+                                        <td><span t-field="cover.insurer"/></td>
+                                        <td><span t-field="cover.product"/></td>
+                                        <td><span t-field="cover.risk_id_covers"/></td>
+                                        <td><span t-field="cover.risk_desc"/></td>
+                                        <td><span t-field="cover.covers"/></td>
+                                        <td><span t-field="cover.rate"/></td>
+                                        <td><span t-field="cover.sum_insured"/></td>
+                                        <td><span t-field="cover.net_premium"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
+                </t>
+            </t>
+
+        </template>
+    </data>
+</odoo>

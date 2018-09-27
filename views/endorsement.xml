@@ -1,0 +1,51 @@
+<odoo>
+    <data>
+        <record id="my_view_for_endorsement_form_kmlo1" model="ir.ui.view">
+            <field name="name">endorsement Form</field>
+            <field name="model">endorsement.edit</field>
+            <field name="arch" type="xml">
+                <form string="my endorsement form">
+                    <header>
+                        <button name="create_endorsement" string="Convert endorsement t0 Policy" class="oe_highlight" type="object" />
+                    </header>
+                    <sheet>
+                        <group>
+
+                            <field name="number_policy"/>
+                            <!--<field name="newone"/>-->
+                            <field name="number_edit"/>
+                            <field name="reasonedit"/>
+                            <field name="issue_date"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="my_view_for_endorsement_tree" model="ir.ui.view">
+            <field name="name">endorsement</field>
+            <field name="model">endorsement.edit</field>
+            <field name="arch" type="xml">
+                <tree string="my_tree_for_endorsement">
+                    <field name="number_policy"/>
+                    <!--<field name="newone"/>-->
+                    <field name="number_edit"/>
+                    <field name="issue_date"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="my_action_for_Endorsement" model="ir.actions.act_window">
+            <field name="name">Endorsement</field>
+            <field name="res_model">endorsement.edit</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="view_type">form</field>
+            <!--&lt;!&ndash;<field name="search_view_id" ref="my_view_search_view"/>&ndash;&gt;-->
+            <!--<field name='domain'>[('salesperson','=',uid)]</field>-->
+            <!--<field name="context" >{'search_default_by_salesperson':1}</field>-->
+        </record>
+    </data>
+</odoo>

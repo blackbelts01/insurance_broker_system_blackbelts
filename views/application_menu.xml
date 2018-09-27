@@ -1,0 +1,141 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="action_customer_view">
+            <field name="name">Customer</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('insurer_type','=', False)]</field>
+            <field name="context">{"search_default_customer":1,"own_customer_only":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the Customer
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_insurer_view">
+            <field name="name">Insurer</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('insurer_type','=', True)]</field>
+            <field name="context">{'search_default_insurer': 1,'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the Insurer
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_agent_view">
+            <field name="name">Agent</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('customer','=', False),('supplier','=', False),('agent','=', True)]</field>
+            <field name="context">{'search_default_agent': 1,'default_customer': 0,'default_supplier': 0,'default_agent': 1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the Agent
+                </p>
+            </field>
+        </record>
+        <menuitem id="main_ibs_menu" name="IBS"/>
+        <menuitem id="partners_views_menu" name="Partners"
+                  parent="main_ibs_menu"/>
+        <menuitem id="customers_view_menu" name="Customer" parent="partners_views_menu"
+                  action="action_customer_view"/>
+        <menuitem id="insurer_view_menu" name="Insurer" parent="partners_views_menu"
+                  action="action_insurer_view"/>
+        <menuitem id="agent_view_menu" name="Agent" parent="partners_views_menu"
+                  action="action_agent_view"/>
+        <menuitem id="print_out_partners_view_menu" name="Print out" parent="partners_views_menu"/>
+        <menuitem id="configuration_partners_view_menu" name="Configuration" parent="partners_views_menu"/>
+        <menuitem id="production_management_views_menu" name="Production Management"
+                  parent="main_ibs_menu"/>
+        <menuitem id="leads_view_menu" name="Leads" parent="production_management_views_menu"
+                  action="crm.crm_lead_all_leads"/>
+        <menuitem id="sales_funnel_view_menu" name="Sales Funnel" parent="production_management_views_menu"
+                  action="crm.crm_lead_opportunities"/>
+        <menuitem id="channel_view_menu" name="Sales Channels" parent="production_management_views_menu"
+                  action="sales_team.crm_team_salesteams_act" sequence="3"/>
+        <menuitem id="collection_view_menu" name="Collection" parent="production_management_views_menu"
+                  action="account.action_invoice_tree1"/>
+        <menuitem id="commission_view_menu" name="Commission" parent="production_management_views_menu"
+                  action="account.action_invoice_tree2"/>
+        <menuitem id="production_view_menu" name="Production" parent="production_management_views_menu"
+                  action="my_action_for_second_menu"/>
+        <menuitem id="Print_out_production_view_menu" name="Print out" parent="production_management_views_menu"/>
+        <menuitem id="configuration_production_view_menu" name="Configuration" parent="production_management_views_menu"/>
+        <menuitem id="portfolio_management_views_menu" name="Portfolio Management"
+                  parent="main_ibs_menu"/>
+        <menuitem id="policy_view_menu" name="Policy" parent="portfolio_management_views_menu"
+                  action="my_action_for_second_menu" sequence="0"/>
+        <menuitem id="menu_insured_vehicle" name="Insured Vehicle" parent="portfolio_management_views_menu"
+                  action="action_for_insured_vehicle" sequence="1"/>
+        <menuitem id="menu_insured_Person" name="Insured Person" parent="portfolio_management_views_menu"
+                  action="action_for_insured_Person" sequence="2"/>
+        <menuitem id="menu_insured_Cargo" name="Insured Cargo" parent="portfolio_management_views_menu"
+                  action="action_for_insured_Cargo" sequence="3"/>
+
+        <menuitem id="endorsement_view_menu" name="Endorsement" parent="portfolio_management_views_menu"
+                  action="my_action_for_Endorsement" sequence="4"/>
+        <menuitem id="renewal_view_menu" name="Renewal" parent="portfolio_management_views_menu"
+                  action="my_action_for_second_menu_renewal_action" sequence="5"/>
+        <menuitem id="claim_view_menu" name="Claim" parent="portfolio_management_views_menu"
+                  action="claim_view_action"/>
+
+        <menuitem id="settlements_view_menu" name="Settlements" parent="portfolio_management_views_menu"/>
+        <menuitem id="settlements_vehicle_view_menu" name="Vehicle" parent="settlements_view_menu"
+                  action="action_settlement_vehicle"/>
+        <menuitem id="settlements_person_view_menu" name="Person" parent="settlements_view_menu"
+                  action="action_settlement_person"/>
+        <menuitem id="settlements_cargo_view_menu" name="Cargo" parent="settlements_view_menu"
+                  action="action_settlement_cargo"/>
+        <menuitem id="payment_view_menu" name="Payments" parent="portfolio_management_views_menu"
+                  action="action_payment"/>
+
+
+        <menuitem id="Print_out_portfolio_view_menu" name="Print out" parent="portfolio_management_views_menu"/>
+        <menuitem id="configuration_portfolio_view_menu" name="Configuration" parent="portfolio_management_views_menu"/>
+        <menuitem id="accounting_management_views_menu" name="Accounting Management"
+                  parent="main_ibs_menu"/>
+        <menuitem id="document_accounting_view_menu" name="Documents" parent="accounting_management_views_menu"/>
+        <menuitem id="document_invoices_accounting_view_menu" name="Invoices" parent="document_accounting_view_menu"/>
+        <menuitem id="invoices_view_menu" name="Customer Invoices" parent="document_invoices_accounting_view_menu"
+                  action="account.action_invoice_tree1"/>
+        <menuitem id="invoices_payments_view_menu" name="Payments" parent="document_invoices_accounting_view_menu"
+                  action="account.action_account_payments"/>
+        <menuitem id="document_bills_accounting_view_menu" name="Bills" parent="document_accounting_view_menu"/>
+        <menuitem id="bills_view_menu" name="Bills" parent="document_bills_accounting_view_menu"
+                  action="account.action_invoice_tree2"/>
+        <menuitem id="bills_payments_view_menu" name="Payments" parent="document_bills_accounting_view_menu"
+                  action="account.action_account_payments_payable"/>
+        <menuitem id="accounting_entries_view_menu" name="Accounting Entries" parent="accounting_management_views_menu"/>
+        <menuitem id="journal_item_view_menu" name="Journal Items" parent="accounting_entries_view_menu"
+                  action="account.action_account_moves_all_a"/>
+        <menuitem id="journal_entries_view_menu" name="Journal Entries" parent="accounting_entries_view_menu"
+                  action="account.action_move_journal_line"/>
+        <menuitem id="analytic_entries_view_menu" name="Analytic Entries" parent="accounting_entries_view_menu"
+                  action="analytic.account_analytic_line_action_entries"/>
+
+        <menuitem id="accounting_configuration_view_menu" name="Configuration" parent="accounting_management_views_menu"/>
+        <menuitem id="chart_of_account_view_menu" name="Chart of Accounts" parent="accounting_configuration_view_menu"
+                  action="account.action_account_form"/>
+        <menuitem id="currencies_view_menu" name="Currencies" parent="accounting_configuration_view_menu"
+                  action="base.action_currency_form"/>
+        <menuitem id="taxes_view_menu" name="Taxes" parent="accounting_configuration_view_menu"
+                  action="account.action_tax_form"/>
+        <menuitem id="fiscal_position_view_menu" name="Fiscal Position" parent="accounting_configuration_view_menu"
+                  action="account.action_account_fiscal_position_form"/>
+        <menuitem id="bank_accounts_view_menu" name="Bank Accounts" parent="accounting_configuration_view_menu"
+                  action="account.action_account_bank_journal_form"/>
+        <menuitem id="Journals_view_menu" name="Journals" parent="accounting_configuration_view_menu"
+                  action="account.action_account_journal_form"/>
+        <menuitem id="configuration_view_menu" name="Configuration" parent="main_ibs_menu"/>
+        <menuitem id="line_of_business_view_menu" name="Line of Business" parent="configuration_view_menu"
+                  action="insurance_line_business_action"/>
+        <menuitem id="product_view_menu" name="Products" parent="configuration_view_menu"
+                  action="insurance_Products_action"/>
+        <menuitem id="setup_item_view_menu" name="Setup Items" parent="configuration_view_menu"
+                  action="insurance_setup_action"/>
+
+    </data>
+</odoo>

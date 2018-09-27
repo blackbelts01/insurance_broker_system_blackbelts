@@ -1,0 +1,51 @@
+<odoo>
+    <data>
+        <record id="Renewal_Policy_form_one" model="ir.ui.view">
+            <field name="name"> Renewal Policy</field>
+            <field name="model">renewal.again</field>
+            <field name="arch" type="xml">
+                <form string="my_form_Renewal_policy">
+                    <header>
+                        <button name="create_renewal" string="Convert  Renewal t0 Policy" class="oe_highlight" type="object" />
+                    </header>
+                    <sheet>
+                        <group string="renewal">
+                            <field name="old_number"/>
+                            <field name="new_number"/>
+                            <field name="issue_date"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="Renewal_Policy_tree_forume" model="ir.ui.view">
+            <field name="name"> Renewal Policy</field>
+            <field name="model">renewal.again</field>
+            <field name="arch" type="xml">
+                <tree string="my_tree_Renewal_policy">
+                    <field name="old_number"/>
+                    <field name="new_number"/>
+                    <field name="issue_date"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+        <!--<record id="my_new_renewal_action" model="ir.actions.act_window">-->
+            <!--<field name="name">renewal</field>-->
+            <!--<field name="res_model">renewal.again</field>-->
+            <!--<field name="view_mode">tree,form,search</field>-->
+            <!--<field name="view_type">form</field>-->
+        <!--</record>-->
+        <record id="my_action_for_second_menu_renewal_action" model="ir.actions.act_window">
+            <field name="name">renewal</field>
+            <field name="res_model">renewal.again</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="view_type">form</field>
+        </record>
+
+    </data>
+</odoo>

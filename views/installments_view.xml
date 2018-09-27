@@ -1,0 +1,40 @@
+<odoo>
+        <record model="ir.ui.view" id="tree_installments_line">
+            <field name="name">tree.installments_line</field>
+            <field name="model">installment.installment</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Idea list">
+                    <field name="date"/>
+                    <field name="amount"/>
+                    <field name="paid"/>
+                    <field name="installment_rel_id"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="form_installments_line">
+            <field name="name">form.installments_line</field>
+            <field name="model">installment.installment</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Idea form">
+                    <group colspan="4">
+                        <separator string="Installments" colspan="2"/>
+                        <field name="date"/>
+                        <field name="amount"/>
+                        <field name="paid"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="installments_line_action">
+            <field name="name">installments_line</field>
+            <field name="res_model">installment.installment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the Installment
+                </p>
+            </field>
+        </record>
+</odoo>

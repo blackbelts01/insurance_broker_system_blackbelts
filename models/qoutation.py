@@ -8,8 +8,8 @@ class crm_leads(models.Model):
     planned_revenue = fields.Float('Expected Premium in Company Currency', track_visibility='always')
     c_type = fields.Many2one('res.currency', string='Expected Premium in Currency')
     ammount = fields.Float(string='Ammount')
-    user_id = fields.Many2one('res.users', string='Lead Operator', index=True, track_visibility='onchange',
-                              default=lambda self: self.env.user )
+    # user_id = fields.Many2one('res.users', string='Lead Operator', index=True, track_visibility='onchange',
+    #                           default=lambda self: self.env.user )
     create_uid = fields.Many2one('res.users', string='Lead Generator')
     policy_number = fields.Char( string='Policy Number')
 

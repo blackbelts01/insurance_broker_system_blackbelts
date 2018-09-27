@@ -1,30 +1,28 @@
 <odoo>
     <data>
         <!---edit opportuinty-->
+
+
+        <record model="ir.ui.view" id="crm__lead_form_view_sale">
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='384']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="crm__lead_form_view">
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
             <field name="arch" type="xml">
 
-                   <header>
+                <header>
                     <button name="create_policy" string="Convert Policy" class="oe_highlight" type="object" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}"/>
                     <button name="print_opp" string="Print" type="object"  class="btn-primary o_sale_print" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}"/>
                     <button name="send_mail_template" string="Send by Mail" type="object"  class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}"/>
                 </header>
-                <!-- Crm Pages-->
-                <!-- <notebook >
-                     <page string="Selected  Covers">
-                         <field name="covers" mode="tree">
-                             <tree>
-                             <field name="check" invisible="1"  />
-                             <field name="name" attrs="{'readonly': [('check', '=', True)]}" force_save="1"  />
-                             <field name="sum_insure"  attrs="{'readonly': [('check', '=', True)]}" />
-                             <field name="rate" attrs="{'readonly': [('check', '=', True)]}"  />
-                             <field name="net_perimum" attrs="{'readonly': [('check', '=', True)]}"   />
-                             </tree>
-                         </field>
-                     </page>
-                 </notebook>-->
                 <notebook >
 
                     <page string="Under Writting">
@@ -34,28 +32,6 @@
                     </page>
                 </notebook>
 
-
-                <!--<xpath expr="//page[1]" position="before"   >-->
-                <!--<page string ='Proposals' attrs="{'invisible': ['|',('test', '=', False)]}">-->
-                <!--<group>-->
-                <!--<label string="Add proposals"/>-->
-
-                <!--<button name="proposal_button" string="Add Proposals" class="oe_highlight" type="object" attrs="{'invisible': [('active','=',False)]}"/>-->
-                <!--</group>-->
-                <!--<field name="proposal_opp" mode="tree"   >-->
-
-                <!--<field name="Company"/>-->
-                <!--<field name="product_pol"/>-->
-                <!--<field name="premium"/>-->
-                <!--<button name="select_proposal" string="Select" class="oe_highlight" type="object"/>-->
-
-
-                <!--</field>-->
-
-
-
-                <!--</page>-->
-                <!--</xpath>-->
 
 
 
@@ -95,7 +71,6 @@
                             <field name="insurance_type" />
                             <field name="LOB"   />
                             <field name="policy_number"   />
-
                         </group>
                         <group>
                             <field name="ins_type"/>
@@ -124,37 +99,37 @@
                                 <field name="risk"/>
                                 <field name="risk_description"/>
                             </tree>
-                             <form>
-                                    <group>
+                            <form>
+                                <group>
 
-                                    </group>
-                                    <group string="Vehicle" attrs="{'invisible': ['|',('type_risk', '!=', 'vehicle')]}" >
-                                        <field name="car_tybe"/>
-                                        <field name="motor_cc"/>
-                                        <field name="year_of_made"/>
-                                        <field name="Man"/>
-                                        <field name="model"/>
-                                    </group>
-                                    <group string="Person" attrs="{'invisible': ['|',('type_risk', '!=', 'person')]}">
-                                        <field name="name"/>
-                                        <field name="DOB"/>
-                                        <field name="job"/>
-                                    </group>
-                                    <group string="Cargo"  attrs="{'invisible': ['|',('type_risk', '!=', 'cargo')]}">
-                                        <field name="From"  />
-                                        <field name="To"  />
-                                        <field name="cargo_type" />
-                                        <field name="weight"   />
-                                    </group>
-                                    <group>
-                                        <field name="risk"/>
-                                        <field name="risk_description" invisible="1"/>
-                                        <field name="risks_crm" invisible="1"/>
-                                        <field name="type_risk" invisible="1"/>
+                                </group>
+                                <group string="Vehicle" attrs="{'invisible': ['|',('type_risk', '!=', 'vehicle')]}" >
+                                    <field name="car_tybe"/>
+                                    <field name="motor_cc"/>
+                                    <field name="year_of_made"/>
+                                    <field name="Man"/>
+                                    <field name="model"/>
+                                </group>
+                                <group string="Person" attrs="{'invisible': ['|',('type_risk', '!=', 'person')]}">
+                                    <field name="name"/>
+                                    <field name="DOB"/>
+                                    <field name="job"/>
+                                </group>
+                                <group string="Cargo"  attrs="{'invisible': ['|',('type_risk', '!=', 'cargo')]}">
+                                    <field name="From"  />
+                                    <field name="To"  />
+                                    <field name="cargo_type" />
+                                    <field name="weight"   />
+                                </group>
+                                <group>
+                                    <field name="risk"/>
+                                    <field name="risk_description" invisible="1"/>
+                                    <field name="risks_crm" invisible="1"/>
+                                    <field name="type_risk" invisible="1"/>
 
-                                    </group>
+                                </group>
 
-                                </form>
+                            </form>
                         </field>
 
                     </group>
@@ -162,7 +137,7 @@
                 <xpath expr="/form/sheet/group[3]" position="after">
                     <field name="test" style="width:20%; font-size: 15px"  invisible="1"  />
                     <group string="Proposals"  attrs="{'invisible': ['|',('test', '=', False)]}">
-                         <group attrs="{'invisible': ['|',('ins_type', '!=', 'Group')]}">
+                        <group attrs="{'invisible': ['|',('ins_type', '!=', 'Group')]}">
 
                             <field name="group" />
                         </group>
@@ -170,6 +145,8 @@
 
                         <field name="proposal_opp" >
                             <tree>
+
+                                <field name="proposal_id"/>
                                 <field name="Company"/>
                                 <field name="product_pol"/>
                                 <field name="premium"/>
@@ -354,25 +331,25 @@
         </record>
 
         <record model="ir.ui.view" id="crm__lead_tree_view">
-        <field name="model">crm.lead</field>
-        <field name="priority" eval="1"/>
-        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='activity_date_deadline']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//field[@name='name']" position="after">
-                <field name="insurance_type"/>
-                <field name="LOB"/>
-            </xpath>
-            <xpath expr="//field[@name='activity_date_deadline']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//field[@name='activity_summary']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-        </field>
-    </record>
+            <field name="model">crm.lead</field>
+            <field name="priority" eval="1"/>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='activity_date_deadline']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="insurance_type"/>
+                    <field name="LOB"/>
+                </xpath>
+                <xpath expr="//field[@name='activity_date_deadline']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='activity_summary']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
 
     </data>
 </odoo>

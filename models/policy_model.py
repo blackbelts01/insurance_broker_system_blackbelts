@@ -8,7 +8,7 @@ from odoo.exceptions import UserError
 
 class PolicyBroker(models.Model):
     _name = "policy.broker"
-    _rec_name = "std_id"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     # @api.multi
     # def show_claim(self):
@@ -256,7 +256,7 @@ class PolicyBroker(models.Model):
     checho = fields.Boolean()
     count_claim = fields.Integer(compute="compute_true")
 
-    branch = fields.Many2one('res.partner',string="Branch",domain="[('insurer_branch','=',company)]")
+    branch = fields.Many2one('insurance.setup.item',string="Branch",domain="[('setup_id.setup_key','=','branch'),('setup_id.setup_id','=',company)]")
 
 
 
@@ -361,6 +361,15 @@ class PolicyBroker(models.Model):
     hide_inv_button = fields.Boolean(copy=False)
     # invoice_ids = fields.One2many('account.invoice', 'insurance_id', string='Invoices', readonly=True)
 
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for s in self:
+            name = s.std_id + ' , ' +str(s.edit_number)
+            result.append((s.id, name))
+        return result
+
     @api.multi
     def confirm_policy(self):
         if self.term:
@@ -373,7 +382,7 @@ class PolicyBroker(models.Model):
     def create_invoices(self):
         for record in self.rella_installment_id:
             if record.amount !=0:
-                self.env['account.invoice'].create({
+                cust_invoice=self.env['account.invoice'].create({
                     'type': 'out_invoice',
                     'partner_id': self.customer.id,
                     'user_id': self.env.user.id,
@@ -386,48 +395,56 @@ class PolicyBroker(models.Model):
                         'account_id': self.line_of_bussines.income_account.id,
                     })],
                 })
+                cust_invoice.action_invoice_open()
 
-            self.env['account.invoice'].create({
-                'type': 'in_invoice',
-                'partner_id': self.company.id,
-                'user_id': self.env.user.id,
-                # 'insurance_id': self.id,
-                'origin': self.policy_number,
-                'invoice_line_ids': [(0, 0, {
-                    'name': 'Bill For Insurance',
-                    'quantity': 1,
-                    'price_unit': record.amount,
-                    'account_id': self.line_of_bussines.expense_account.id,
-                })],
-            })
+                ins_bill=self.env['account.invoice'].create({
+                    'type': 'in_invoice',
+                    'partner_id': self.company.id,
+                    'user_id': self.env.user.id,
+                    # 'insurance_id': self.id,
+                    'origin': self.policy_number,
+                    'invoice_line_ids': [(0, 0, {
+                        'name': 'Bill For Insurance',
+                        'quantity': 1,
+                        'price_unit': record.amount,
+                        'account_id': self.line_of_bussines.expense_account.id,
+                    })],
+                })
+                ins_bill.action_invoice_open()
+
         for record in self.share_policy_rel_ids:
-            self.env['account.invoice'].create({
-                'type': 'in_invoice',
-                'partner_id': record.agent.id,
+            if record.amount !=0:
+                comm_bill = self.env['account.invoice'].create({
+                    'type': 'in_invoice',
+                    'partner_id': record.agent.id,
+                    'user_id': self.env.user.id,
+                    # 'insurance_id': self.id,
+                    'origin': self.policy_number,
+                    'invoice_line_ids': [(0, 0, {
+                        'name': 'Commission Insurance',
+                        'quantity': 1,
+                        'price_unit': record.amount,
+                        'account_id': self.line_of_bussines.expense_account.id,
+                    })],
+                })
+                comm_bill.action_invoice_open()
+
+        if self.total_commision !=0:
+            brok_invoice = self.env['account.invoice'].create({
+                'type': 'out_invoice',
+                'partner_id': 1,
                 'user_id': self.env.user.id,
                 # 'insurance_id': self.id,
                 'origin': self.policy_number,
                 'invoice_line_ids': [(0, 0, {
-                    'name': 'Commission Insurance',
+                    'name': 'Brokerage Insurance',
                     'quantity': 1,
-                    'price_unit': record.amount,
+                    'price_unit': self.total_commision,
                     'account_id': self.line_of_bussines.expense_account.id,
                 })],
             })
+            brok_invoice.action_invoice_open()
 
-        self.env['account.invoice'].create({
-            'type': 'out_invoice',
-            'partner_id': 1,
-            'user_id': self.env.user.id,
-            # 'insurance_id': self.id,
-            'origin': self.policy_number,
-            'invoice_line_ids': [(0, 0, {
-                'name': 'Brokerage Insurance',
-                'quantity': 1,
-                'price_unit': self.total_commision,
-                'account_id': self.line_of_bussines.expense_account.id,
-            })],
-        })
         self.hide_inv_button = False
 
 class AccountInvoiceRelate(models.Model):
@@ -438,7 +455,6 @@ class AccountInvoiceRelate(models.Model):
 
 class Extra_Covers(models.Model):
     _name = "covers.lines"
-    _rec_name="name1"
 
 
 
@@ -456,6 +472,15 @@ class Extra_Covers(models.Model):
     rate = fields.Float(string="Rate")
     net_perimum = fields.Float(string="Net Perimum")
     policy_rel_id = fields.Many2one("policy.broker")
+
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for s in self:
+            name = s.name1.Name + ' , ' +s.riskk.risk
+            result.append((s.id, name))
+        return result
 
 
     @api.onchange("check")

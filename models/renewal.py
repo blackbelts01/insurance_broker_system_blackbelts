@@ -2,6 +2,7 @@ from odoo import api, fields, models
 
 class Renewal_Again(models.Model):
     _name = "renewal.again"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name="old_number"
 
     old_number = fields.Many2one("policy.broker", string="Old Policy Number")

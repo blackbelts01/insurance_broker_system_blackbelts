@@ -4,7 +4,6 @@ from odoo.exceptions import ValidationError
 
 class New_Risks(models.Model):
     _name="new.risks"
-    _rec_name="risk"
 
 
     @api.one
@@ -81,4 +80,12 @@ class New_Risks(models.Model):
     #
     #
     #     return super(New_Risks, self).create(vals)
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for s in self:
+            name = s.risk + ' , ' +s.policy_risk_id.std_id
+            result.append((s.id, name))
+        return result
 

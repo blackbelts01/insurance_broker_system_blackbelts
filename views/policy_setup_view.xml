@@ -293,10 +293,13 @@
         <field name="arch" type="xml">
             <form string="Idea form">
                 <group colspan="2">
-                    <separator string="Create New Item" colspan="2"/>
                     <field name="setup_key"/>
                     <field name="setup_id"/>
-                    <field name="setup_item"/>
+                    <field name="setup_item">
+                        <tree  editable="1">
+                            <field name="name"/>
+                        </tree>
+                    </field>
                 </group>
             </form>
         </field>

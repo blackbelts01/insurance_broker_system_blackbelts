@@ -6,15 +6,14 @@
         <field name="arch" type="xml">
             <xpath expr="//group/group" position="inside">
                 <field name="insurer_type" readonly="1" force_save="1" attrs="{'invisible': ['|',('customer','=',True),('agent','=',True)]}"/>
-                <field name="insurer_branch" attrs="{'invisible': [('insurer_type','=',False)]}" />
-                <field name="agent" readonly="1" force_save="1" attrs="{'invisible': ['|',('customer','=',True),('insurer_type','=',True)]}"/>
-                <field name="holding_type" attrs="{'invisible': [('company_type','!=','company')]}"  force_save="1"/>
+                <!--<field name="insurer_branch" attrs="{'invisible': [('insurer_type','=',False)]}" />-->
+                <field name="agent"   attrs="{'invisible': ['|',('customer','=',True),('insurer_type','=',True)]}"/>
+                <field name="holding_type" attrs="{'invisible': ['|',('company_type','!=','company'),('insurer_type','=',True)]}"  force_save="1"/>
                 <field name="holding_company" attrs="{'invisible': [('holding_type','=',False)]}"/>
                 <field name="numberofchildren" attrs="{'invisible': ['|',('insurer_type','=',True),('agent','=',True)]}"/>
             </xpath>
             <xpath expr="//sheet/div/field[@name='company_type']" position="attributes">
                 <attribute name="attrs">{'readonly': ['|',('insurer_type', '=', True),('agent', '=', True)]}</attribute>
-                <!--<field name="company_type" widget="radio" class="oe_edit_only" options="{'horizontal': true}" attrs="{'invisible': [('insurer_type', '=', True)]}"/>-->
             </xpath>
         </field>
     </record>

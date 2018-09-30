@@ -3,15 +3,15 @@
         <!---edit opportuinty-->
 
 
-        <record model="ir.ui.view" id="crm__lead_form_view_sale">
-            <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
-            <field name="arch" type="xml">
-                <xpath expr="//button[@name='384']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-            </field>
-        </record>
+        <!--<record model="ir.ui.view" id="crm__lead_form_view_sale">-->
+            <!--<field name="model">crm.lead</field>-->
+            <!--<field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//button[@name='384']" position="attributes">-->
+                    <!--<attribute name="invisible">1</attribute>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
 
         <record model="ir.ui.view" id="crm__lead_form_view">
             <field name="model">crm.lead</field>

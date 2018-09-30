@@ -8,8 +8,8 @@ class crm_leads(models.Model):
     planned_revenue = fields.Float('Expected Premium in Company Currency', track_visibility='always')
     c_type = fields.Many2one('res.currency', string='Expected Premium in Currency')
     ammount = fields.Float(string='Ammount')
-    user_id = fields.Many2one('res.users', string='Lead Operator', index=True, track_visibility='onchange',
-                              default=lambda self: self.env.user )
+    # user_id = fields.Many2one('res.users', string='Lead Operator', index=True, track_visibility='onchange',
+    #                           default=lambda self: self.env.user )
     create_uid = fields.Many2one('res.users', string='Lead Generator')
     policy_number = fields.Char( string='Policy Number')
 
@@ -59,7 +59,7 @@ class crm_leads(models.Model):
     # covers=fields.One2many(related='selected_proposal.proposals_covers')
 
     # policy_opp=fields.Many2one('policy.broker')
-    selected_coverage = fields.Many2one('proposal.opp.bb', domain="[('proposal_crm','=',id)]")
+    selected_coverage = fields.Many2one('proposal.opp.bb', domain="[('proposal_crm','=',id)]",string='Final Proposal')
     set_covers = fields.Boolean('')
     test_computed = fields.Char('', compute='testcom')
     @api.depends('ins_type')

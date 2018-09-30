@@ -6,9 +6,16 @@
         <field name="arch" type="xml">
             <xpath expr="//group/group" position="inside">
                 <field name="insurer_type" readonly="1" force_save="1" attrs="{'invisible': ['|',('customer','=',True),('agent','=',True)]}"/>
+<<<<<<< HEAD
                 <!--<field name="insurer_branch" attrs="{'invisible': [('insurer_type','=',False)]}" />-->
                 <field name="agent"   attrs="{'invisible': ['|',('customer','=',True),('insurer_type','=',True)]}"/>
                 <field name="holding_type" attrs="{'invisible': ['|',('company_type','!=','company'),('insurer_type','=',True)]}"  force_save="1"/>
+=======
+                                <field name="insurer_branch" attrs="{'invisible': [('insurer_type','=',False)]}" />
+
+                <field name="agent" readonly="1" force_save="1" attrs="{'invisible': ['|',('customer','=',True),('insurer_type','=',True)]}"/>
+                <field name="holding_type" attrs="{'invisible': [('company_type','!=','company')]}"  force_save="1"/>
+>>>>>>> ea3996d473646d837583bd6721c6cc92e726ce13
                 <field name="holding_company" attrs="{'invisible': [('holding_type','=',False)]}"/>
                 <field name="numberofchildren" attrs="{'invisible': ['|',('insurer_type','=',True),('agent','=',True)]}"/>
             </xpath>

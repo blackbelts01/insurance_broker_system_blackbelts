@@ -59,7 +59,7 @@ class crm_leads(models.Model):
     # covers=fields.One2many(related='selected_proposal.proposals_covers')
 
     # policy_opp=fields.Many2one('policy.broker')
-    selected_coverage = fields.Many2one('proposal.opp.bb', domain="[('proposal_crm','=',id)]")
+    selected_coverage = fields.Many2one('proposal.opp.bb', domain="[('proposal_crm','=',id)]",string='Final Proposal')
     set_covers = fields.Boolean('')
     test_computed = fields.Char('', compute='testcom')
     @api.depends('ins_type')

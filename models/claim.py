@@ -3,6 +3,7 @@ from odoo.exceptions import ValidationError
 
 class claimPolicy(models.Model):
     _name ="insurance.claim"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Claim Number', required=True, copy=False, readonly=True, index=True,
                        default=lambda self: _('New'))

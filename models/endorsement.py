@@ -2,6 +2,7 @@ from odoo import api, fields, models
 
 class Endorsement_edit(models.Model):
     _name="endorsement.edit"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name="number_policy"
 
 

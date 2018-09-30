@@ -3,6 +3,7 @@ from odoo.exceptions import ValidationError
 
 class Policy_Info(models.Model):
     _name ="insurance.line.business"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'line_of_business'
 
     insurance_type = fields.Selection([('life', 'Life'),
@@ -22,6 +23,7 @@ class Policy_Info(models.Model):
 
 class Product(models.Model):
     _name='insurance.product'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'product_name'
 
     product_name=fields.Char('Product Name',required=True)
@@ -83,16 +85,23 @@ class Brokerage(models.Model):
 
 class insuranceSetup(models.Model):
     _name = 'insurance.setup'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    setup_key=fields.Selection([('closs', 'CLoss'),
-                          ('nloss', 'NLoss'),
-                          ('goods', 'Goods'),
-                          ('setltype', 'SetlType'),
-                          ('state', 'State'),
-                          ('clmitem', 'CLMItem'),],
+    setup_key=fields.Selection([('closs', 'CLOSS'),
+                          ('nloss', 'NLOSS'),
+                          ('goods', 'GOODS'),
+                          ('setltype', 'SETTYPE'),
+                          ('state', 'STATE'),
+                          ('clmitem', 'CLMITEM'),
+                          ('branch', 'INSBRANCH'),
+                          ('vehicletype', 'VEHICLETYPE'),
+                          ('model', 'MODEL'),],
                          'KEY', track_visibility='onchange', required=True)
     setup_id=fields.Char(string='ID')
     setup_item=fields.One2many('insurance.setup.item','setup_id',string='List Items')
+
+    _sql_constraints = [
+        ('setup_id_unique', 'unique(setup_id)', 'ID already exists!')]
 
 class insuranceSetupItem(models.Model):
     _name = 'insurance.setup.item'

@@ -69,11 +69,10 @@
                             <group >
                                 <field name="customer"/>
                                 <field name="company" context="{'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}"/>
-<<<<<<< HEAD
+
                                 <!--<field name="barnche" options="{'no_create': True, 'no_open': True}"/>-->
-=======
                                 <field name="branch" widget="selection"/>
->>>>>>> daa201338bca75266dd2707c70d5e17138c2edda
+
                                 <field name="issue_date"/>
                                 <field name="start_date"/>
                                 <field name="end_date"/>

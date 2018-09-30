@@ -256,7 +256,7 @@ class PolicyBroker(models.Model):
     checho = fields.Boolean()
     count_claim = fields.Integer(compute="compute_true")
 
-    barnche = fields.Many2one(related="company.insurer_branch", string="Branch")
+    branch = fields.Many2one('res.partner',string="Branch",domain="[('insurer_branch','=',company)]")
 
 
 

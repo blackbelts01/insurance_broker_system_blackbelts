@@ -5,19 +5,36 @@ class Endorsement_edit(models.Model):
     _rec_name="number_policy"
 
 
-    number_policy=fields.Many2one("policy.broker", string="Edit policy number")
+    number_policy=fields.Many2one("policy.broker", string="Edit policy number",domain="[('edit_number','=',0)]")
     number_edit = fields.Integer(string="Endorsement Number")
+    last_policy=fields.Many2one('policy.broker' )
     reasonedit = fields.Text(string="Endorsement Reason")
     issue_date = fields.Date(string="Issue Date")
     start_date = fields.Date(string="Effective From")
     end_date = fields.Date(string="Effective To")
 
+    @api.onchange('number_policy')
+    def onchange_risk_id_pol(self):
+        last_confirmed_edit = self.env['policy.broker'].search(
+            [('std_id', '=', self.number_policy.std_id)],
+            order='edit_number desc',
+            limit=1
+        )
+        self.last_policy=last_confirmed_edit.id
+        self.number_edit=(last_confirmed_edit.edit_number)+1
 
+
+
+    #     if self.covers_crm:
+    #         return {'domain': {'risk_id_covers': [('id', 'in', self.covers_crm.objectrisks.ids)]}}
+    #
+    # record_ids = self.search([('meter_no', '=', self.meter_no.id)], order='id desc', limit=1)
+    # last_id = record_ids.id
     @api.multi
     def create_endorsement(self):
         form_view = self.env.ref('insurance_broker_system_blackbelts.my_view_for_policy_form_kmlo1')
 
-        riskrecordd = self.env["new.risks"].search([('id', 'in', self.number_policy.new_risk_ids.ids)])
+        riskrecordd = self.env["new.risks"].search([('id', 'in', self.last_policy.new_risk_ids.ids)])
         records_cargo = []
         for rec in riskrecordd:
             objectcargo = (
@@ -34,7 +51,7 @@ class Endorsement_edit(models.Model):
                            })
             records_cargo.append(objectcargo)
 
-        coverlines = self.env["covers.lines"].search([('id', 'in', self.number_policy.name_cover_rel_ids.ids)])
+        coverlines = self.env["covers.lines"].search([('id', 'in', self.last_policy.name_cover_rel_ids.ids)])
         print(coverlines)
         value = []
         for rec in coverlines:
@@ -67,32 +84,32 @@ class Endorsement_edit(models.Model):
                 # 'edit': False ,
                 'type': 'ir.actions.act_window',
                 'context': {
-                    'default_customer': self.number_policy.customer.id,
+                    'default_customer': self.last_policy.customer.id,
                     'default_checho':True,
 
-                    'default_company':self.number_policy.company.id,
+                    'default_company':self.last_policy.company.id,
 
-                    'default_product_policy':self.number_policy.product_policy.id,
+                    'default_product_policy':self.last_policy.product_policy.id,
                     'default_edit_decr': self.reasonedit,
 
-                    'default_std_id': self.number_policy.std_id,
+                    'default_std_id': self.last_policy.std_id,
 
-                    'default_issue_date':self.number_policy.issue_date,
-                    'default_start_date':self.number_policy.start_date,
-                    'default_end_date':self.number_policy.end_date,
-                    'default_barnche':self.number_policy.barnche.id,
+                    'default_issue_date':self.last_policy.issue_date,
+                    'default_start_date':self.last_policy.start_date,
+                    'default_end_date':self.last_policy.end_date,
+                    # 'default_barnche':self.last_policy.barnche.id,
 
-                    'default_salesperson':self.number_policy.salesperson.id,
-                    'default_onlayer':self.number_policy.onlayer,
+                    'default_salesperson':self.last_policy.salesperson.id,
+                    'default_onlayer':self.last_policy.onlayer,
 
-                    'default_currency_id':self.number_policy.currency_id.id,
-                    'default_benefit':self.number_policy.benefit,
+                    'default_currency_id':self.last_policy.currency_id.id,
+                    'default_benefit':self.last_policy.benefit,
                     'default_edit_number':self.number_edit ,
-                    'default_insurance_type': self.number_policy.insurance_type,
-                    'default_term':self.number_policy.term,
+                    'default_insurance_type': self.last_policy.insurance_type,
+                    'default_term':self.last_policy.term,
 
-                    'default_line_of_bussines':self.number_policy.line_of_bussines.id ,
-                    'default_ins_type': self.number_policy.ins_type,
+                    'default_line_of_bussines':self.last_policy.line_of_bussines.id ,
+                    'default_ins_type': self.last_policy.ins_type,
                     'default_new_risk_ids':records_cargo,
                     'default_name_cover_rel_ids':value,
 

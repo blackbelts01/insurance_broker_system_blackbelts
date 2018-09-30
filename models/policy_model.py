@@ -153,6 +153,10 @@ class PolicyBroker(models.Model):
         for record in self:
             record.check_item = record.line_of_bussines.object
 
+    @api.multi
+    def print_policy(self):
+        return self.env.ref('insurance_broker_system_blackbelts.policy_report').report_action(self)
+
 
     @api.multi
     @api.constrains('share_policy_rel_ids')
@@ -186,7 +190,7 @@ class PolicyBroker(models.Model):
 
 
     bool = fields.Boolean()
-    edit_number = fields.Integer(string="Endorsement Number", readonly=True)
+    edit_number = fields.Integer(string="Endorsement Number")
     edit_decr = fields.Text('Endorsement Description', readonly=True)
 
 
@@ -256,7 +260,7 @@ class PolicyBroker(models.Model):
     checho = fields.Boolean()
     count_claim = fields.Integer(compute="compute_true")
 
-    barnche = fields.Many2one(related="company.insurer_branch", string="Branch")
+    # barnche = fields.Many2one(related="company.insurer_branch", string="Branch")
 
 
 

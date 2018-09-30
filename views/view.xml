@@ -6,20 +6,22 @@
             <field name="arch" type="xml">
                 <form string="my policy form">
                     <header>
+                        <button name="print_policy" string="Print" type="object"  class="btn-primary o_sale_print"  attrs="{'invisible': [('hide_inv_button', '!=', True)]}"/>
+
                         <button name="confirm_policy" string="Approve" type="object"
                                 class="oe_highlight" attrs="{'invisible': [('policy_status', '=', 'approve')]}"/>
                         <button name="create_invoices" string="Create Invoices" type="object" class="oe_highlight"
-                        attrs="{'invisible': [('hide_inv_button', '!=', True)]}"/>
-                       <field name="policy_status" widget="statusbar"/>
+                                attrs="{'invisible': [('hide_inv_button', '!=', True)]}"/>
+                        <field name="policy_status" widget="statusbar"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                             <button class="oe_inline oe_stat_button" type="object"
-                                     name = "show_claim"
-                                     icon='fa-star'>
-                                 <field name="count_claim" string="Claims" widget="statinfo"/>
+                            <button class="oe_inline oe_stat_button" type="object"
+                                    name = "show_claim"
+                                    icon='fa-star'>
+                                <field name="count_claim" string="Claims" widget="statinfo"/>
 
-                             </button>
+                            </button>
 
                         </div>
                         <group>
@@ -32,7 +34,7 @@
                                 <div>
                                     <label for="edit_number"  />
                                     <div class="o_row">
-                                        <field name="edit_number" />
+                                        <field name="edit_number" readonly="1" force_save="1" />
                                         <field name="hide_inv_button" invisible="1"/>
                                     </div>
                                 </div>
@@ -67,7 +69,7 @@
                             <group >
                                 <field name="customer"/>
                                 <field name="company" context="{'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}"/>
-                                <field name="barnche" options="{'no_create': True, 'no_open': True}"/>
+                                <!--<field name="barnche" options="{'no_create': True, 'no_open': True}"/>-->
                                 <field name="issue_date"/>
                                 <field name="start_date"/>
                                 <field name="end_date"/>
@@ -77,11 +79,11 @@
                                 <field name="personcom"/>
                             </group>
                             <!--<group string="commision">-->
-                                <!--<field name="gross_perimum"/>-->
-                                <!--<field name="t_permimum"/>-->
-                                <!--<field name="term"/>-->
-                                <!--<field name="number"  attrs="{'invisible': [('term', '!=', 'year')]}"/>-->
-                                <!---->
+                            <!--<field name="gross_perimum"/>-->
+                            <!--<field name="t_permimum"/>-->
+                            <!--<field name="term"/>-->
+                            <!--<field name="number"  attrs="{'invisible': [('term', '!=', 'year')]}"/>-->
+                            <!---->
 
 
 

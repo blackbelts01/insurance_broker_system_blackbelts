@@ -7,6 +7,12 @@
                 file="insurance_broker_system_blackbelts.crm_report_document"
                 name="insurance_broker_system_blackbelts.crm_report_document"
         />
-
+<report id="policy_report"
+                string="Policy"
+                model="policy.broker"
+                report_type="qweb-pdf"
+                file="insurance_broker_system_blackbelts.policy_report_document"
+                name="insurance_broker_system_blackbelts.policy_report_document"
+        />
 
 </odoo>

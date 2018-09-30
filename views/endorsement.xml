@@ -12,6 +12,8 @@
                         <group>
 
                             <field name="number_policy"/>
+                             <field name="last_policy" invisible="1"/>
+
                             <!--<field name="newone"/>-->
                             <field name="number_edit"/>
                             <field name="reasonedit"/>

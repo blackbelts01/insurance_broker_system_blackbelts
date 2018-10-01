@@ -22,8 +22,8 @@ class claimPolicy(models.Model):
     totalunpaid = fields.Float(string='Total Unpaid')
 
     claimstatus=fields.Many2one('insurance.setup.item',string='Claim Status',domain="[('setup_id.setup_key','=','state')]")
-    policy_number = fields.Many2one('policy.broker',string='Policy Number',required=True,domain="[('edit_number','=',False)]")
-    endorsement= fields.Many2one('policy.broker',string='Endorsement Number',domain="['&',('edit_number','!=',False),('std_id','=',related_policy)]")
+    policy_number = fields.Many2one('policy.broker',string='Policy Number',required=True,domain="[('edit_number','=',0)]")
+    endorsement= fields.Many2one('policy.broker',string='Endorsement Number',domain="['&',('edit_number','!=',0),('std_id','=',related_policy)]")
     related_policy=fields.Char(related='policy_number.std_id',store=True,readonly=True)
     customer_policy=fields.Many2one('res.partner',string='Customer',store=True,readonly=True)
     insured=fields.Char(string='Insured',store=True)
@@ -123,7 +123,7 @@ class settleHistory(models.Model):
     settle_date=fields.Date(string='Settle Date')
     status=fields.Many2one('insurance.setup.item',string='Status',domain="[('setup_id.setup_key','=','state')]")
     claimheader=fields.Many2one('insurance.claim')
-    endorsement_related=fields.Many2one('policy.broker',store=True,readonly=True)
+    endorsement_related=fields.Many2one('policy.broker')
     claim_item=fields.One2many('insurance.claim.item','settle_history',string='Repair/Claim Items')
 
     @api.onchange('claimheader')

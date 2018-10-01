@@ -172,7 +172,7 @@
                             <field name="product"/>
                             <field name="risk_id_covers"/>
                             <field name="risk_desc"/>
-                            <field name="covers"/>
+                            <field name="covers" />
                             <field name="sum_insured"/>
                             <field name="rate"/>
                             <field name="net_premium"/>

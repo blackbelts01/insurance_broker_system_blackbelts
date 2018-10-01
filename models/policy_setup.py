@@ -7,15 +7,15 @@ class Policy_Info(models.Model):
     _rec_name = 'line_of_business'
 
     insurance_type = fields.Selection([('life', 'Life'),
-                          ('p&c', 'P&C'),
-                          ('health', 'Health'), ],
-                         'Insured Type', track_visibility='onchange', required=True)
+                                       ('p&c', 'P&C'),
+                                       ('health', 'Health'), ],
+                                      'Insured Type', track_visibility='onchange', required=True)
     line_of_business = fields.Char(string='Line of Business', required=True)
     object= fields.Selection([('person', 'Person'),
-                          ('vehicle', 'Vehicle'),
-                          ('cargo', 'Cargo'),
-                          ('location', 'Location'),],
-                         'Insured Object', track_visibility='onchange', required=True)
+                              ('vehicle', 'Vehicle'),
+                              ('cargo', 'Cargo'),
+                              ('location', 'Location'),],
+                             'Insured Object', track_visibility='onchange', required=True)
     desc = fields.Char(string='Description')
     income_account=fields.Many2one('account.account','Income Account')
     expense_account = fields.Many2one('account.account','Expense Account')
@@ -62,6 +62,7 @@ class coverage(models.Model):
     lop_id=fields.Many2one('insurance.line.business',string='Line of Business')
 
 
+
 class Brokerage(models.Model):
     _name='insurance.product.brokerage'
 
@@ -88,15 +89,15 @@ class insuranceSetup(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     setup_key=fields.Selection([('closs', 'CLOSS'),
-                          ('nloss', 'NLOSS'),
-                          ('goods', 'GOODS'),
-                          ('setltype', 'SETTYPE'),
-                          ('state', 'STATE'),
-                          ('clmitem', 'CLMITEM'),
-                          ('branch', 'INSBRANCH'),
-                          ('vehicletype', 'VEHICLETYPE'),
-                          ('model', 'MODEL'),],
-                         'KEY', track_visibility='onchange', required=True)
+                                ('nloss', 'NLOSS'),
+                                ('goods', 'GOODS'),
+                                ('setltype', 'SETTYPE'),
+                                ('state', 'STATE'),
+                                ('clmitem', 'CLMITEM'),
+                                ('branch', 'INSBRANCH'),
+                                ('vehicletype', 'VEHICLETYPE'),
+                                ('model', 'MODEL'),],
+                               'KEY', track_visibility='onchange', required=True)
     setup_id=fields.Char(string='ID')
     setup_item=fields.One2many('insurance.setup.item','setup_id',string='List Items')
 

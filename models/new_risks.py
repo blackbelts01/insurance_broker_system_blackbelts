@@ -83,9 +83,10 @@ class New_Risks(models.Model):
 
     @api.multi
     def name_get(self):
-        result = []
-        for s in self:
-            name = s.risk + ' , ' +s.policy_risk_id.std_id
+        if self.policy_risk_id:
+         result = []
+         for s in self:
+            name = str(s.risk) + ' , ' +str(s.policy_risk_id.std_id)
             result.append((s.id, name))
-        return result
+         return result
 

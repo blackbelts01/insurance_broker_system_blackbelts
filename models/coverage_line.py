@@ -22,6 +22,7 @@ class Covers(models.Model):
     net_premium=fields.Float('Net Premium')
     check=fields.Boolean(related='covers.readonly')
 
+
     @api.onchange('proposal_id')
     def onchange_proposal_id(self):
         if self.covers_crm :
@@ -31,6 +32,7 @@ class Covers(models.Model):
     def onchange_risk_id(self):
         if self.covers_crm:
             return {'domain': {'risk_id_covers': [('id', 'in', self.covers_crm.objectrisks.ids)]}}
+
 
     @api.onchange('covers')
     def onchange_covers(self):

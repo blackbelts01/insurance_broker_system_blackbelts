@@ -293,8 +293,10 @@ class PolicyBroker(models.Model):
     checho = fields.Boolean()
     count_claim = fields.Integer(compute="compute_true")
 
-# <<<<<<< HEAD
-    # barnche = fields.Many2one(related="company.insurer_branch", string="Branch")
+    @api.onchange('company')
+    def _onchange_branch(self):
+      if self.company:
+           return {'domain': {'branch': [('setup_id.setup_key','=','branch'),('setup_id.setup_id','=',self.company.name)]}}
 
     branch = fields.Many2one('insurance.setup.item',string="Branch",domain="[('setup_id.setup_key','=','branch'),('setup_id.setup_id','=',company)]")
 
@@ -400,7 +402,7 @@ class PolicyBroker(models.Model):
                                       ('approve', 'Approve'), ],
                                      'Status', required=True, default='pending')
     hide_inv_button = fields.Boolean(copy=False)
-    # invoice_ids = fields.One2many('account.invoice', 'insurance_id', string='Invoices', readonly=True)
+    invoice_ids = fields.One2many('account.invoice', 'insurance_id', string='Invoices', readonly=True)
 
 
     @api.multi
@@ -413,11 +415,11 @@ class PolicyBroker(models.Model):
 
     @api.multi
     def confirm_policy(self):
-        if self.term:
+        if self.term and self.customer and self.line_of_bussines and self.company:
             self.policy_status = 'approve'
             self.hide_inv_button = True
         else:
-            raise UserError(_("Payment Frequency should be Selected"))
+            raise UserError(_("Customer , Policy No ,Line of Bussines or Company  should be Selected"))
 
     @api.multi
     def create_invoices(self):
@@ -427,7 +429,7 @@ class PolicyBroker(models.Model):
                     'type': 'out_invoice',
                     'partner_id': self.customer.id,
                     'user_id': self.env.user.id,
-                    # 'insurance_id': self.id,
+                    'insurance_id': self.id,
                     'origin': self.policy_number,
                     'invoice_line_ids': [(0, 0, {
                         'name': 'Invoice For Insurance',
@@ -442,7 +444,7 @@ class PolicyBroker(models.Model):
                     'type': 'in_invoice',
                     'partner_id': self.company.id,
                     'user_id': self.env.user.id,
-                    # 'insurance_id': self.id,
+                    'insurance_id': self.id,
                     'origin': self.policy_number,
                     'invoice_line_ids': [(0, 0, {
                         'name': 'Bill For Insurance',
@@ -459,7 +461,7 @@ class PolicyBroker(models.Model):
                     'type': 'in_invoice',
                     'partner_id': record.agent.id,
                     'user_id': self.env.user.id,
-                    # 'insurance_id': self.id,
+                    'insurance_id': self.id,
                     'origin': self.policy_number,
                     'invoice_line_ids': [(0, 0, {
                         'name': 'Commission Insurance',
@@ -475,7 +477,7 @@ class PolicyBroker(models.Model):
                 'type': 'out_invoice',
                 'partner_id': 1,
                 'user_id': self.env.user.id,
-                # 'insurance_id': self.id,
+                'insurance_id': self.id,
                 'origin': self.policy_number,
                 'invoice_line_ids': [(0, 0, {
                     'name': 'Brokerage Insurance',
@@ -491,7 +493,7 @@ class PolicyBroker(models.Model):
 class AccountInvoiceRelate(models.Model):
     _inherit = 'account.invoice'
 
-    # insurance_id = fields.Many2one('policy.broker', string='Insurance')
+    insurance_id = fields.Many2one('policy.broker', string='Insurance')
     # claim_id = fields.Many2one('claim', string='Insurance')
 
 class Extra_Covers(models.Model):
@@ -617,12 +619,9 @@ class InstallmentClass(models.Model):
     date = fields.Date(string="Date")
     # enddate = fields.Date(string="End of premium")
     amount = fields.Float(string="Amount")
-    paid = fields.Selection([('inv', 'Paid Invoice'),
-                            ('bill', 'Paid Bill'),
-                            ('brok', 'Paid Brokerage'),
-                             ('comm', 'Paid Commission'),
-                             ('draft', 'Draft'),],
-                           'Paid Status',defualt='draft')
+    state = fields.Selection([('open', 'Open'),
+                             ('paid', 'Paid')],
+                           'State',defualt='open')
     installment_rel_id = fields.Many2one("policy.broker")
 
 class Layers(models.Model):

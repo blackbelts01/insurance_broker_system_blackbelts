@@ -16,10 +16,10 @@ class New_Risks(models.Model):
                     str(self.DOB) if self.DOB else " " + "_") + "  " + (str(self.job) if self.job else " " + "_")
 
             if self.test == "vehicle" or self.type_risk == 'vehicle':
-                self.risk_description = (str(self.car_tybe) if self.car_tybe else " " + "_") + "  " + (
+                self.risk_description = (str(self.car_tybe.name) if self.car_tybe.name else " " + "_") + "  " + (
                     str(self.motor_cc) if self.motor_cc else " " + "_") + "  " + (
                                            str(self.year_of_made) if self.year_of_made else " " + "_") + "  " + (
-                                           str(self.model) if self.model else " " + "_") + "  " + (
+                                           str(self.model.name) if self.model.name else " " + "_") + "  " + (
                                            str(self.Man) if self.Man else " " + "_")
             #
             if self.test == "cargo" or self.type_risk == 'cargo':
@@ -43,11 +43,13 @@ class New_Risks(models.Model):
 
 
     #group car
-    car_tybe = fields.Char(string="Vehicle Type")
+    car_tybe = fields.Many2one('insurance.setup.item',string='Vehicle Type',domain="[('setup_id.setup_key','=','vehicletype')]")
     motor_cc = fields.Char("Motor cc")
-    year_of_made = fields.Date("Year of Made")
-    model = fields.Char("Motor Model")
-    Man = fields.Char(string='Vehicle Brande')
+    year_of_made = fields.Integer("Year of Made")
+    Man = fields.Char(string='Vehicle Made')
+    model = fields.Many2one('insurance.setup.item',string='Model',domain="[('setup_id.setup_key','=','model'),('setup_id.setup_id','=',Man)]")
+
+
 
 
 

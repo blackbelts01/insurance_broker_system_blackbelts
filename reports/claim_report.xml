@@ -1,0 +1,103 @@
+<odoo>
+    <data>
+        <report
+            id="insurance_claim"
+            model="insurance.claim"
+            string="Claim"
+            report_type="qweb-pdf"
+            name="insurance_broker_system_blackbelts.report_claim_view"
+            file="insurance_broker_system_blackbelts.report_claim"
+        />
+        <template id="report_claim_view">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <p><h4><strong>Claim: <span t-field="doc.name"/></strong></h4></p>
+                            <p>Policy Number: <span t-field="doc.policy_number"/></p>
+                            <p>Endorsement Number: <span t-field="doc.endorsement"/></p>
+                            <p>Insured: <span t-field="doc.insured"/></p>
+                            <p>Line of Business: <span t-field="doc.lob"/></p>
+                            <p>Product: <span t-field="doc.product"/></p>
+                            <p>Insurer: <span t-field="doc.insurer"/></p>
+                            <p>Total Claim Expected: <span t-field="doc.totalclaimexp"/></p>
+                            <p>Total Settled: <span t-field="doc.totalsettled"/></p>
+                            <p>Total Paid Amount: <span t-field="doc.total_paid_amount"/></p>
+                            <p>Total Unpaid: <span t-field="doc.totalunpaid"/></p>
+                            <p>Intimation Date<span t-field="doc.intimation_date"/> <h4>Date  of Loss</h4> <span t-field="doc.dateofloss"/></p>
+
+                            <br/>
+                            <table class="table table-condensed">
+                                 <h4>Settle History:</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Risk ID</th>
+                                        <th>Risk Description</th>
+                                        <th>Coverage</th>
+                                        <th>Sum Insured</th>
+                                        <th>Settle Amount</th>
+                                        <th>Settle Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.settle_history" t-as="settle">
+                                        <td><span t-field="settle.risk_id"/></td>
+                                        <td><span t-field="settle.risk_details"/></td>
+                                        <td><span t-field="settle.coverage"/></td>
+                                        <td><span t-field="settle.sum_insured"/></td>
+                                        <td><span t-field="settle.settle_amount"/></td>
+                                        <td><span t-field="settle.settle_date"/></td>
+                                        <td><span t-field="settle.status"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <table class="table table-condensed">
+                                 <h4>Payment History:</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Paid Amount</th>
+                                        <th>Payment Date</th>
+                                        <th>Currency</th>
+                                        <th>Check Bank</th>
+                                        <th>Check Number</th>
+                                        <th>Payee</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.payment_history" t-as="payment">
+                                        <td><span t-field="payment.paid_amount"/></td>
+                                        <td><span t-field="payment.payment_date"/></td>
+                                        <td><span t-field="payment.currency"/></td>
+                                        <td><span t-field="payment.check_bank"/></td>
+                                        <td><span t-field="payment.check_number"/></td>
+                                        <td><span t-field="payment.payee"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <table class="table table-condensed">
+                                 <h4>Claim Procedure:</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Action</th>
+                                        <th>Completed</th>
+                                        <th>Comments</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.claim_action" t-as="action">
+                                        <td><span t-field="action.action"/></td>
+                                        <td><span t-field="action.completed"/></td>
+                                        <td><span t-field="action.comments"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

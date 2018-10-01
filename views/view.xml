@@ -22,11 +22,8 @@
                                     icon='fa-star'>
                                 <field name="count_claim" string="Claims" widget="statinfo"/>
 
-                            </button>
+                             </button>
                         </div>
-                        <group>
-
-                        </group>
                         <div class="oe_title">
                             <label for="std_id" />
                             <h1><field name="std_id" placeholder="e.g. Policy Name"/></h1>
@@ -53,19 +50,14 @@
                                     </div>
                                 </div>
                                 <div>
-
                                     <label for="policy_number" attrs="{'invisible': [('renwal_check', '!=', True)]}"/>
                                     <div class="o_row">
                                         <field name="policy_number" attrs="{'invisible': [('renwal_check', '!=', True)]}"/>
                                     </div>
                                 </div>
-
                             </h3>
                         </div>
-
                         <group>
-
-
                             <group >
                                 <field name="customer"/>
                                 <field name="company" context="{'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}"/>
@@ -98,23 +90,13 @@
                                 <field name="ins_type"/>
                                 <field name="currency_id"/>
                                 <field name="gross_perimum"/>
-
                                 <field name="t_permimum"/>
                                 <field name="term"/>
                                 <field name="number"  attrs="{'invisible': [('term', '!=', 'year')]}"/>
-
                             </group>
-                            <group >
-
-                            </group>
-
                             <group>
                                 <field name="check_item" invisible="1"/>
                                 <field name="group" invisible="1"/>
-
-                            </group>
-                            <group string="Risks">
-
                             </group>
                             <field name="new_risk_ids"  >
                                 <tree>
@@ -123,14 +105,17 @@
                                 </tree>
                                 <form>
                                     <group>
-
+                                        <field name="risk"/>
+                                        <field name="risk_description" invisible="1"/>
+                                        <field name="policy_risk_id" invisible="1"/>
+                                        <field name="test" invisible="1"/>
                                     </group>
                                     <group string="Vehicle" attrs="{'invisible': [('test', '!=', 'vehicle')]}" >
-                                        <field name="car_tybe" attrs="{'invisible': [('test', '!=', 'vehicle')]}" />
+                                        <field name="car_tybe" attrs="{'invisible': [('test', '!=', 'vehicle')]}" widget="selection"/>
                                         <field name="motor_cc" attrs="{'invisible': [('test', '!=', 'vehicle')]}" />
                                         <field name="year_of_made" attrs="{'invisible': [('test', '!=', 'vehicle')]}"  />
                                         <field name="Man" attrs="{'invisible': [('test', '!=', 'vehicle')]}"  />
-                                        <field name="model"  attrs="{'invisible': [('test', '!=', 'vehicle')]}" />
+                                        <field name="model"  attrs="{'invisible': [('test', '!=', 'vehicle')]}" widget="selection"/>
                                     </group>
                                     <group string="Person" attrs="{'invisible': [('test', '!=', 'person')]}" >
                                         <field name="name"  attrs="{'invisible': [('test', '!=', 'person')]}"  />
@@ -143,26 +128,11 @@
                                         <field name="cargo_type"   attrs="{'invisible': [('test', '!=', 'cargo')]}"  />
                                         <field name="weight"    attrs="{'invisible': [('test', '!=', 'cargo')]}" />
                                     </group>
-                                    <group>
-                                        <field name="risk"/>
-                                        <field name="risk_description" invisible="1"/>
-                                        <field name="policy_risk_id" invisible="1"/>
-                                        <field name="test" invisible="1"/>
-
-                                    </group>
-
                                 </form>
                             </field>
                             <button name="generate_covers" string="Generate Covers" class="oe_highlight" type="object" attrs="{'invisible': [('check_item', '=', False)]}" />
                             <field name="checho" invisible="1"/>
-                            <group>
-
-                            </group>
-                            <group string="Covers" attrs="{'invisible': [('checho', '=', False)]}">
-
-                            </group>
                             <field name="name_cover_rel_ids" nolabel="1" force_save="1"  attrs="{'invisible': [('checho', '=', False)]}">
-
                                 <tree editable="1">
                                     <field name="riskk" options="{'no_create': True, 'no_open': True}"/>
                                     <field name="risk_description"/>
@@ -175,21 +145,10 @@
                                     <field name="sum_insure" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="rate" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="net_perimum" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
-
                                 </tree>
-                                <!--<form>-->
-
-                                <!--</form>-->
                             </field>
-
                         </group>
-
-
                         <notebook>
-                            <!--<page string="Covers">-->
-
-                            <!--</page>-->
-
                             <page string='Brokerage Fees'>
                                 <group>
                                     <group >
@@ -201,8 +160,6 @@
 
                                         <label string="Early Brokerage"/>
                                         <field name="earl_commision" nolabel="1"/>
-
-
                                     </group>
                                     <group>
                                         <label string="Fixed Brokerage"/>
@@ -235,9 +192,11 @@
                                     <tree>
                                         <field name="date" />
                                         <field name="amount"/>
-                                        <field name="paid" />
                                     </tree>
                                 </field>
+                            </page>
+                            <page string='Invoices'>
+                                <field name="invoice_ids"  nolabel="1" readonly="1"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -265,10 +224,6 @@
                     <field name="line_of_bussines" string="LOB"/>
                     <field name="company"/>
                     <field name="product_policy"/>
-
-
-
-
                 </tree>
             </field>
         </record>
@@ -277,9 +232,7 @@
             <field name="model">policy.broker</field>
             <field name="arch" type="xml">
                 <search>
-                    <!--<field name="holding_cam"/>-->
                     <filter string="Salesperson" name="by_salesperson" domain="[('salesperson','=',uid)]"/>
-
                 </search>
             </field>
         </record>

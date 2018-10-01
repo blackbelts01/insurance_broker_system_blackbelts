@@ -6,7 +6,7 @@
             string="Claim"
             report_type="qweb-pdf"
             name="insurance_broker_system_blackbelts.report_claim_view"
-            file="insurance_broker_system_blackbelts.report_claim"
+            file="insurance_broker_system_blackbelts.report_claim_view"
         />
         <template id="report_claim_view">
             <t t-call="web.html_container">

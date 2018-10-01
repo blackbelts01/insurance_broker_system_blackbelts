@@ -30,6 +30,7 @@
     'data': [
         'reports/report_crm.xml',
         'reports/crm_report_template.xml',
+        'reports/claim_report.xml',
         'data/mail_template_data.xml',
         'views/policy_setup_view.xml',
         'views/endorsement.xml',
@@ -46,7 +47,7 @@
         'views/insured_vehicle.xml',
         'views/settlements.xml',
         "views/application_menu.xml",
-        'reports/claim_report.xml'
+
     ],
     # only loaded in demonstration mode
     'demo': [

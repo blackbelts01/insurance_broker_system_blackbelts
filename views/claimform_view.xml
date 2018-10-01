@@ -25,6 +25,10 @@
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
             <form string="Idea form">
+                <header>
+                    <button name="print_claim" string="Print" type="object"  class="btn-primary o_sale_print" />
+                    <button name="send_mail_template_claim" string="SEND BY MAIL" type="object"  class="btn-primary o_sale_print" />
+                </header>
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -180,11 +184,11 @@
         </field>
     </record>
     <act_window id="settle_wizard_wizard"
-        name="settle_history"
-        src_model="settle.history"
-        res_model="settle.history"
-        view_mode="form"
-        target="new"/>
+                name="settle_history"
+                src_model="settle.history"
+                res_model="settle.history"
+                view_mode="form"
+                target="new"/>
 
     <record id="view_payment_history_wizard_form" model="ir.ui.view">
         <field name="name">Payment History form</field>
@@ -204,31 +208,31 @@
     </record>
 
     <act_window id="payment_history_wizard_wizard"
-        name="payment_history"
-        src_model="payment.history"
-        res_model="payment.history"
-        view_mode="form"
-        target="new"/>
+                name="payment_history"
+                src_model="payment.history"
+                res_model="payment.history"
+                view_mode="form"
+                target="new"/>
 
     <record id="view_claim_item_wizard_form" model="ir.ui.view">
-            <field name="name">Claim Item form</field>
-            <field name="model">insurance.claim.item</field>
-            <field name="arch" type="xml">
-                <form>
-                    <group>
-                       <field name="claim_item"/>
-                       <field name="amount"/>
-                    </group>
-                </form>
-            </field>
-        </record>
+        <field name="name">Claim Item form</field>
+        <field name="model">insurance.claim.item</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="claim_item"/>
+                    <field name="amount"/>
+                </group>
+            </form>
+        </field>
+    </record>
 
-        <act_window id="claim_item_wizard_wizard"
-            name="claim_line"
-            src_model="insurance.claim.item"
-            res_model="insurance.claim.item"
-            view_mode="form"
-            target="new"/>
+    <act_window id="claim_item_wizard_wizard"
+                name="claim_line"
+                src_model="insurance.claim.item"
+                res_model="insurance.claim.item"
+                view_mode="form"
+                target="new"/>
 
     <record model="ir.ui.view" id="tree_payment_history">
         <field name="name">tree.payment.history</field>
@@ -247,13 +251,13 @@
         </field>
     </record>
     <record model="ir.actions.act_window" id="action_payment">
-         <field name="name">Payment</field>
-         <field name="type">ir.actions.act_window</field>
-         <field name="res_model">payment.history</field>
-         <field name="view_type">form</field>
-         <field name="view_mode">tree,form</field>
+        <field name="name">Payment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">payment.history</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
         <!--<field name="domain">[('type','=','out_invoice')]</field>-->
         <field name="context">{'create':False,'edit':False}</field>
-         <!--<field name="help" type="html"> <p class="oe_view_nocontent_create"> Click here to create a Subscription.</p></field>-->
+        <!--<field name="help" type="html"> <p class="oe_view_nocontent_create"> Click here to create a Subscription.</p></field>-->
     </record>
 </odoo>

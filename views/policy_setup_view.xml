@@ -314,5 +314,22 @@
             </p>
         </field>
     </record>
+    <record id="view_setup_item_wizard_form" model="ir.ui.view">
+        <field name="name">Insurance Setup Item Form</field>
+        <field name="model">insurance.setup.item</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                   <field name="name"/>
+                </group>
+            </form>
+        </field>
+    </record>
 
+    <act_window id="view_setup_item_wizard"
+        name="view_setup_item"
+        src_model="insurance.setup.item"
+        res_model="insurance.setup.item"
+        view_mode="form"
+        target="new"/>
 </odoo>

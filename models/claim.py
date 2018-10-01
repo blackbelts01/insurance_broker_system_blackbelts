@@ -18,8 +18,8 @@ class claimPolicy(models.Model):
     remarks=fields.Char(string='Close/Open Remarks')
     totalloss=fields.Boolean(string='Total Loss')
     totalclaimexp=fields.Float(string='Total Claim Expected')
-    totalsettled=fields.Float(string='Total Settled',compute='_onchange_totalsettled')
-    totalunpaid = fields.Float(string='Total Unpaid',compute='_onchange_total_unpaid')
+    totalsettled=fields.Float(string='Total Settled',compute='_compute_totalsettled')
+    totalunpaid = fields.Float(string='Total Unpaid')
 
     claimstatus=fields.Many2one('insurance.setup.item',string='Claim Status',domain="[('setup_id.setup_key','=','state')]")
     policy_number = fields.Many2one('policy.broker',string='Policy Number',required=True,domain="[('edit_number','=',False)]")
@@ -32,10 +32,9 @@ class claimPolicy(models.Model):
     lob = fields.Many2one('insurance.line.business', string='Line of Business', store=True,readonly=True)
     product = fields.Many2one('insurance.product', string='Product', store=True,readonly=True)
     insurer = fields.Many2one('res.partner', string='Insurer', store=True,readonly=True)
-    insurer_branch= fields.Many2one('res.partner',related='insurer.insurer_branch', string='Insurer Branch', store=True,
-                              readonly=True)
+    insurer_branch= fields.Many2one('insurance.setup.item', string='Insurer Branch')
     insurer_contact= fields.Many2one('res.partner',string='Insurer Contact',domain="[('insurer_type','=',1)]")
-    total_paid_amount=fields.Float(string='Total Paid Amount',compute='_onchange_payment_history')
+    total_paid_amount=fields.Float(string='Total Paid Amount',compute='_compute_payment_history')
     settlement_type=fields.Many2one('insurance.setup.item',string='Settlement Type',domain="[('setup_id.setup_key','=','setltype')]")
     settle_history=fields.One2many('settle.history','claimheader',string='Settle History')
     payment_history=fields.One2many('payment.history','header_payment',string='Payment History')
@@ -46,6 +45,12 @@ class claimPolicy(models.Model):
         if vals.get('name', 'New') == 'New':
             vals['name'] = self.env['ir.sequence'].next_by_code('insurance.claim') or 'New'
         return super(claimPolicy, self).create(vals)
+
+    @api.onchange('insurer')
+    def _onchange_insurer_branch(self):
+      if self.insurer:
+           return {'domain': {'insurer_branch': [('setup_id.setup_key','=','branch'),('setup_id.setup_id','=',self.insurer.name)]}}
+
 
     @api.onchange('endorsement','policy_number')
     def _onchange_policy_details(self):
@@ -69,23 +74,25 @@ class claimPolicy(models.Model):
 
     @api.one
     @api.depends('payment_history')
-    def _onchange_payment_history(self):
-        total=0
-        for record in self.payment_history:
-            total+=record.paid_amount
-        self.total_paid_amount=total
+    def _compute_payment_history(self):
+        if self.payment_history:
+            self.total_paid_amount = 0.0
+            for record in self.payment_history:
+                self.total_paid_amount+= record.paid_amount
 
     @api.onchange('total_paid_amount','totalclaimexp')
     def _onchange_total_unpaid(self):
-        self.totalunpaid=self.totalclaimexp - self.total_paid_amount
+        if self.total_paid_amount and self.totalclaimexp:
+            self.totalunpaid = self.totalclaimexp - self.total_paid_amount
+
 
     @api.one
     @api.depends('settle_history')
-    def _onchange_totalsettled(self):
-        total=0
-        for record in self.settle_history:
-            total+=record.sum_insured
-        self.totalsettled=total
+    def _compute_totalsettled(self):
+        if self.settle_history:
+            self.totalsettled = 0.0
+            for record in self.settle_history:
+                self.totalsettled += record.sum_insured
 
 
 class settleHistory(models.Model):
@@ -94,10 +101,10 @@ class settleHistory(models.Model):
     risk_type=fields.Char(related='claimheader.insured',string='Risk Type',readonly=True,store=True)
     risk_id=fields.Many2one('new.risks',string='Risk')
     #Vehicle details
-    vcar_type = fields.Char(related='risk_id.car_tybe',string='Vehicle Type')
+    vcar_type = fields.Many2one(related='risk_id.car_tybe',string='Vehicle Type')
     vmotor_cc = fields.Char(related='risk_id.motor_cc',string="Motor cc")
-    vyear_of_made = fields.Date(related='risk_id.year_of_made',string="Year of Made")
-    vmodel = fields.Char(related='risk_id.model',string="Motor Model")
+    vyear_of_made = fields.Integer(related='risk_id.year_of_made',string="Year of Made")
+    vmodel = fields.Many2one(related='risk_id.model',string="Motor Model")
     vbrande = fields.Char(related='risk_id.Man',string='Vehicle Brande')
     #Person details
     pname = fields.Char(related='risk_id.name',string='Name')
@@ -140,10 +147,10 @@ class settleHistory(models.Model):
     @api.one
     @api.depends('claim_item')
     def _onchange_settle_amount(self):
-        total=0
-        for record in self.claim_item:
-            total+=record.amount
-        self.settle_amount=total
+        if self.claim_item:
+            self.settle_amount=0.0
+            for record in self.claim_item:
+                self.settle_amount += record.amount
 
 
 class paymentHistory(models.Model):

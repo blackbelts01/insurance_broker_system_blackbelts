@@ -7,8 +7,6 @@
                 <tree string="Idea list">
                     <field name="date"/>
                     <field name="amount"/>
-                    <field name="paid"/>
-                    <field name="installment_rel_id"/>
                 </tree>
             </field>
         </record>
@@ -22,7 +20,7 @@
                         <separator string="Installments" colspan="2"/>
                         <field name="date"/>
                         <field name="amount"/>
-                        <field name="paid"/>
+                        <field name="state" invisible="1"/>
                     </group>
                 </form>
             </field>

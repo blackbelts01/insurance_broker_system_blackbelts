@@ -46,7 +46,7 @@
         'views/insured_vehicle.xml',
         'views/settlements.xml',
         "views/application_menu.xml",
-
+        'reports/claim_report.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

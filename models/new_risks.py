@@ -90,6 +90,7 @@ class New_Risks(models.Model):
     #
     #     return super(New_Risks, self).create(vals)
 
+
     # @api.multi
     # def name_get(self):
     #     if self.policy_risk_id:
@@ -98,4 +99,16 @@ class New_Risks(models.Model):
     #         name = str(s.risk) + ' , ' +str(s.policy_risk_id.std_id)
     #         result.append((s.id, name))
     #      return result
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for s in self:
+            name = str(s.risk) + ' , ' + str(s.policy_risk_id.std_id)
+            result.append((s.id, name))
+        return result
+
+
+    _sql_constraints = [
+        ('risk_unique', 'unique(policy_risk_id,risk)', 'ID already exists!')]
 

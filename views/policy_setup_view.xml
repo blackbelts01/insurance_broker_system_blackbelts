@@ -22,15 +22,18 @@
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
             <form string="Idea form">
-                <group colspan="2">
-                    <separator string="Create New Line of Business" colspan="2"/>
-                    <field name="insurance_type"/>
-                    <field name="line_of_business"/>
-                    <field name="object"/>
-                    <field name="desc"/>
-                    <field name="income_account"/>
-                    <field name="expense_account"/>
-                </group>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="insurance_type"/>
+                            <field name="line_of_business"/>
+                            <field name="object"/>
+                            <field name="desc"/>
+                            <field name="income_account"/>
+                            <field name="expense_account"/>
+                        </group>
+                    </group>
+                </sheet>
             </form>
         </field>
     </record>
@@ -40,7 +43,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create">Create Line of Business
+            <p class="oe_view_nocontent_create">Line of Business
             </p>
         </field>
     </record>
@@ -66,7 +69,6 @@
             <form string="Idea form">
                 <sheet>
                     <group>
-                        <separator string="Create New Product" colspan="2"/>
                         <group>
                             <field name="insurer" context="{'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}"/>
                             <field name="line_of_bus"/>
@@ -90,7 +92,7 @@
                             </page>
                             <page string="Commision">
                                 <field name="commision_id">
-                                    <tree>
+                                    <tree editable="1">
                                         <field name="date_from"/>
                                         <field name="date_to"/>
                                         <field name="layer1"/>
@@ -98,19 +100,7 @@
                                         <field name="layer3"/>
                                         <field name="layer4"/>
                                         <field name="layer5"/>
-
                                     </tree>
-                                    <form>
-                                        <group>
-                                            <field name="date_from"/>
-                                            <field name="date_to"/>
-                                            <field name="layer1"/>
-                                            <field name="layer2"/>
-                                            <field name="layer3"/>
-                                            <field name="layer4"/>
-                                            <field name="layer5"/>
-                                        </group>
-                                    </form>
                                 </field>
                             </page>
                         </notebook>
@@ -125,7 +115,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create">Create New Product
+            <p class="oe_view_nocontent_create">Products
             </p>
         </field>
     </record>
@@ -155,7 +145,7 @@
         <field name="arch" type="xml">
             <form string="Idea form">
                 <group colspan="4">
-                    <separator string="Create New Coverages" colspan="2"/>
+                    <separator string="Coverage" colspan="2"/>
                     <field name="Name"/>
                     <field name="defaultvalue"/>
                     <field name="required"/>
@@ -173,7 +163,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create">Create the Coverages
+            <p class="oe_view_nocontent_create">Coverages
             </p>
         </field>
     </record>
@@ -250,7 +240,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create">Create the Brokerage
+            <p class="oe_view_nocontent_create">Brokerage
             </p>
         </field>
     </record>
@@ -274,6 +264,7 @@
         res_model="product.claim.action"
         view_mode="form"
         target="new"/>
+
     <record model="ir.ui.view" id="tree_setup">
         <field name="name">tree.insurance.setup</field>
         <field name="model">insurance.setup</field>

@@ -17,8 +17,11 @@ class Policy_Info(models.Model):
                               ('location', 'Location'),],
                              'Insured Object', track_visibility='onchange', required=True)
     desc = fields.Char(string='Description')
-    income_account=fields.Many2one('account.account','Income Account')
-    expense_account = fields.Many2one('account.account','Expense Account')
+    income_account=fields.Many2one('account.account','Income Account',required=True)
+    expense_account = fields.Many2one('account.account','Expense Account',required=True)
+
+    _sql_constraints = [
+        ('business_unique', 'unique(insurance_type,line_of_business,object)', 'Line of Business already exists!')]
 
 
 class Product(models.Model):
@@ -34,6 +37,9 @@ class Product(models.Model):
     commision_id = fields.One2many("commision.setup","policy_relation_id")
     claim_action=fields.One2many('product.claim.action','product')
     name_cover_id = fields.Many2one("name.cover")
+
+    _sql_constraints = [
+        ('product_unique', 'unique(product_name,line_of_bus)', 'Product already exists!')]
 
 class claimAction(models.Model):
     _name='product.claim.action'
@@ -60,6 +66,9 @@ class coverage(models.Model):
     readonly=fields.Boolean('Read Only')
     product_id=fields.Many2one('insurance.product')
     lop_id=fields.Many2one('insurance.line.business',string='Line of Business')
+
+    _sql_constraints = [
+        ('Name_unique', 'unique(Name)', 'Cover Name already exists!')]
 
 
 
@@ -102,13 +111,16 @@ class insuranceSetup(models.Model):
     setup_item=fields.One2many('insurance.setup.item','setup_id',string='List Items')
 
     _sql_constraints = [
-        ('setup_id_unique', 'unique(setup_id)', 'ID already exists!')]
+        ('setup_id_unique', 'unique(setup_key,setup_id)', 'ID already exists!')]
 
 class insuranceSetupItem(models.Model):
     _name = 'insurance.setup.item'
 
     name=fields.Char('Item')
     setup_id=fields.Many2one('insurance.setup')
+
+    _sql_constraints = [
+        ('item_unique', 'unique(setup_id,name)', 'Item already exists!')]
 
 
 

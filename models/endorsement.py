@@ -41,7 +41,7 @@ class Endorsement_edit(models.Model):
             objectcargo = (
                     0, 0, {'risk': rec.risk, 'risk_description': rec.risk_description,
 
-                           'car_tybe':rec.car_tybe, 'motor_cc':rec.motor_cc, 'year_of_made':rec.year_of_made, 'model':rec.model, 'Man':rec.Man,
+                           'car_tybe':rec.car_tybe.id, 'motor_cc':rec.motor_cc, 'year_of_made':rec.year_of_made, 'model':rec.model.id, 'Man':rec.Man,
 
                            'name':rec.name, 'DOB':rec.DOB, 'job':rec.job,
 
@@ -98,7 +98,7 @@ class Endorsement_edit(models.Model):
                     'default_issue_date':self.last_policy.issue_date,
                     'default_start_date':self.last_policy.start_date,
                     'default_end_date':self.last_policy.end_date,
-                    # 'default_barnche':self.last_policy.barnche.id,
+                    'default_branch':self.last_policy.branch.id,
 
                     'default_salesperson':self.last_policy.salesperson.id,
                     'default_onlayer':self.last_policy.onlayer,

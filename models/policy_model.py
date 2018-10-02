@@ -235,7 +235,7 @@ class PolicyBroker(models.Model):
 
     std_id = fields.Char(string="Policy Number" ,required=True)
     issue_date = fields.Date(string="Issue Date")
-    start_date = fields.Date(string="Effective From", required=True)
+    start_date = fields.Date(string="Effective From")
     end_date = fields.Date(string="Effective To")
 
 
@@ -404,6 +404,9 @@ class PolicyBroker(models.Model):
     hide_inv_button = fields.Boolean(copy=False)
     invoice_ids = fields.One2many('account.invoice', 'insurance_id', string='Invoices', readonly=True)
 
+    _sql_constraints = [
+        ('std_id_unique', 'unique(std_id,edit_number)', 'Policy Number  already exists!')]
+
 
     @api.multi
     def name_get(self):
@@ -419,7 +422,7 @@ class PolicyBroker(models.Model):
             self.policy_status = 'approve'
             self.hide_inv_button = True
         else:
-            raise UserError(_("Customer , Policy No ,Line of Bussines or Company  should be Selected"))
+            raise UserError(_("Customer ,Line of Bussines or Company  should be Selected"))
 
     @api.multi
     def create_invoices(self):
@@ -494,7 +497,6 @@ class AccountInvoiceRelate(models.Model):
     _inherit = 'account.invoice'
 
     insurance_id = fields.Many2one('policy.broker', string='Insurance')
-    # claim_id = fields.Many2one('claim', string='Insurance')
 
 class Extra_Covers(models.Model):
     _name = "covers.lines"
@@ -515,6 +517,10 @@ class Extra_Covers(models.Model):
     rate = fields.Float(string="Rate")
     net_perimum = fields.Float(string="Net Perimum")
     policy_rel_id = fields.Many2one("policy.broker")
+
+
+    _sql_constraints = [
+        ('cover_unique', 'unique(policy_rel_id,riskk,name1)', 'Cover already exists!')]
 
 
     @api.multi

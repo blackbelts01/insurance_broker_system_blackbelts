@@ -27,6 +27,9 @@ class New_Risks(models.Model):
                     str(self.To) if self.To else " " + "_") + "  " + (
                                            str(self.cargo_type) if self.cargo_type else " " + "_") + "  " + (
                                            str(self.weight) if self.weight else " " + "_")
+            if self.test == "location" or self.type_risk == 'location':
+                self.risk_description = (str(self.address) if self.address else " " + "_") + "  " + (
+                    str(self.type) if self.type else " " + "_")
             # if rec.test == "location":
             #     rec.risk_description = (str(rec.group_name) if rec.group_name else " " + "_") + "  " + (
             #         str(rec.count) if rec.count else " " + "_")
@@ -67,6 +70,10 @@ class New_Risks(models.Model):
     cargo_type = fields.Char("Type Of Cargo")
     weight = fields.Float('Weight')
 
+    address = fields.Char('Address')
+    type = fields.Char('type')
+    # cargo_type = fields.Char("Type Of Cargo")
+    # weight = fields.Float('Weight')
 
     #gropu group
     group_name=fields.Char('Name')
@@ -83,12 +90,12 @@ class New_Risks(models.Model):
     #
     #     return super(New_Risks, self).create(vals)
 
-    @api.multi
-    def name_get(self):
-        if self.policy_risk_id:
-         result = []
-         for s in self:
-            name = str(s.risk) + ' , ' +str(s.policy_risk_id.std_id)
-            result.append((s.id, name))
-         return result
+    # @api.multi
+    # def name_get(self):
+    #     if self.policy_risk_id:
+    #      result = []
+    #      for s in self:
+    #         name = str(s.risk) + ' , ' +str(s.policy_risk_id.std_id)
+    #         result.append((s.id, name))
+    #      return result
 

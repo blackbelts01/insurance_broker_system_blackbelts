@@ -24,7 +24,7 @@
                             <p>Total Settled: <span t-field="doc.totalsettled"/></p>
                             <p>Total Paid Amount: <span t-field="doc.total_paid_amount"/></p>
                             <p>Total Unpaid: <span t-field="doc.totalunpaid"/></p>
-                            <p>Intimation Date<span t-field="doc.intimation_date"/> <h4>Date  of Loss</h4> <span t-field="doc.dateofloss"/></p>
+                            <p>Intimation Date<span t-field="doc.intimation_date"/>Date  of Loss<span t-field="doc.dateofloss"/></p>
 
                             <br/>
                             <table class="table table-condensed">

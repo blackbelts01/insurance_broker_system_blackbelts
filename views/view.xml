@@ -6,8 +6,8 @@
             <field name="arch" type="xml">
                 <form string="my policy form">
                     <header>
-                        <button name="print_policy" string="Print" type="object"  class="btn-primary o_sale_print"  attrs="{'invisible': [('hide_inv_button', '!=', True)]}"/>
-                        <button name="send_mail_template_policy" string="SEND BY MAIL" type="object"  class="btn-primary o_sale_print"  attrs="{'invisible': [('hide_inv_button', '!=', True)]}"/>
+                        <button name="print_policy" string="Print" type="object"  class="btn-primary o_sale_print"/>
+                        <button name="send_mail_template_policy" string="Send by Email" type="object"  class="btn-primary o_sale_print"/>
 
                         <button name="confirm_policy" string="Approve" type="object"
                                 class="oe_highlight" attrs="{'invisible': [('policy_status', '=', 'approve')]}"/>

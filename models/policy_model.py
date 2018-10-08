@@ -202,24 +202,24 @@ class PolicyBroker(models.Model):
         if total > 100:
             raise ValidationError("Your share percentage must be under percentage")
 
-    @api.multi
-    @api.onchange('bool')
-    def setcovers_veh(self):
-        ids = self.env['insurance.product.coverage'].search(
-            [('product_id', '=', self.product_policy.id)])
-        print(ids)
-        if self.bool:
-            print('xxx')
-            for record in self.new_risk_ids:
-                 for rec in ids:
-                     print('i enter')
-                     record.name_cover_risk_ids =(0, 0, {
-                         "name": rec.Name,
-                         "sum_insure": rec.defaultvalue,
-                         "check": rec.readonly,
-                         # "rate": rec.product_id.name_cover_ids.covers_rel_ids.rate,
-                         "net_perimum": rec.readonly and rec.defaultvalue
-                     })
+    # @api.multi
+    # @api.onchange('bool')
+    # def setcovers_veh(self):
+    #     ids = self.env['insurance.product.coverage'].search(
+    #         [('product_id', '=', self.product_policy.id)])
+    #     print(ids)
+    #     if self.bool:
+    #         print('xxx')
+    #         for record in self.new_risk_ids:
+    #              for rec in ids:
+    #                  print('i enter')
+    #                  record.name_cover_risk_ids =(0, 0, {
+    #                      "name": rec.Name,
+    #                      "sum_insure": rec.defaultvalue,
+    #                      "check": rec.readonly,
+    #                      # "rate": rec.product_id.name_cover_ids.covers_rel_ids.rate,
+    #                      "net_perimum": rec.readonly and rec.defaultvalue
+    #                  })
 
 
     bool = fields.Boolean()
@@ -265,9 +265,6 @@ class PolicyBroker(models.Model):
     ins_type = fields.Selection([('Individual', 'Individual'),
                                  ('Group', 'Group'), ],
                                 'I&G', track_visibility='onchange')
-    # policy_dur = fields.Selection([('Every 6 Months', 'Every 6 Months'),
-    #                                ('Every Year', 'Every Year'), ],
-    #                               'Policy Duration', track_visibility='onchange')
     line_of_bussines = fields.Many2one('insurance.line.business', string='Line of business',
                                        domain="[('insurance_type','=',insurance_type)]")
 
@@ -277,13 +274,13 @@ class PolicyBroker(models.Model):
 
 
     commision = fields.Float(string="Basic Brokerage", compute="_compute_brokerage")
-    com_commision = fields.Float(string="Complementary  Brokerage", compute="_compute_com_commision")
-    fixed_commision = fields.Float(string="Fixed Brokerage", compute="_compute_fixed_commision")
-    earl_commision = fields.Float(string="Early Collection" , compute="_compute_earl_commision")
-    total_commision = fields.Float(string="total Brokerage", compute="_compute_sum")
+    com_commision = fields.Float(string="Complementary  Brokerage", compute="_compute_brokerage")
+    fixed_commision = fields.Float(string="Fixed Brokerage", compute="_compute_brokerage")
+    earl_commision = fields.Float(string="Early Collection" , compute="_compute_brokerage")
+    total_commision = fields.Float(string="total Brokerage", compute="_compute_brokerage")
     new_risk_ids = fields.One2many("new.risks", 'policy_risk_id', string='Risk')
     company = fields.Many2one('res.partner', domain="[('insurer_type','=',1)]", string="Insurer")
-    product_policy = fields.Many2one('insurance.product',domain="[('insurer','=',company)]", string="Product")
+    product_policy = fields.Many2one('insurance.product',domain="[('insurer','=',company),('line_of_bus','=',line_of_bussines)]", string="Product")
     hamda = fields.Many2one("new.risks")
 
     name_cover_rel_ids = fields.One2many("covers.lines","policy_rel_id",string="Covers Details" )
@@ -326,30 +323,35 @@ class PolicyBroker(models.Model):
     def _compute_brokerage(self):
         for rec in self:
             rec.commision = (rec.product_policy.brokerage.basic_commission * rec.t_permimum) / 100
-
-    @api.multi
-    @api.depends("product_policy")
-    def _compute_com_commision(self):
-        for rec in self:
             rec.com_commision = (rec.product_policy.brokerage.complementary_commission * rec.t_permimum) / 100
-
-    @api.multi
-    @api.depends("product_policy")
-    def _compute_earl_commision(self):
-        for rec in self:
-                rec.earl_commision = (rec.product_policy.brokerage.early_collection * rec.t_permimum) / 100
+            rec.earl_commision = (rec.product_policy.brokerage.early_collection * rec.t_permimum) / 100
+            rec.fixed_commision = (rec.product_policy.brokerage.fixed_commission * rec.t_permimum) / 100
+            rec.total_commision = rec.commision + rec.com_commision + rec.fixed_commision + rec.earl_commision
 
 
-    @api.multi
-    @api.depends("product_policy")
-    def _compute_fixed_commision(self):
-        for rec in self:
-                rec.fixed_commision = (rec.product_policy.brokerage.fixed_commission * rec.t_permimum) / 100
-
-    @api.multi
-    def _compute_sum(self):
-        for rec in self:
-            rec.total_commision = rec.commision + rec.com_commision + rec.fixed_commision
+    # @api.multi
+    # @api.depends("product_policy")
+    # def _compute_com_commision(self):
+    #     for rec in self:
+    #         rec.com_commision = (rec.product_policy.brokerage.complementary_commission * rec.t_permimum) / 100
+    #
+    # @api.multi
+    # @api.depends("product_policy")
+    # def _compute_earl_commision(self):
+    #     for rec in self:
+    #             rec.earl_commision = (rec.product_policy.brokerage.early_collection * rec.t_permimum) / 100
+    #
+    #
+    # @api.multi
+    # @api.depends("product_policy")
+    # def _compute_fixed_commision(self):
+    #     for rec in self:
+    #             rec.fixed_commision = (rec.product_policy.brokerage.fixed_commission * rec.t_permimum) / 100
+    #
+    # @api.multi
+    # def _compute_sum(self):
+    #     for rec in self:
+    #         rec.total_commision = rec.commision + rec.com_commision + rec.fixed_commision
 
     @api.multi
     @api.depends("salesperson","onlayer","t_permimum")
@@ -527,7 +529,7 @@ class Extra_Covers(models.Model):
     def name_get(self):
         result = []
         for s in self:
-            name = s.name1.Name + ' , ' +s.riskk.risk
+            name = str(s.name1.Name) + ' , ' +str(s.riskk.risk)
             result.append((s.id, name))
         return result
 

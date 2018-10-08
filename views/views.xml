@@ -108,14 +108,6 @@
 
                                 </group>
 
-                                <group>
-                                    <field name="risk"/>
-                                    <field name="risk_description" invisible="1"/>
-                                    <field name="risks_crm" invisible="1"/>
-                                    <field name="type_risk" invisible="1"/>
-
-                                </group>
-
                                 <group string="Vehicle" attrs="{'invisible': ['|',('type_risk', '!=', 'vehicle')]}" >
                                     <field name="car_tybe"/>
                                     <field name="motor_cc"/>

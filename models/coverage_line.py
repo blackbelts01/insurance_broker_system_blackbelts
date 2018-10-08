@@ -38,11 +38,15 @@ class Covers(models.Model):
     def onchange_covers(self):
             if self.covers:
                self.sum_insured=self.covers.defaultvalue
+               self.net_premium = self.sum_insured
 
     @api.onchange('rate')
     def compute_premium(self):
-        if self.covers:
+        if self.covers and self.rate:
                self.net_premium=(self.sum_insured*self.rate)/100
+
+
+
 
 
 

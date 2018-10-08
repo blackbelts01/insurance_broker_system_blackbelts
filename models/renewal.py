@@ -32,18 +32,37 @@ class Renewal_Again(models.Model):
         records_cargo = []
         for rec in riskrecordd:
             objectcargo = (
-                    0, 0, {'risk': rec.risk, 'risk_description': rec.risk_description,
+                0, 0, {'risk': rec.risk, 'risk_description': rec.risk_description,
 
-                           'car_tybe': rec.car_tybe.id, 'motor_cc': rec.motor_cc, 'year_of_made': rec.year_of_made, 'model': rec.model.id, 'Man': rec.Man,
+                       'car_tybe': rec.car_tybe.id, 'motor_cc': rec.motor_cc, 'year_of_made': rec.year_of_made, 'model': rec.model.id, 'Man': rec.Man,
 
-                           'name': rec.name, 'DOB': rec.DOB, 'job': rec.job,
+                       'name': rec.name, 'DOB': rec.DOB, 'job': rec.job,
 
-                           'From': rec.From, 'To': rec.To, 'cargo_type': rec.cargo_type, 'weight': rec.weight,
+                       'From': rec.From, 'To': rec.To, 'cargo_type': rec.cargo_type, 'weight': rec.weight,
 
-                           'group_name': rec.group_name, 'count': rec.count, 'file': rec.file,
+                       'group_name': rec.group_name, 'count': rec.count, 'file': rec.file,
 
-                           })
+                       })
             records_cargo.append(objectcargo)
+
+        sharecommition = self.env["share.commition"].search([('id', 'in', self.last_policy.share_policy_rel_ids.ids)])
+        records_sharecommition = []
+        for rec in sharecommition:
+            comm = (
+                0, 0, {'agent': rec.agent.id, 'share_commition': rec.share_commition,
+                       'amount': rec.amount,
+                       })
+            records_sharecommition.append(comm)
+
+        installments = self.env["installment.installment"].search(
+            [('id', 'in', self.last_policy.rella_installment_id.ids)])
+        records_installments = []
+        for rec in installments:
+            install = (
+                0, 0, {'date': rec.date, 'amount': rec.amount,
+                       'state': rec.state,
+                       })
+            records_installments.append(install)
 
         coverlines = self.env["covers.lines"].search([('id', 'in', self.last_policy.name_cover_rel_ids.ids)])
         print(coverlines)
@@ -75,7 +94,7 @@ class Renewal_Again(models.Model):
                 'type': 'ir.actions.act_window',
                 # 'flags': {'form': {'options': {'mode': 'view'}}},
                 'context': {
-                            'default_renwal_check': True,
+                    'default_renwal_check': True,
                     'default_checho': True,
                     'default_company': self.last_policy.company.id,
 
@@ -102,15 +121,24 @@ class Renewal_Again(models.Model):
                     'default_currency_id': self.last_policy.currency_id.id,
 
                     'default_benefit': self.last_policy.benefit,
+                    'default_benefit': self.last_policy.gross_perimum,
 
                     'default_insurance_type': self.last_policy.insurance_type,
 
                     'default_line_of_bussines': self.last_policy.line_of_bussines.id,
 
                     'default_ins_type': self.last_policy.ins_type,
+                    'default_commision': self.last_policy.commision,
+                    'default_com_commision': self.last_policy.com_commision,
+                    'default_earl_commision': self.last_policy.earl_commision,
+                    'default_fixed_commision': self.last_policy.fixed_commision,
+                    'default_total_commision': self.last_policy.total_commision,
+
 
                     'default_new_risk_ids': records_cargo,
+                    'default_share_policy_rel_ids': records_sharecommition,
+                    'default_rella_installment_id': records_installments,
 
                     'default_name_cover_rel_ids': value,
-                            }
+                }
             }

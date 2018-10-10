@@ -8,8 +8,8 @@
                 <field name="insurer_type" readonly="1" force_save="1" attrs="{'invisible': ['|',('customer','=',True),('agent','=',True)]}"/>
                 <field name="agent"   attrs="{'invisible': ['|',('customer','=',True),('insurer_type','=',True)]}"/>
                 <field name="holding_type" attrs="{'invisible': ['|',('company_type','!=','company'),('insurer_type','=',True)]}"  force_save="1"/>
-                <field name="holding_company" attrs="{'invisible': [('holding_type','=',False)]}"/>
-                <field name="numberofchildren" attrs="{'invisible': ['|',('insurer_type','=',True),('agent','=',True)]}"/>
+                <field name="holding_company" attrs="{'invisible': ['|',('company_type','!=','company'),('holding_type','=',False)]}"/>
+                <field name="numberofchildren" attrs="{'invisible': ['|',('company_type','=','company'),('insurer_type','=',True),('agent','=',True)]}"/>
             </xpath>
             <xpath expr="//sheet/div/field[@name='company_type']" position="attributes">
                 <attribute name="attrs">{'readonly': ['|',('insurer_type', '=', True),('agent', '=', True)]}</attribute>
@@ -61,7 +61,10 @@
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='%(sale.act_res_partner_2_sale_order)d']" position="attributes">
                    <attribute name="invisible">1</attribute>
-               </xpath>
+                </xpath>
+                <xpath expr="//button[@name='%(sale.act_res_partner_2_sale_order)d']" position="attributes">
+                   <attribute name="invisible">1</attribute>
+                </xpath>
                 <xpath expr="//field[@name='parent_id']" position="attributes">
                    <attribute name="invisible">1</attribute>
                </xpath>

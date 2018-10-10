@@ -4,6 +4,7 @@ from odoo.exceptions import ValidationError
 
 class New_Risks(models.Model):
     _name="new.risks"
+    _rec_name='risk'
 
 
     @api.one
@@ -17,10 +18,10 @@ class New_Risks(models.Model):
 
             if self.test == "vehicle" or self.type_risk == 'vehicle':
                 self.risk_description = (str(self.car_tybe.name) if self.car_tybe.name else " " + "_") + "  " + (
-                    str(self.motor_cc) if self.motor_cc else " " + "_") + "  " + (
-                                           str(self.year_of_made) if self.year_of_made else " " + "_") + "  " + (
+                    str(self.Man.setup_id) if self.Man.setup_id else " " + "_") + "  " + (
                                            str(self.model.name) if self.model.name else " " + "_") + "  " + (
-                                           str(self.Man) if self.Man else " " + "_")
+                                           str(self.year_of_made) if self.year_of_made else " " + "_") + "  " + (
+                                           str(self.motor_cc) if self.motor_cc else " " + "_")
             #
             if self.test == "cargo" or self.type_risk == 'cargo':
                 self.risk_description = (str(self.From) if self.From else " " + "_") + "  " + (
@@ -49,8 +50,14 @@ class New_Risks(models.Model):
     car_tybe = fields.Many2one('insurance.setup.item',string='Vehicle Type',domain="[('setup_id.setup_key','=','vehicletype')]")
     motor_cc = fields.Char("Motor cc")
     year_of_made = fields.Integer("Year of Made")
-    Man = fields.Char(string='Vehicle Made')
-    model = fields.Many2one('insurance.setup.item',string='Model',domain="[('setup_id.setup_key','=','model'),('setup_id.setup_id','=',Man)]")
+    Man = fields.Many2one('insurance.setup',string='Maker',domain="[('setup_key','=','man')]")
+    model = fields.Many2one('insurance.setup.item',string='Model')
+
+    @api.onchange('Man')
+    def _onchange_Man(self):
+      if self.Man:
+           return {'domain': {'model': [('setup_id.setup_id','=',self.Man.setup_id if self.Man.setup_id else False)]}}
+
 
 
 
@@ -59,7 +66,7 @@ class New_Risks(models.Model):
     #group person
     name = fields.Char('Name')
     DOB = fields.Date('Date Of Birth')
-    job = fields.Char('Job Tiltle')
+    job = fields.Many2one('insurance.setup.item',string='Job Type',domain="[('setup_id.setup_key','=','jobtype')]")
 
 
 
@@ -91,22 +98,15 @@ class New_Risks(models.Model):
     #     return super(New_Risks, self).create(vals)
 
 
+
+
     # @api.multi
     # def name_get(self):
-    #     if self.policy_risk_id:
-    #      result = []
-    #      for s in self:
-    #         name = str(s.risk) + ' , ' +str(s.policy_risk_id.std_id)
+    #     result = []
+    #     for s in self:
+    #         name = str(s.risk) + ' , ' + str(s.policy_risk_id.std_id)
     #         result.append((s.id, name))
-    #      return result
-
-    @api.multi
-    def name_get(self):
-        result = []
-        for s in self:
-            name = str(s.risk) + ' , ' + str(s.policy_risk_id.std_id)
-            result.append((s.id, name))
-        return result
+    #     return result
 
 
     _sql_constraints = [

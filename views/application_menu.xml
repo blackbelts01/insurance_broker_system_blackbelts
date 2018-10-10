@@ -39,7 +39,7 @@
         </record>
         <menuitem id="main_ibs_menu" name="IBS"/>
         <menuitem id="partners_views_menu" name="Partners"
-                  parent="main_ibs_menu"/>
+                  parent="main_ibs_menu" sequence="0"/>
         <menuitem id="customers_view_menu" name="Customer" parent="partners_views_menu"
                   action="action_customer_view"/>
         <menuitem id="insurer_view_menu" name="Insurer" parent="partners_views_menu"
@@ -48,24 +48,98 @@
                   action="action_agent_view"/>
         <menuitem id="print_out_partners_view_menu" name="Print out" parent="partners_views_menu"/>
         <menuitem id="configuration_partners_view_menu" name="Configuration" parent="partners_views_menu"/>
-        <menuitem id="production_management_views_menu" name="Production Management"
-                  parent="main_ibs_menu"/>
+        <menuitem id="hr_management_views_menu" name="HR Management"
+          parent="main_ibs_menu" sequence="1"/>
+        <menuitem id="employees_view_menu" name="Employees" parent="hr_management_views_menu"
+          action="hr.open_view_employee_list_my"/>
+        <menuitem id="employees_list_view_menu" name="Employees" parent="employees_view_menu"
+          action="hr.open_view_employee_list_my"/>
+        <menuitem id="contract_view_menu" name="Contracts" parent="employees_view_menu"
+          action="hr_contract.action_hr_contract"/>
+        <menuitem id="department_view_menu" name="Departments" parent="employees_view_menu"
+          action="hr.open_module_tree_department"/>
+        <menuitem id="attendance_view_menu" name="Attendance" parent="hr_management_views_menu"
+          action="hr_attendance.hr_attendance_action"/>
+        <menuitem id="leaves_view_menu" name="Leaves" parent="hr_management_views_menu"
+          action="hr_holidays.action_hr_holidays_dashboard"/>
+        <menuitem id="myleaves_view_menu" name="My Leaves" parent="leaves_view_menu"/>
+        <menuitem id="leaves_summary_view_menu" name="Leaves Summary" parent="myleaves_view_menu"
+          action="hr_holidays.open_company_allocation"/>
+        <menuitem id="leaves_request_view_menu" name="Leaves Request" parent="myleaves_view_menu"
+          action="hr_holidays.open_ask_holidays"/>
+        <menuitem id="allocation_request_view_menu" name="Allocation Request" parent="myleaves_view_menu"
+          action="hr_holidays.open_allocation_holidays"/>
+                <menuitem id="leaves_approve_view_menu" name="Leaves to Approve" parent="leaves_view_menu"/>
+        <menuitem id="dep_leaves_view_menu" name="Department Leaves" parent="leaves_approve_view_menu"
+          action="hr_holidays.open_department_holidays_approve"/>
+        <menuitem id="leaves_dep_all_view_menu" name="Department Leaves Allocation" parent="leaves_approve_view_menu"
+          action="hr_holidays.open_department_holidays_allocation_approve"/>
+                <menuitem id="leaves_reporting_view_menu" name="Reporting" parent="leaves_view_menu"/>
+        <menuitem id="leaves_details_view_menu" name="Leave Details" parent="leaves_reporting_view_menu"
+          action="hr_holidays.open_employee_leaves"/>
+        <menuitem id="leaves_analy_view_menu" name="Leaves Analysis" parent="leaves_reporting_view_menu"
+          action="hr_holidays.action_hr_available_holidays_report"/>
+        <menuitem id="expenses_view_menu" name="Expenses" parent="hr_management_views_menu"/>
+                <menuitem id="myexpense_view_menu" name="My Expense" parent="expenses_view_menu"/>
+        <menuitem id="expense_submit_view_menu" name="My Expenses to Submit" parent="myexpense_view_menu"
+          action="hr_expense.hr_expense_actions_my_unsubmitted"/>
+        <menuitem id="refused_reports_view_menu" name="My Refused Reports" parent="myexpense_view_menu"
+          action="hr_expense.action_hr_expense_sheet_my_refused"/>
+        <menuitem id="exp_reports_view_menu" name="My Reports" parent="myexpense_view_menu"
+          action="hr_expense.action_hr_expense_sheet_my_all"/>
+               <menuitem id="to_Approve_exp_view_menu" name="To Approve" parent="expenses_view_menu"
+               action="hr_expense.action_hr_expense_sheet_all_to_approve"/>
+        <menuitem id="account_exp_view_menu" name="Accountant" parent="expenses_view_menu"/>
+        <menuitem id="expense_report_approve_view_menu" name="Expense Reports to Approve" parent="account_exp_view_menu"
+          action="hr_expense.action_hr_expense_sheet_all_to_approve"/>
+        <menuitem id="expense_report_pay_view_menu" name="Expense Reports To Pay" parent="account_exp_view_menu"
+          action="hr_expense.action_hr_expense_sheet_all_to_pay"/>
+        <menuitem id="appraisals_view_menu" name="Appraisals" parent="hr_management_views_menu"
+          action=""/>
+        <menuitem id="recruitment_view_menu" name="Recruitment" parent="hr_management_views_menu"/>
+        <menuitem id="recruitment_job_views_menu" name="Job Positions" parent="recruitment_view_menu"
+        action="hr_recruitment.action_hr_job"/>
+        <menuitem id="recruitment_applications_views_menu" name="Applications" parent="recruitment_view_menu"/>
+                <menuitem id="recruitment_all_app_views_menu" name="All Applications" parent="recruitment_applications_views_menu"
+        action="hr_recruitment.crm_case_categ0_act_job"/>
+                <menuitem id="recruitment_next_active_views_menu" name="Next Activities" parent="recruitment_applications_views_menu"
+        action="hr_recruitment.hr_applicant_action_activity"/>
+                <menuitem id="recruitment_resume_views_menu" name="Resumes and Letters" parent="recruitment_view_menu"
+        action="hr_recruitment.hr_applicant_resumes"/>
+        <menuitem id="recruitment_configurations_views_menu" name="Configurations" parent="recruitment_view_menu"/>
+            <menuitem id="recruitment_conf_stages_views_menu" name="Stages" parent="recruitment_configurations_views_menu"
+            action="hr_recruitment.hr_recruitment_stage_act"/>
+            <menuitem id="recruitment_conf_tags_views_menu" name="Tags" parent="recruitment_configurations_views_menu"
+            action="hr_recruitment.hr_applicant_category_action"/>
+            <menuitem id="recruitment_conf_degree_views_menu" name="Degree" parent="recruitment_configurations_views_menu"
+            action="hr_recruitment.hr_recruitment_degree_action"/>
+            <menuitem id="recruitment_conf_positions_views_menu" name="Job Positions" parent="recruitment_configurations_views_menu"
+            action="hr_recruitment.action_hr_job_config"/>
+            <menuitem id="recruitment_conf_sources_applicants_views_menu" name="Sources of Applicants" parent="recruitment_configurations_views_menu"
+            action="hr_recruitment.hr_recruitment_source_action"/>
+            <menuitem id="recruitment_conf_departments_views_menu" name="Departments" parent="recruitment_configurations_views_menu"
+            action="hr_recruitment.action_hr_department"/>
+        <menuitem id="production_management_views_menu" name="Production Management" parent="main_ibs_menu" sequence="2"/>
         <menuitem id="leads_view_menu" name="Leads" parent="production_management_views_menu"
                   action="crm.crm_lead_all_leads"/>
-        <menuitem id="sales_funnel_view_menu" name="Sales Funnel" parent="production_management_views_menu"
+        <menuitem id="opportunities_view_menu" name="Opportunities" parent="production_management_views_menu"
                   action="crm.crm_lead_opportunities"/>
         <menuitem id="channel_view_menu" name="Sales Channels" parent="production_management_views_menu"
                   action="sales_team.crm_team_salesteams_act" sequence="3"/>
-        <menuitem id="collection_view_menu" name="Collection" parent="production_management_views_menu"
-                  action="account.action_invoice_tree1"/>
+        <menuitem id="customer_inv_view_menu" name="Customer Invoices" parent="production_management_views_menu"
+                  action="action_ibs_customer_invoice"/>
+        <menuitem id="bill_view_menu" name="Insurer Bills" parent="production_management_views_menu"
+                  action="action_ibs_insurer_bill"/>
+        <menuitem id="brokerage_view_menu" name="Brokerage" parent="production_management_views_menu"
+                  action="action_ibs_brokerage"/>
         <menuitem id="commission_view_menu" name="Commission" parent="production_management_views_menu"
-                  action="account.action_invoice_tree2"/>
+                  action="action_ibs_commission"/>
         <menuitem id="production_view_menu" name="Production" parent="production_management_views_menu"
                   action="my_action_for_second_menu"/>
         <menuitem id="Print_out_production_view_menu" name="Print out" parent="production_management_views_menu"/>
         <menuitem id="configuration_production_view_menu" name="Configuration" parent="production_management_views_menu"/>
         <menuitem id="portfolio_management_views_menu" name="Portfolio Management"
-                  parent="main_ibs_menu"/>
+                  parent="main_ibs_menu" sequence="3"/>
         <menuitem id="policy_view_menu" name="Policy" parent="portfolio_management_views_menu"
                   action="my_action_for_second_menu" sequence="0"/>
         <menuitem id="menu_insured_vehicle" name="Insured Vehicle" parent="portfolio_management_views_menu"
@@ -96,7 +170,7 @@
         <menuitem id="Print_out_portfolio_view_menu" name="Print out" parent="portfolio_management_views_menu"/>
         <menuitem id="configuration_portfolio_view_menu" name="Configuration" parent="portfolio_management_views_menu"/>
         <menuitem id="accounting_management_views_menu" name="Accounting Management"
-                  parent="main_ibs_menu"/>
+                  parent="main_ibs_menu" sequence="4"/>
         <menuitem id="document_accounting_view_menu" name="Documents" parent="accounting_management_views_menu"/>
         <menuitem id="document_invoices_accounting_view_menu" name="Invoices" parent="document_accounting_view_menu"/>
         <menuitem id="invoices_view_menu" name="Customer Invoices" parent="document_invoices_accounting_view_menu"
@@ -115,6 +189,8 @@
                   action="account.action_move_journal_line"/>
         <menuitem id="analytic_entries_view_menu" name="Analytic Entries" parent="accounting_entries_view_menu"
                   action="analytic.account_analytic_line_action_entries"/>
+        <menuitem id="asset_entries_view_menu" name="Assets" parent="accounting_entries_view_menu"
+                  action="account_asset.action_account_asset_asset_form"/>
 
         <menuitem id="accounting_configuration_view_menu" name="Configuration" parent="accounting_management_views_menu"/>
         <menuitem id="chart_of_account_view_menu" name="Chart of Accounts" parent="accounting_configuration_view_menu"
@@ -129,7 +205,7 @@
                   action="account.action_account_bank_journal_form"/>
         <menuitem id="Journals_view_menu" name="Journals" parent="accounting_configuration_view_menu"
                   action="account.action_account_journal_form"/>
-        <menuitem id="configuration_view_menu" name="Configuration" parent="main_ibs_menu"/>
+        <menuitem id="configuration_view_menu" name="Configuration" parent="main_ibs_menu" sequence="5"/>
         <menuitem id="line_of_business_view_menu" name="Line of Business" parent="configuration_view_menu"
                   action="insurance_line_business_action"/>
         <menuitem id="product_view_menu" name="Products" parent="configuration_view_menu"

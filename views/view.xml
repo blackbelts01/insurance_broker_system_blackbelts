@@ -112,15 +112,15 @@
                                     </group>
                                     <group string="Vehicle" attrs="{'invisible': ['|',('test', '!=', 'vehicle')]}" >
                                         <field name="car_tybe"/>
+                                        <field name="Man" widget="selection"/>
+                                        <field name="model" widget="selection"/>
                                         <field name="motor_cc"/>
                                         <field name="year_of_made"/>
-                                        <field name="Man"/>
-                                        <field name="model"/>
                                     </group>
                                     <group string="Person" attrs="{'invisible': ['|',('test', '!=', 'person')]}">
                                         <field name="name"/>
                                         <field name="DOB"/>
-                                        <field name="job"/>
+                                        <field name="job" widget="selection"/>
                                     </group>
                                     <group string="Cargo"  attrs="{'invisible': ['|',('test', '!=', 'cargo')]}">
                                         <field name="From"  />
@@ -149,6 +149,9 @@
                                     <field name="sum_insure" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="rate" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="net_perimum" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+                                    <field name="limitone" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+                                    <field name="limittotal" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+                                    <field name="deductible" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                 </tree>
                             </field>
                         </group>
@@ -218,16 +221,19 @@
             <field name="model">policy.broker</field>
             <field name="arch" type="xml">
                 <tree string="my_tree_for_policy">
-                    <field name="std_id" string="Policy No"/>
-                    <field name="renwal_check"  string="REN"/>
-                    <field name="edit_number"  string="END"/>
-                    <field name="issue_date"/>
-                    <field name="gross_perimum" string="Gross"/>
-                    <field name="t_permimum" string="Net"/>
                     <field name="insurance_type" string="Type"/>
                     <field name="line_of_bussines" string="LOB"/>
-                    <field name="company"/>
-                    <field name="product_policy"/>
+                    <field name="company" string="Insurer"/>
+                    <field name="product_policy" string="Product"/>
+                    <field name="customer" string="Customer"/>
+                    <field name="std_id" string="Policy No"/>
+                    <field name="edit_number"  string="End"/>
+                    <field name="renwal_check"  string="R"/>
+                    <field name="issue_date" string="Issue on"/>
+                    <field name="start_date" string="Effective F"/>
+                    <field name="end_date" string="Effective To"/>
+                    <field name="gross_perimum" string="Gross Prem"/>
+                    <field name="t_permimum" string="Net Prem"/>
                 </tree>
             </field>
         </record>

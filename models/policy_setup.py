@@ -95,6 +95,8 @@ class Brokerage(models.Model):
 
 class insuranceSetup(models.Model):
     _name = 'insurance.setup'
+    _rec_name='setup_id'
+
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     setup_key=fields.Selection([('closs', 'CLOSS'),
@@ -105,10 +107,18 @@ class insuranceSetup(models.Model):
                                 ('clmitem', 'CLMITEM'),
                                 ('branch', 'INSBRANCH'),
                                 ('vehicletype', 'VEHICLETYPE'),
-                                ('model', 'MODEL'),],
+                                ('industry', 'INDUSTRY'),
+                                ('man', 'MAKER'),
+                                ('jobtype', 'JOBTYPE'),],
                                'KEY', track_visibility='onchange', required=True)
     setup_id=fields.Char(string='ID')
     setup_item=fields.One2many('insurance.setup.item','setup_id',string='List Items')
+
+    @api.onchange('setup_key')
+    def _onchange_id(self):
+        if self.setup_key:
+            self.setup_id= (self.setup_key).upper()
+
 
     _sql_constraints = [
         ('setup_id_unique', 'unique(setup_key,setup_id)', 'ID already exists!')]

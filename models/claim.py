@@ -22,8 +22,8 @@ class claimPolicy(models.Model):
     totalunpaid = fields.Float(string='Total Unpaid')
 
     claimstatus=fields.Many2one('insurance.setup.item',string='Claim Status',domain="[('setup_id.setup_key','=','state')]")
-    policy_number = fields.Many2one('policy.broker',string='Policy Number',required=True,domain="[('edit_number','=',0)]")
-    endorsement= fields.Many2one('policy.broker',string='Endorsement Number',domain="['&',('edit_number','!=',0),('std_id','=',related_policy)]")
+    policy_number = fields.Many2one('policy.broker',string='Policy Number',required=True,domain="[('policy_status','=','approve'),('edit_number','=',0)]")
+    endorsement= fields.Many2one('policy.broker',string='Endorsement Number',domain="[('edit_number','!=',0),('std_id','=',related_policy)]")
     related_policy=fields.Char(related='policy_number.std_id',store=True,readonly=True)
     customer_policy=fields.Many2one('res.partner',string='Customer',store=True,readonly=True)
     insured=fields.Char(string='Insured',store=True)
@@ -141,12 +141,12 @@ class settleHistory(models.Model):
     vcar_type = fields.Many2one(related='risk_id.car_tybe',string='Vehicle Type')
     vmotor_cc = fields.Char(related='risk_id.motor_cc',string="Motor cc")
     vyear_of_made = fields.Integer(related='risk_id.year_of_made',string="Year of Made")
-    vmodel = fields.Many2one(related='risk_id.model',string="Motor Model")
-    vbrande = fields.Char(related='risk_id.Man',string='Vehicle Brande')
+    vbrande = fields.Many2one(related='risk_id.Man',string='Maker')
+    vmodel = fields.Many2one(related='risk_id.model',string="Model")
     #Person details
     pname = fields.Char(related='risk_id.name',string='Name')
     p_birthday = fields.Date(related='risk_id.DOB',string='Date Of Birth')
-    pjob = fields.Char(related='risk_id.job',string='Job Tiltle')
+    pjob = fields.Many2one(related='risk_id.job',string='Job Type')
     #Cargo details
     cfrom = fields.Char(related='risk_id.From',string='From')
     cto = fields.Char(related='risk_id.To',string='To')

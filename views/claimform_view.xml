@@ -5,17 +5,17 @@
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
             <tree string="list">
-                <field name="name" string="Number"/>
-                <field name="policy_number" string="Policy"/>
-                <field name="endorsement" string="Endorsement"/>
                 <field name="insured" string="Type"/>
                 <field name="lob" string="LOB"/>
-                <field name="product"/>
-                <field name="insurer"/>
-                <field name="totalclaimexp" string="Claim Exp"/>
-                <field name="totalsettled" string="Settlement"/>
-                <field name="total_paid_amount" string="Paid"/>
-                <field name="totalunpaid" string="Unpaid"/>
+                <field name="insurer" string="Insurer"/>
+                <field name="product" string="Product"/>
+                <field name="customer_policy" string="Customer"/>
+                <field name="policy_number" string="Policy Number"/>
+                <field name="name" string="Claim Number"/>
+                <field name="totalclaimexp" string="Expected"/>
+                <field name="totalsettled" string="Total Setteled"/>
+                <field name="total_paid_amount" string="Total Paid"/>
+                <field name="claimstatus" string="Status"/>
             </tree>
         </field>
     </record>

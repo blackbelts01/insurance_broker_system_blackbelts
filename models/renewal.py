@@ -34,7 +34,7 @@ class Renewal_Again(models.Model):
             objectcargo = (
                 0, 0, {'risk': rec.risk, 'risk_description': rec.risk_description,
 
-                       'car_tybe': rec.car_tybe.id, 'motor_cc': rec.motor_cc, 'year_of_made': rec.year_of_made, 'model': rec.model.id, 'Man': rec.Man,
+                       'car_tybe': rec.car_tybe.id, 'motor_cc': rec.motor_cc, 'year_of_made': rec.year_of_made, 'model': rec.model.id, 'Man': rec.Man.id,
 
                        'name': rec.name, 'DOB': rec.DOB, 'job': rec.job,
 

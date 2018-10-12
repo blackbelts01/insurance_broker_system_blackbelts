@@ -46,6 +46,8 @@
         'views/insured_object.xml',
         'views/insured_vehicle.xml',
         'views/settlements.xml',
+        'views/asset_emp.xml',
+        'views/invoices_view.xml',
         "views/application_menu.xml",
 
     ],

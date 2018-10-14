@@ -20,9 +20,7 @@ class Proposals_opp(models.Model):
     show_risks_covers=fields.Boolean('')
     # selected_id=fields.Integer('')
 
-    _sql_constraints = [
-        ('proposal_id_uniq', 'unique (proposal_id)', 'The Proposal ID  already exist !')
-    ]
+
 
     @api.one
     @api.depends('proposal_crm')

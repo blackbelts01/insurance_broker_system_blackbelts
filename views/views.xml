@@ -73,6 +73,8 @@
                     <field name="policy_dur"  />
                 </field>
 
+
+
                 <xpath expr="/form/sheet/group[1]" position="after" >
                     <field name="test" style="width:20%; font-size: 15px"  invisible="1"  />
                     <group string="Insured"  attrs="{'invisible': ['|',('test', '=', False)]}">
@@ -294,60 +296,56 @@
                 </record>
         -->
 
-        <record id="base.action_partner_form" model="ir.actions.act_window">
-            <field name="name">Customers</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">res.partner</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">kanban,tree,form</field>
-            <field name="context">{"search_default_customer":1,"own_customer_only":1}</field>
-            <field name="search_view_id" ref="base.view_res_partner_filter"/>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Click to add a contact in your address book.
-                </p><p>
-                Odoo helps you easily track all activities related to
-                a customer: discussions, history of business opportunities,
-                documents, etc.
-            </p>
-            </field>
-        </record>
-
-
-
-        <record model="ir.ui.view" id="customer_form_view">
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='function']" position="after">
-                    <field name="DOB"  attrs="{'invisible':[('is_company','=', True )]}"/>
-                    <field name="martiual_status"  attrs="{'invisible':[('is_company','=', True )]}"/>
-                    <field name="C_industry"  attrs="{'invisible':[('is_company','=', True )]}"/>
-                </xpath>
-
-
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="crm__lead_tree_view">
+        <record id="ibs_crm_case_tree_view_oppor" model="ir.ui.view">
+            <field name="name">crm.lead.tree.opportunity</field>
             <field name="model">crm.lead</field>
-            <field name="priority" eval="1"/>
-            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='activity_date_deadline']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//field[@name='name']" position="after">
-                    <field name="insurance_type"/>
-                    <field name="LOB"/>
-                </xpath>
-                <xpath expr="//field[@name='activity_date_deadline']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//field[@name='activity_summary']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
+                <tree string="Opportunities" decoration-bf="message_needaction==True" decoration-muted="probability == 100" decoration-danger="activity_date_deadline and (activity_date_deadline &lt; current_date)">
+                    <field name="insurance_type" string="Type"/>
+                    <field name="LOB" string="LOB"/>
+                    <field name="partner_id" string="Customer"/>
+                    <field name="name" string="Opportunity"/>
+                    <field name="term"/>
+                    <field name="planned_revenue" sum="Expected Revenues" string="Expected Premium"/>
+                    <field name="probability" avg="Avg. of Probability"/>
+                    <field name="stage_id"/>
+                    <field name="activity_date_deadline" invisible="1"/>
+                    <field name="activity_summary" invisible="1"/>
+                    <field name="medium_id" invisible="1"/>
+                    <field name="campaign_id" invisible="1"/>
+                    <field name="source_id" invisible="1"/>
+                    <field name="team_id"/>
+                    <field name="user_id"/>
+                    <field name="referred" invisible="1"/>
+                    <field name="priority" invisible="1"/>
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="probability" invisible="1"/>
+                    <field name="write_date" invisible="1"/>
+                </tree>
             </field>
+        </record>
+        <record model="ir.actions.act_window" id="ibs_crm_lead_opportunities">
+            <field name="name">Opportunities</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_mode">kanban,tree,graph,pivot,form,calendar</field>
+            <field name="domain">[('type','=','opportunity')]</field>
+            <field name="context">{
+                    'default_type': 'opportunity',
+                    'default_user_id': uid
+                }
+            </field>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_ibs_crm_lead_tree">
+             <field name="sequence" eval="1"/>
+             <field name="view_mode">tree</field>
+             <field name="view_id" ref="ibs_crm_case_tree_view_oppor"/>
+             <field name="act_window_id" ref="ibs_crm_lead_opportunities"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_ibs_crm_lead_form">
+             <field name="sequence" eval="1"/>
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="crm__lead_form_view"/>
+             <field name="act_window_id" ref="ibs_crm_lead_opportunities"/>
         </record>
 
     </data>

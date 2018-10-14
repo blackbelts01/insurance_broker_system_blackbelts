@@ -13,13 +13,14 @@ class inhertResPartner(models.Model):
     numberofchildren=fields.Integer('Number of Children')
     policy_count=fields.Integer(compute='_compute_policy_count')
     claim_count=fields.Integer(compute='_compute_claim_count')
-    agent=fields.Boolean("Agent")
+
     C_industry=fields.Many2one('insurance.setup.item',string='Industry',domain="[('setup_id.setup_key','=','industry')]")
     DOB=fields.Date('Date of Birth')
     martiual_status = fields.Selection([('Single', 'Single'),
                                         ('Married', 'Married'),],
                                        'Marital Status', track_visibility='onchange')
     last_time_insure = fields.Date('Last Time Insure')
+
     @api.multi
     def _compute_policy_count(self):
         for partner in self:
@@ -87,4 +88,5 @@ class inhertResPartner(models.Model):
             # proposal = self.env['proposal.opp.bb'].search([('Company', '=', self.id)]).ids
             claim = self.env['insurance.claim'].search([('customer_policy', '=', self.id)])
             return claim
+
 

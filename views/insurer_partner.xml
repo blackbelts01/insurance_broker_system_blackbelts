@@ -1,21 +1,42 @@
 <odoo>
-    <record id="view_partner_form_inherit_insurer" model="ir.ui.view">
+    <record id="view_partner_form_inherit" model="ir.ui.view">
         <field name="name">res.partner.form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <xpath expr="//group/group" position="inside">
-                <field name="insurer_type" readonly="1" force_save="1" attrs="{'invisible': ['|',('customer','=',True),('agent','=',True)]}"/>
-                <field name="agent"   attrs="{'invisible': ['|',('customer','=',True),('insurer_type','=',True)]}"/>
+                <field name="insurer_type" readonly="1" force_save="1" attrs="{'invisible': ['|',('customer','=',True)]}"/>
+                <!--<field name="agent"  readonly="1" force_save="1" attrs="{'invisible': [('insurer_type','=',True)]}"/>-->
                 <field name="holding_type" attrs="{'invisible': ['|',('company_type','!=','company'),('insurer_type','=',True)]}"  force_save="1"/>
                 <field name="holding_company" attrs="{'invisible': ['|',('company_type','!=','company'),('holding_type','=',False)]}"/>
-                <field name="numberofchildren" attrs="{'invisible': ['|',('company_type','=','company'),('insurer_type','=',True),('agent','=',True)]}"/>
+                <field name="numberofchildren" attrs="{'invisible': ['|',('company_type','=','company'),('insurer_type','=',True)]}"/>
             </xpath>
             <xpath expr="//sheet/div/field[@name='company_type']" position="attributes">
-                <attribute name="attrs">{'readonly': ['|',('insurer_type', '=', True),('agent', '=', True)]}</attribute>
+                <attribute name="attrs">{'readonly': ['|',('insurer_type', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='function']" position="after">
+                <field name="DOB"  attrs="{'invisible':[('is_company','=', True )]}"/>
+                <field name="martiual_status"  attrs="{'invisible':[('is_company','=', True )]}"/>
+                <field name="C_industry"  attrs="{'invisible':[('is_company','=', True )]}"/>
             </xpath>
         </field>
     </record>
+    <record id="crm_lead_partner_kanban_view_2" model="ir.ui.view">
+            <field name="name">res.partner.kanban.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="priority" eval="10"/>
+            <field name="arch" type="xml">
+                <field name="mobile" position="after">
+                    <field name="policy_count"/>
+                    <field name="claim_count"/>
+                </field>
+                <xpath expr="//div[hasclass('oe_kanban_partner_links')]" position="inside">
+                    <span class="badge" t-if="record.policy_count.value>0"><i class="fa fa-fw fa-star"/><t t-esc="record.policy_count.value"/></span>
+                    <span class="badge" t-if="record.claim_count.value>0"><i class="fa fa-fw fa-star"/><t t-esc="record.claim_count.value"/></span>
+                </xpath>
+            </field>
+        </record>
     <record id="view_partners_form_policy" model="ir.ui.view">
         <field name="name">view.res.partner.form.crm.inherited2</field>
         <field name="model">res.partner</field>
@@ -74,20 +95,42 @@
             </field>
     </record>
     <record id="view_partner_search" model="ir.ui.view">
-            <field name="name">Partner</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_res_partner_filter"/>
-            <field name="arch" type="xml">
-                <xpath expr="//search" position="inside">
-                    <filter name="customer" string="Individual Customer"
-                            domain="[('customer', '=', True)]"/>
+        <field name="name">Partner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="customer" string="Individual Customer"
+                        domain="[('customer', '=', True)]"/>
 
-                   <filter name="insurer" string="Insurer"
-                            domain="[('insurer_type', '=', True)]"/>
+               <filter name="insurer" string="Insurer"
+                        domain="[('insurer_type', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_customer_view">
+        <field name="name">Customer</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('insurer_type','=', False)]</field>
+        <field name="context">{"search_default_customer":1,"own_customer_only":1}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Create the Customer
+            </p>
+        </field>
+    </record>
 
-                   <filter name="agent" string="Agent"
-                           domain="[('agent', '=', True)]"/>
-                </xpath>
-            </field>
+    <record model="ir.actions.act_window" id="action_insurer_view">
+        <field name="name">Insurer</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('insurer_type','=', True)]</field>
+        <field name="context">{'search_default_insurer': 1,'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Create the Insurer
+            </p>
+        </field>
     </record>
 </odoo>

@@ -14,7 +14,7 @@ class New_Risks(models.Model):
         if self.risks_crm or self.policy_risk_id:
             if self.test == "person" or self.type_risk == 'person':
                 self.risk_description = (str(self.name) if self.name else " " + "_") + "  " + (
-                    str(self.DOB) if self.DOB else " " + "_") + "  " + (str(self.job) if self.job else " " + "_")
+                    str(self.DOB) if self.DOB else " " + "_") + "  " + (str(self.job.name) if self.job.name else " " + "_")
 
             if self.test == "vehicle" or self.type_risk == 'vehicle':
                 self.risk_description = (str(self.car_tybe.name) if self.car_tybe.name else " " + "_") + "  " + (

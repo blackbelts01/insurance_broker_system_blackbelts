@@ -20,9 +20,17 @@ class crm_leads(models.Model):
     ins_type = fields.Selection([('Individual', 'Individual'),
                                  ('Group', 'Group'),],
                                 'insured type', track_visibility='onchange')
-    policy_dur = fields.Selection([('Every 6 Months', 'Every 6 Months'),
-                                   ('Every Year', 'Every Year'), ],
-                                  'Policy Duration', track_visibility='onchange')
+    duration_no = fields.Integer('Policy Duration Number')
+    duration_type =fields.Selection([('day', 'Day'),
+                                     ('month', 'Month'),
+                                     ('year', 'Year'),],
+                                    'Policy Duration Type',track_visibility='onchange')
+    term=fields.Char(string='Term',compute='_compute_term',force_save=True)
+
+    @api.one
+    def _compute_term(self):
+        self.term=str(self.duration_no)+'-'+str(self.duration_type)
+
     LOB = fields.Many2one('insurance.line.business', string='Line of business', domain="[('insurance_type','=',insurance_type)]")
 
     oppor_type = fields.Char(

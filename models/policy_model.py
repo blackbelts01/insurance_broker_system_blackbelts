@@ -437,6 +437,10 @@ class PolicyBroker(models.Model):
                     'user_id': self.env.user.id,
                     'insurance_id': self.id,
                     'origin': self.policy_number,
+                    'insured_type':self.insurance_type,
+                    'insured_lOB': self.line_of_bussines.id,
+                    'insured_insurer': self.company.id,
+                    'insured_product': self.product_policy.id,
                     'invoice_line_ids': [(0, 0, {
                         'name': 'Customer Invoice',
                         'quantity': 1,
@@ -453,6 +457,10 @@ class PolicyBroker(models.Model):
                     'user_id': self.env.user.id,
                     'insurance_id': self.id,
                     'origin': self.policy_number,
+                    'insured_type':self.insurance_type,
+                    'insured_lOB': self.line_of_bussines.id,
+                    'insured_insurer': self.company.id,
+                    'insured_product': self.product_policy.id,
                     'invoice_line_ids': [(0, 0, {
                         'name': 'Insurer Bill',
                         'quantity': 1,
@@ -471,6 +479,10 @@ class PolicyBroker(models.Model):
                     'user_id': self.env.user.id,
                     'insurance_id': self.id,
                     'origin': self.policy_number,
+                    'insured_type':self.insurance_type,
+                    'insured_lOB': self.line_of_bussines.id,
+                    'insured_insurer': self.company.id,
+                    'insured_product': self.product_policy.id,
                     'invoice_line_ids': [(0, 0, {
                         'name': 'Commission',
                         'quantity': 1,
@@ -488,6 +500,10 @@ class PolicyBroker(models.Model):
                 'user_id': self.env.user.id,
                 'insurance_id': self.id,
                 'origin': self.policy_number,
+                'insured_type':self.insurance_type,
+                'insured_lOB':self.line_of_bussines.id,
+                'insured_insurer':self.company.id,
+                'insured_product':self.product_policy.id,
                 'invoice_line_ids': [(0, 0, {
                     'name': 'Brokerage',
                     'quantity': 1,
@@ -503,6 +519,11 @@ class AccountInvoiceRelate(models.Model):
     _inherit = 'account.invoice'
 
     insurance_id = fields.Many2one('policy.broker', string='Insurance')
+    insured_type =fields.Char(string='Type')
+    insured_lOB = fields.Many2one('insurance.line.business',string='LOB')
+    insured_insurer = fields.Many2one('res.partner',string='Insurer')
+    insured_product = fields.Many2one('insurance.product',string='Product')
+
 
 class Extra_Covers(models.Model):
     _name = "covers.lines"

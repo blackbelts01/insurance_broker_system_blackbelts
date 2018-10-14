@@ -23,7 +23,7 @@
                 <form>
                     <group string="proposal">
                         <!--<label for="Company"/>-->
-                        <field name="proposal_id"/>
+                        <!--<field name="proposal_id"/>-->
                         <field name="instype" invisible="1"/>
                         <field name="line" invisible="1"/>
 

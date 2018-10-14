@@ -1,0 +1,208 @@
+<odoo>
+    <data>
+        <report
+                id="partner_report"
+                model="res.partner"
+                string="Boardrue"
+                report_type="qweb-pdf"
+                name="insurance_broker_system_blackbelts.report_partner_view"
+                file="insurance_broker_system_blackbelts.report_partner_view"
+        />
+        <template id="report_partner_view">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <t t-if="doc.insurer_type" >
+
+                                <p><h4><strong>Insurer: <span t-field="doc.name"/></strong></h4></p>
+                            </t>
+                            <t t-if="doc.customer" >
+
+                                <p><h4><strong>Customer: <span t-field="doc.name"/></strong></h4></p>
+                            </t>
+                            <!--<div class="row">-->
+                            <!--<div class="col-xs-6" t-if="o.partner_id">-->
+                            <!--<t>-->
+                            <!--<strong>Customer: </strong>-->
+                            <!--</t><span t-field="o.partner_id"/>-->
+                            <!--</div>-->
+                            <br/>
+                            <table class="table table-condensed">
+                                <h4>Opportunities:</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>LOB</th>
+                                        <!--<t t-if="doc.insurer_type" >-->
+                                        <th>Customer</th>
+                                        <!--</t>-->
+                                        <th>Opp tiltle</th>
+                                        <th>Term</th>
+                                        <th>Expected Premium</th>
+                                        <th>Probability</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="exp_sum" t-value="0"/>
+                                    <tr t-foreach="doc.partner_report_opp()" t-as="opp">
+                                        <td>  <span t-esc="opp.insurance_type"/></td>
+                                        <td>  <span t-esc="opp.LOB.line_of_business"/></td>
+                                        <!--<t t-if="doc.insurer_type" >-->
+                                        <td>  <span t-esc="opp.partner_id.name"/></td>
+                                        <!--</t>-->
+                                        <td>  <span t-esc="opp.name"/></td>
+                                        <td>  <span t-esc="opp.policy_dur"/></td>
+                                        <td align="right">  <span t-esc="opp.planned_revenue"/></td>
+                                        <t t-set="exp_sum" t-value="(exp_sum+opp.planned_revenue)"/>
+                                        <td align="right">  <span t-esc="opp.probability"/></td>
+                                        <td>  <span t-esc="opp.stage_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td align="right">  <span t-esc="exp_sum"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <table class="table table-condensed">
+                                <h4>Policies:</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>LOB</th>
+                                        <!--<t t-if="doc.customer" >-->
+                                        <th>Insurer</th>
+                                        <!--</t>-->
+                                        <th>Product</th>
+                                        <th>Customer</th>
+                                        <th>Pol No</th>
+                                        <th>End No</th>
+                                        <th>Renew</th>
+                                        <th>Issue On</th>
+                                        <th>Effect Frm</th>
+                                        <th>Effect To</th>
+                                        <th>Gross Prem</th>
+                                        <th>Net Prem</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="gross_sum" t-value="0"/>
+                                    <t t-set="net_sum" t-value="0"/>
+
+                                    <tr t-foreach="doc.partner_report_policy()" t-as="policy">
+                                        <td>  <span t-esc="policy.insurance_type"/></td>
+                                        <td>  <span t-esc="policy.line_of_bussines.line_of_business"/></td>
+                                        <!--<t t-if="doc.customer" >-->
+                                        <td>  <span t-esc="policy.company.name"/></td>
+                                        <!--</t>-->
+                                        <td>  <span t-esc="policy.product_policy.product_name"/></td>
+
+
+                                        <!--<td>  <span t-esc="policy.salesperson.name"/></td>-->
+                                        <td>  <span t-esc="policy.customer.name"/></td>
+                                        <td align="right">  <span t-esc="policy.std_id"/></td>
+                                        <td>  <span t-esc="policy.edit_number"/></td>
+                                        <td>  <span t-esc="policy.renwal_check"/></td>
+                                        <td>  <span t-esc="policy.issue_date"/></td>
+                                        <td>  <span t-esc="policy.start_date"/></td>
+                                        <td>  <span t-esc="policy.end_date"/></td>
+                                        <td align="right">  <span t-esc="policy.gross_perimum"/></td>
+                                        <t t-set="gross_sum" t-value="(gross_sum+policy.gross_perimum)"/>
+                                        <td align="right">  <span t-esc="policy.t_permimum"/></td>
+                                        <t t-set="net_sum" t-value="(net_sum+policy.t_permimum)"/>
+                                    </tr>
+                                    <tr>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td align="right">  <span t-esc="gross_sum"/></td>
+
+                                        <td align="right">  <span t-esc="net_sum"/></td>
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <br/>
+                            <table class="table table-condensed">
+                                <h4>Claims:</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>LOB</th>
+                                        <th>Insurer</th>
+                                        <th>Product</th>
+                                        <th>Customer</th>
+                                        <th>Pol No</th>
+                                        <th>Claim No</th>
+                                        <th>Expected</th>
+                                        <th>Total setteled</th>
+                                        <th>Total Paid</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="totalclaimexp_sum" t-value="0"/>
+                                    <t t-set="totalsettled_sum" t-value="0"/>
+                                    <t t-set="total_paid_amount_sum" t-value="0"/>
+                                    <tr t-foreach="doc.partner_report_claim()" t-as="claim">
+                                        <td>  <span/></td>
+                                        <td>  <span t-esc="claim.lob.line_of_business"/></td>
+
+                                        <td>  <span t-esc="claim.insurer.name"/></td>
+
+                                        <td>  <span t-esc="claim.product.product_name"/></td>
+                                        <td>  <span t-esc="claim.customer_policy.name"/></td>
+                                        <td>  <span t-esc="claim.policy_number.std_id"/></td>
+                                        <td>  <span t-esc="claim.name"/></td>
+                                        <td align="right">  <span t-esc="claim.totalclaimexp"/></td>
+                                        <t t-set="totalclaimexp_sum" t-value="(totalclaimexp_sum+claim.totalclaimexp)"/>
+                                        <td align="right">  <span t-esc="claim.totalsettled"/></td>
+                                        <t t-set="totalsettled_sum" t-value="(totalsettled_sum+claim.totalsettled)"/>
+                                        <td align="right">  <span t-esc="claim.total_paid_amount"/></td>
+                                        <t t-set="total_paid_amount_sum" t-value="(total_paid_amount_sum+claim.total_paid_amount)"/>
+                                        <td>  <span t-esc="claim.claimstatus.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td> <span/></td>
+                                        <td align="right">  <span t-esc="totalclaimexp_sum"/></td>
+                                        <td align="right">  <span t-esc="totalsettled_sum"/></td>
+                                        <td align="right">  <span t-esc="total_paid_amount_sum"/></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+
+
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

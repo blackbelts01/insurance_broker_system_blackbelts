@@ -56,3 +56,35 @@ class inhertResPartner(models.Model):
             'context': {'default_customer_policy':self.id},
             'domain': [('customer_policy','=',self.id)]
         }
+
+    @api.multi
+    def partner_report_opp(self):
+        if self.insurer_type:
+            proposal = self.env['proposal.opp.bb'].search([('Company', '=', self.id)]).ids
+            opp = self.env['crm.lead'].search([('proposal_opp', 'in', proposal)])
+            return opp
+        if self.customer:
+            opp = self.env['crm.lead'].search([('partner_id', '=', self.id)])
+            return opp
+    @api.multi
+    def partner_report_policy(self):
+        if self.insurer_type:
+            # proposal = self.env['proposal.opp.bb'].search([('Company', '=', self.id)]).ids
+            policy = self.env['policy.broker'].search([('company', '=', self.id)])
+            return policy
+        if self.customer:
+            # proposal = self.env['proposal.opp.bb'].search([('Company', '=', self.id)]).ids
+            policy = self.env['policy.broker'].search([('customer', '=', self.id)])
+            return policy
+
+    @api.multi
+    def partner_report_claim(self):
+        if self.insurer_type:
+            # proposal = self.env['proposal.opp.bb'].search([('Company', '=', self.id)]).ids
+            claim = self.env['insurance.claim'].search([('insurer', '=', self.id)])
+            return claim
+        if self.customer:
+            # proposal = self.env['proposal.opp.bb'].search([('Company', '=', self.id)]).ids
+            claim = self.env['insurance.claim'].search([('customer_policy', '=', self.id)])
+            return claim
+

@@ -24,13 +24,14 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account','sale','crm','sale_crm'],
+    'depends': ['base','account','sale','crm','sale_crm','hr'],
 
     # always loaded
     'data': [
         'reports/report_crm.xml',
         'reports/crm_report_template.xml',
         'reports/claim_report.xml',
+        'reports/report_opp_partner.xml',
         'data/mail_template_data.xml',
         'views/policy_setup_view.xml',
         'views/endorsement.xml',

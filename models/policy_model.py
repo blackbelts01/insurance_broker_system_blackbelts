@@ -60,15 +60,16 @@ class PolicyBroker(models.Model):
                 records_risks.append(rec.id)
 
             recordproposal = self.env['proposal.opp.bb'].search([('id', '=', lead.selected_coverage.id)])
-            print(recordproposal.proposal_id)
-            recordcovers = self.env['coverage.line'].search([('proposal_id', '=', recordproposal.proposal_id)])
+            print(recordproposal.id)
+            recordcovers = self.env['coverage.line'].search([('proposal_id', '=', recordproposal.id)])
 
             records_covers = []
             for rec in recordcovers:
                 coversline = (
                     0, 0,
-                    {'riskk': rec.risk_id_covers.id, 'risk_description': rec.risk_desc, 'insurerd': rec.insurer.id,
+                    {'riskk': rec.risk_id_covers.id ,'insurerd': rec.insurer.id,
                      'prod_product': rec.product.id, 'name1': rec.covers.id, 'sum_insure': rec.sum_insured,
+                     'deductible' : rec.deductible, 'limitone' :rec.limitone ,'limittotal': rec.limittotal ,
                      'net_perimum': rec.net_premium, 'rate': rec.rate})
                 print(coversline)
                 records_covers.append(coversline)
@@ -511,7 +512,7 @@ class Extra_Covers(models.Model):
 
 
     riskk = fields.Many2one("new.risks", "Risk ID")
-    risk_description = fields.Text(string="Risk Description")
+    # risk_description = fields.Text(string="Risk Description")
     #
     insurerd = fields.Many2one(related="policy_rel_id.company")
     prod_product = fields.Many2one(related="policy_rel_id.product_policy",domain="[('insurer','=',insurerd)]")

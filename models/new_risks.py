@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 
 class New_Risks(models.Model):
     _name="new.risks"
-    _rec_name='risk'
+    _rec_name='risk_description'
 
 
     @api.one
@@ -13,23 +13,23 @@ class New_Risks(models.Model):
     def _compute_risk_descriptionn(self):
         if self.risks_crm or self.policy_risk_id:
             if self.test == "person" or self.type_risk == 'person':
-                self.risk_description = (str(self.name) if self.name else " " + "_") + "  " + (
-                    str(self.DOB) if self.DOB else " " + "_") + "  " + (str(self.job) if self.job else " " + "_")
+                self.risk_description = "N: "+(str(self.name) +" - " if self.name else " " + "_") + "   " + "DOB: "+(
+                    str(self.DOB)+" - " if self.DOB else " " + "_") + "   " +"J : "+ (str(self.job) if self.job else " " + "_")
 
             if self.test == "vehicle" or self.type_risk == 'vehicle':
-                self.risk_description = (str(self.car_tybe.name) if self.car_tybe.name else " " + "_") + "  " + (
-                    str(self.Man.setup_id) if self.Man.setup_id else " " + "_") + "  " + (
-                                           str(self.model.name) if self.model.name else " " + "_") + "  " + (
-                                           str(self.year_of_made) if self.year_of_made else " " + "_") + "  " + (
+                self.risk_description = "VTyp: "+(str(self.car_tybe.name)+ ' - ' if self.car_tybe.name else " " + "_") + "   " +"MAN: "+ (
+                    str(self.Man.setup_id)+ " - " if self.Man.setup_id else " " + "_") + "  " +"MDL: "+ (
+                                           str(self.model.name)+" - " if self.model.name else " " + "_") + "   " +"Mk: "+ (
+                                           str(self.year_of_made)+" - " if self.year_of_made else " " + "_") + "  " +"VCC: "+ (
                                            str(self.motor_cc) if self.motor_cc else " " + "_")
             #
             if self.test == "cargo" or self.type_risk == 'cargo':
-                self.risk_description = (str(self.From) if self.From else " " + "_") + "  " + (
-                    str(self.To) if self.To else " " + "_") + "  " + (
-                                           str(self.cargo_type) if self.cargo_type else " " + "_") + "  " + (
+                self.risk_description = "FRM: "+(str(self.From)+" - " if self.From else " " + "_") + "   " + "TO: "+(
+                    str(self.To)+" - " if self.To else " " + "_") + "   " +"Typ: "+ (
+                                           str(self.cargo_type)+" - " if self.cargo_type else " " + "_") + "   " +"WGT: "+ (
                                            str(self.weight) if self.weight else " " + "_")
             if self.test == "location" or self.type_risk == 'location':
-                self.risk_description = (str(self.address) if self.address else " " + "_") + "  " + (
+                self.risk_description = "ADD: "+(str(self.address)+" - " if self.address else " " + "_") + "  " +"Typ: "+ (
                     str(self.type) if self.type else " " + "_")
             # if rec.test == "location":
             #     rec.risk_description = (str(rec.group_name) if rec.group_name else " " + "_") + "  " + (
@@ -39,7 +39,7 @@ class New_Risks(models.Model):
     risks_crm = fields.Many2one("crm.lead", string='Risks')
     type_risk = fields.Char(related='risks_crm.test')
 
-    risk = fields.Char("Risk ID" ,required=True)
+    # risk = fields.Char("Risk ID" ,required=True)
     risk_description = fields.Char("Risk Description", compute="_compute_risk_descriptionn", store=True)
 
     test = fields.Char(related="policy_risk_id.check_item")

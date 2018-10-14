@@ -100,12 +100,12 @@
                             </group>
                             <field name="new_risk_ids"  >
                                 <tree>
-                                    <field name="risk"/>
+                                    <!--<field name="risk"/>-->
                                     <field name="risk_description"  />
                                 </tree>
                                 <form>
                                     <group>
-                                        <field name="risk"/>
+                                        <!--<field name="risk"/>-->
                                         <field name="risk_description" invisible="1"/>
                                         <field name="policy_risk_id" invisible="1"/>
                                         <field name="test" invisible="1"/>
@@ -139,19 +139,20 @@
                             <field name="name_cover_rel_ids" nolabel="1" force_save="1"  attrs="{'invisible': [('checho', '=', False)]}">
                                 <tree editable="1">
                                     <field name="riskk" options="{'no_create': True, 'no_open': True}"/>
-                                    <field name="risk_description"/>
+                                    <!--<field name="risk_description"/>-->
                                     <field name="policy_rel_id" invisible="1"/>
                                     <field name="insurerd" invisible="1"/>
                                     <field name="prod_product" invisible="1"/>
 
                                     <field name="name1" options="{'no_create': True, 'no_open': True}"/>
                                     <field name="check" invisible="1"/>
-                                    <field name="sum_insure" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
-                                    <field name="rate" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="net_perimum" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="limitone" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="limittotal" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="deductible" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+                                    <field name="sum_insure" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+                                    <field name="rate" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+
                                 </tree>
                             </field>
                         </group>

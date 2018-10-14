@@ -6,9 +6,9 @@ class Policy_Info(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'line_of_business'
 
-    insurance_type = fields.Selection([('life', 'Life'),
-                                       ('p&c', 'P&C'),
-                                       ('health', 'Health'), ],
+    insurance_type = fields.Selection([('Life', 'Life'),
+                                       ('P&C', 'P&C'),
+                                       ('Health', 'Health'), ],
                                       'Insured Type', track_visibility='onchange', required=True)
     line_of_business = fields.Char(string='Line of Business', required=True)
     object= fields.Selection([('person', 'Person'),
@@ -60,9 +60,9 @@ class coverage(models.Model):
     Name=fields.Char('Cover Name')
     defaultvalue=fields.Float('Default Sum Insured')
     required=fields.Boolean('Required')
-    deductible = fields.Integer('Deductible')
-    limitone=fields.Integer('Limit in One')
-    limittotal=fields.Integer('Limit in Total')
+    deductible = fields.Float('Deductible')
+    limitone=fields.Float('Limit in One')
+    limittotal=fields.Float('Limit in Total')
     readonly=fields.Boolean('Read Only')
     product_id=fields.Many2one('insurance.product')
     lop_id=fields.Many2one('insurance.line.business',string='Line of Business')

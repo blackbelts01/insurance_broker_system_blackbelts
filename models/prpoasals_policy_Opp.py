@@ -4,10 +4,10 @@ from datetime import datetime,timedelta
 
 class Proposals_opp(models.Model):
     _name='proposal.opp.bb'
-    _rec_name='proposal_id'
+    _rec_name='proposal_desc'
 
     proposal_crm = fields.Many2one("crm.lead")
-    proposal_id=fields.Char('ID')
+    # proposal_id=fields.Char('ID')
     instype=fields.Selection(related='proposal_crm.insurance_type')
     line=fields.Many2one(related='proposal_crm.LOB',domain="[('insurance_type','=',instype)]")
     Company = fields.Many2one('res.partner', domain="[('insurer_type','=',1)]", string="Insurer")
@@ -15,6 +15,7 @@ class Proposals_opp(models.Model):
     premium = fields.Float('Premium',compute='set_prem',force_save=True)
     test=fields.Char(string='type')
     group = fields.Boolean('Groups')
+    proposal_desc=fields.Char('Description',compute="_proposal_desc",store=True)
     # risk_cover_selected= fields.Many2one('risks.opp')
     show_risks_covers=fields.Boolean('')
     # selected_id=fields.Integer('')
@@ -22,17 +23,22 @@ class Proposals_opp(models.Model):
     _sql_constraints = [
         ('proposal_id_uniq', 'unique (proposal_id)', 'The Proposal ID  already exist !')
     ]
-    @api.multi
-    def get_covers(self):
-        for lead in self:
-            covers_ids = []
-            if self.proposal_risks:
-                for rec in self.proposal_risks:
-                    covers_ids=self.proposal_risks[0].risks_covers.ids
-                    for car in self.risk_cover_selected:
-                        covers_ids = car.risks_covers.ids
 
-            lead.selected_risk_covers = [(6,0, covers_ids)]
+    @api.one
+    @api.depends('proposal_crm')
+    def _proposal_desc(self):
+        self.proposal_desc = str(self.Company.name)+" - "+str(self.product_pol.product_name)
+    # @api.multi
+    # def get_covers(self):
+    #     for lead in self:
+    #         covers_ids = []
+    #         if self.proposal_risks:
+    #             for rec in self.proposal_risks:
+    #                 covers_ids=self.proposal_risks[0].risks_covers.ids
+    #                 for car in self.risk_cover_selected:
+    #                     covers_ids = car.risks_covers.ids
+    #
+    #         lead.selected_risk_covers = [(6,0, covers_ids)]
 
 
 
@@ -195,7 +201,7 @@ class Proposals_opp(models.Model):
             self.premium=0
             for rec in self:
                 ids = self.env['coverage.line'].search(
-                                [('proposal_id', '=', rec.proposal_id)])
+                                [('proposal_id', '=', rec.id)])
                 for coverrecord in ids:
                     self.premium+=coverrecord.net_premium
 

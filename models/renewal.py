@@ -32,53 +32,55 @@ class Renewal_Again(models.Model):
         records_cargo = []
         for rec in riskrecordd:
             objectcargo = (
-                0, 0, {'risk': rec.risk, 'risk_description': rec.risk_description,
+                0, 0, {'risk_description': rec.risk_description,
 
-                       'car_tybe': rec.car_tybe.id, 'motor_cc': rec.motor_cc, 'year_of_made': rec.year_of_made, 'model': rec.model.id, 'Man': rec.Man.id,
+                       'car_tybe':rec.car_tybe.id, 'motor_cc':rec.motor_cc, 'year_of_made':rec.year_of_made, 'model':rec.model.id, 'Man':rec.Man.id,
 
-                       'name': rec.name, 'DOB': rec.DOB, 'job': rec.job,
+                       'name':rec.name, 'DOB':rec.DOB, 'job':rec.job.id,
 
-                       'From': rec.From, 'To': rec.To, 'cargo_type': rec.cargo_type, 'weight': rec.weight,
+                       'From':rec.From, 'To':rec.To, 'cargo_type':rec.cargo_type, 'weight':rec.weight,
+                       'address':rec.address , 'type':rec.type,
 
                        'group_name': rec.group_name, 'count': rec.count, 'file': rec.file,
 
                        })
             records_cargo.append(objectcargo)
 
-        sharecommition = self.env["share.commition"].search([('id', 'in', self.last_policy.share_policy_rel_ids.ids)])
-        records_sharecommition = []
-        for rec in sharecommition:
-            comm = (
-                0, 0, {'agent': rec.agent.id, 'share_commition': rec.share_commition,
-                       'amount': rec.amount,
-                       })
-            records_sharecommition.append(comm)
+            sharecommition = self.env["share.commition"].search([('id', 'in', self.last_policy.share_policy_rel_ids.ids)])
+            records_sharecommition = []
+            for rec in sharecommition:
+                comm = (
+                    0, 0, {'agent': rec.agent.id, 'share_commition': rec.share_commition,
+                           'amount': rec.amount,
+                           })
+                records_sharecommition.append(comm)
 
-        installments = self.env["installment.installment"].search(
-            [('id', 'in', self.last_policy.rella_installment_id.ids)])
-        records_installments = []
-        for rec in installments:
-            install = (
-                0, 0, {'date': rec.date, 'amount': rec.amount,
-                       'state': rec.state,
-                       })
-            records_installments.append(install)
+            installments = self.env["installment.installment"].search([('id', 'in', self.last_policy.rella_installment_id.ids)])
+            records_installments = []
+            for rec in installments:
+                install = (
+                    0, 0, {'date': rec.date, 'amount': rec.amount,
+                           'state': rec.state,
+                           })
+                records_installments.append(install)
 
         coverlines = self.env["covers.lines"].search([('id', 'in', self.last_policy.name_cover_rel_ids.ids)])
         print(coverlines)
         value = []
         for rec in coverlines:
             print(rec)
-            covers = (
-                0, 0, {'riskk': rec.riskk.id,
-                       'risk_description': rec.risk_description,
-                       'name1': rec.name1.id,
-                       'check': rec.check,
-                       'sum_insure': rec.sum_insure,
-                       'rate': rec.rate,
-                       'net_perimum': rec.net_perimum,
+            covers=(
+                0,0,{'riskk':rec.riskk.id,
+                     'name1':rec.name1.id,
+                     'check':rec.check,
+                     'sum_insure':rec.sum_insure,
+                     'deductible':rec.deductible,
+                     'limitone': rec.limitone,
+                     'limittotal': rec.limittotal,
+                     'rate':rec.rate,
+                     'net_perimum':rec.net_perimum,
 
-                       }
+                     }
             )
             value.append(covers)
 

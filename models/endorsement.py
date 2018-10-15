@@ -39,13 +39,14 @@ class Endorsement_edit(models.Model):
         records_cargo = []
         for rec in riskrecordd:
             objectcargo = (
-                0, 0, {'risk': rec.risk, 'risk_description': rec.risk_description,
+                0, 0, {'risk_description': rec.risk_description,
 
                        'car_tybe':rec.car_tybe.id, 'motor_cc':rec.motor_cc, 'year_of_made':rec.year_of_made, 'model':rec.model.id, 'Man':rec.Man.id,
 
-                       'name':rec.name, 'DOB':rec.DOB, 'job':rec.job,
+                       'name':rec.name, 'DOB':rec.DOB, 'job':rec.job.id,
 
                        'From':rec.From, 'To':rec.To, 'cargo_type':rec.cargo_type, 'weight':rec.weight,
+                       'address':rec.address , 'type':rec.type,
 
                        'group_name': rec.group_name, 'count': rec.count, 'file': rec.file,
 
@@ -77,10 +78,12 @@ class Endorsement_edit(models.Model):
             print(rec)
             covers=(
                 0,0,{'riskk':rec.riskk.id,
-                     'risk_description':rec.risk_description,
                      'name1':rec.name1.id,
                      'check':rec.check,
                      'sum_insure':rec.sum_insure,
+                     'deductible':rec.deductible,
+                     'limitone': rec.limitone,
+                     'limittotal': rec.limittotal,
                      'rate':rec.rate,
                      'net_perimum':rec.net_perimum,
 
@@ -137,7 +140,6 @@ class Endorsement_edit(models.Model):
                     'default_new_risk_ids':records_cargo,
                     'default_share_policy_rel_ids': records_sharecommition,
                     'default_rella_installment_id': records_installments,
-
                     'default_name_cover_rel_ids':value,
 
 

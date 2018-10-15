@@ -259,9 +259,9 @@ class PolicyBroker(models.Model):
 
     customer = fields.Many2one('res.partner', 'Customer')
 
-    insurance_type = fields.Selection([('life', 'Life'),
-                                       ('p&c', 'P&C'),
-                                       ('health', 'Health'), ],
+    insurance_type = fields.Selection([('Life', 'Life'),
+                                       ('P&C', 'P&C'),
+                                       ('Health', 'Health'), ],
                                       'Insurance Type', track_visibility='onchange')
     ins_type = fields.Selection([('Individual', 'Individual'),
                                  ('Group', 'Group'), ],
@@ -558,7 +558,7 @@ class Extra_Covers(models.Model):
     def name_get(self):
         result = []
         for s in self:
-            name = str(s.name1.Name) + ' , ' +str(s.riskk.risk)
+            name = str(s.name1.Name) + ' , ' +str(s.riskk.risk_description)
             result.append((s.id, name))
         return result
 

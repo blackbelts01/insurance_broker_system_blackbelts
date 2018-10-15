@@ -558,7 +558,7 @@ class Extra_Covers(models.Model):
     def name_get(self):
         result = []
         for s in self:
-            name = str(s.name1.Name) + ' , ' +str(s.riskk.risk)
+            name = str(s.name1.Name) + ' , ' +str(s.riskk.risk_description)
             result.append((s.id, name))
         return result
 

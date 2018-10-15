@@ -29,7 +29,8 @@ class crm_leads(models.Model):
 
     @api.one
     def _compute_term(self):
-        self.term=str(self.duration_no)+'-'+str(self.duration_type)
+        if self.duration_no and self.duration_type:
+            self.term = str(self.duration_no) + '-' + str(self.duration_type)
 
     LOB = fields.Many2one('insurance.line.business', string='Line of business', domain="[('insurance_type','=',insurance_type)]")
 

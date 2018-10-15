@@ -153,7 +153,7 @@ class settleHistory(models.Model):
     ctype = fields.Char(related='risk_id.cargo_type',string="Type Of Cargo")
     cweight = fields.Float(related='risk_id.weight',string='Weight')
 
-    risk_details = fields.Char(related='risk_id.risk_description',string='Risk Description')
+    # risk_details = fields.Char(related='risk_id.risk_description',string='Risk Description')
     coverage = fields.Many2one('covers.lines',string='Coverage')
     sum_insured=fields.Float(related='coverage.sum_insure',string='Sum Insured',store=True,readonly=True)
     settle_amount=fields.Float(string='Settle Amount',compute='_onchange_settle_amount')
@@ -196,7 +196,7 @@ class paymentHistory(models.Model):
     payment_date=fields.Date(string='Payment Date')
     paid_amount=fields.Float(string='Paid Amount')
     currency=fields.Many2one('res.currency', string="Currency")
-    check_bank=fields.Char(string='Check Bank')
+    check_bank=fields.Many2one('res.bank',string='Bank')
     check_number=fields.Char(string='Check Number')
     payee=fields.Char(string='Payee Name')
     header_payment=fields.Many2one('insurance.claim')

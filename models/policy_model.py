@@ -406,6 +406,7 @@ class PolicyBroker(models.Model):
                                      'Status', required=True, default='pending')
     hide_inv_button = fields.Boolean(copy=False)
     invoice_ids = fields.One2many('account.invoice', 'insurance_id', string='Invoices', readonly=True)
+    renewal_state=fields.Boolean(copy=False)
 
     _sql_constraints = [
         ('std_id_unique', 'unique(std_id,edit_number)', 'Policy Number  already exists!')]

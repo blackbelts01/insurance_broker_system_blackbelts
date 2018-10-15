@@ -112,7 +112,7 @@
         <menuitem id="endorsement_view_menu" name="Endorsement" parent="policy_management_views_menu"
                   action="my_action_for_Endorsement" sequence="1"/>
         <menuitem id="renewal_view_menu" name="Renewal" parent="policy_management_views_menu"
-                  action="my_action_for_second_menu_renewal_action" sequence="2"/>
+                  action="action_renewal_policy" sequence="2"/>
 
         <menuitem id="menu_insured" name="Insured Types" parent="policy_management_views_menu" sequence="3"/>
         <menuitem id="menu_insured_vehicle" name="Insured Vehicle" parent="menu_insured"

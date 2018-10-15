@@ -111,5 +111,5 @@ class New_Risks(models.Model):
 
 
     _sql_constraints = [
-        ('risk_unique', 'unique(policy_risk_id,risk)', 'ID already exists!')]
+        ('risk_unique', 'unique(policy_risk_id,risk_description)', 'ID already exists!')]
 

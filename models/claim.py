@@ -196,7 +196,7 @@ class paymentHistory(models.Model):
     payment_date=fields.Date(string='Payment Date')
     paid_amount=fields.Float(string='Paid Amount')
     currency=fields.Many2one('res.currency', string="Currency")
-    check_bank=fields.Char(string='Check Bank')
+    check_bank=fields.Many2one('res.bank',string='Bank')
     check_number=fields.Char(string='Check Number')
     payee=fields.Char(string='Payee Name')
     header_payment=fields.Many2one('insurance.claim')

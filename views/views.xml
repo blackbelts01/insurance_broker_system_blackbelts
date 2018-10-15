@@ -77,6 +77,7 @@
                 <field name="tag_ids" position="after">
                     <field name="policy_number"   />
                     <field name="ins_type"/>
+
                     <td></td>
                     <div class="o_row">
                         <!--<label string="Term"/>-->
@@ -87,7 +88,15 @@
                     </div>
 
 
+                    <label string="Duration"/>
+                    <div class="o_row">
+                        <field name="duration_no"/>
+                        <field name="duration_type"/>
+                    </div>
+
                 </field>
+
+
 
 
                 <xpath expr="/form/sheet/group[1]" position="after" >
@@ -118,16 +127,16 @@
                                 </group>
 
                                 <group string="Vehicle" attrs="{'invisible': ['|',('type_risk', '!=', 'vehicle')]}" >
-                                    <field name="car_tybe"/>
-                                    <field name="motor_cc"/>
+                                    <field name="car_tybe" widget="selection"/>
+                                    <field name="Man" widget="selection"/>
+                                    <field name="model" widget="selection"/>
                                     <field name="year_of_made"/>
-                                    <field name="Man"/>
-                                    <field name="model"/>
+                                    <field name="motor_cc"/>
                                 </group>
                                 <group string="Person" attrs="{'invisible': ['|',('type_risk', '!=', 'person')]}">
                                     <field name="name"/>
                                     <field name="DOB"/>
-                                    <field name="job"/>
+                                    <field name="job" widget="selection"/>
                                 </group>
                                 <group string="Cargo"  attrs="{'invisible': ['|',('type_risk', '!=', 'cargo')]}">
                                     <field name="From"  />

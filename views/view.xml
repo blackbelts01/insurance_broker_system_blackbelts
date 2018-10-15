@@ -8,12 +8,14 @@
                     <header>
                         <button name="print_policy" string="Print" type="object"  class="btn-primary o_sale_print"/>
                         <button name="send_mail_template_policy" string="Send by Email" type="object"  class="btn-primary o_sale_print"/>
-
+                        <button name="send_mail_template_policy" string="Renew" type="object"  class="btn-primary o_sale_print" attrs="{'invisible': [('renewal_state', '!=', True)]}"/>
                         <button name="confirm_policy" string="Approve" type="object"
                                 class="oe_highlight" attrs="{'invisible': [('policy_status', '=', 'approve')]}"/>
                         <button name="create_invoices" string="Create Invoices" type="object" class="oe_highlight"
                                 attrs="{'invisible': [('hide_inv_button', '!=', True)]}"/>
                         <field name="policy_status" widget="statusbar"/>
+                        <!--<field name="renewal_state" invisible="1"/>-->
+
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -88,6 +90,7 @@
                                 <field name="line_of_bussines"/>
                                 <field name="product_policy"/>
                                 <field name="ins_type"/>
+                                <field name="renewal_state" invisible="1" force_save="1"/>
                                 <field name="currency_id"/>
                                 <field name="gross_perimum"/>
                                 <field name="t_permimum"/>

@@ -77,7 +77,7 @@
                         <field name="settle_history">
                             <tree>
                                 <field name="risk_id" />
-                                <!--<field name="risk_details"/>-->
+
                                 <field name="coverage"/>
                                 <field name="sum_insured"/>
                                 <field name="settle_amount"/>
@@ -152,7 +152,6 @@
                 </div>
                 <group>
                     <field name="risk_id" widget="selection"/>
-                    <!--<field name="risk_details" readonly="1" force_save="1" invisible="1"/>-->
 
                     <field name="vcar_type" attrs="{'invisible': [('risk_type', '!=', 'vehicle')]}" readonly="1" force_save="1"/>
                     <field name="vmotor_cc" attrs="{'invisible': [('risk_type', '!=', 'vehicle')]}" readonly="1" force_save="1"/>

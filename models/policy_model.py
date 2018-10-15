@@ -203,6 +203,10 @@ class PolicyBroker(models.Model):
         if total > 100:
             raise ValidationError("Your share percentage must be under percentage")
 
+    @api.multi
+    def To_renewal(self):
+        form_view = self.env.ref('insurance_broker_system_blackbelts.my_view_for_policy_form_kmlo1')
+
     # @api.multi
     # @api.onchange('bool')
     # def setcovers_veh(self):
@@ -221,6 +225,15 @@ class PolicyBroker(models.Model):
     #                      # "rate": rec.product_id.name_cover_ids.covers_rel_ids.rate,
     #                      "net_perimum": rec.readonly and rec.defaultvalue
     #                  })
+    @api.model
+    def compute_date(self):
+        if (datetime.today().strftime('%Y-%m-%d')):
+            if (datetime.today().strftime('%Y-%m-%d'))==self.end_date:
+                self.renewal_state=True
+
+
+
+
 
 
     bool = fields.Boolean()
@@ -238,6 +251,7 @@ class PolicyBroker(models.Model):
     issue_date = fields.Date(string="Issue Date")
     start_date = fields.Date(string="Effective From")
     end_date = fields.Date(string="Effective To")
+
 
 
 
@@ -406,6 +420,10 @@ class PolicyBroker(models.Model):
                                      'Status', required=True, default='pending')
     hide_inv_button = fields.Boolean(copy=False)
     invoice_ids = fields.One2many('account.invoice', 'insurance_id', string='Invoices', readonly=True)
+    renewal_state=fields.Boolean(copy=False,compute='compute_date')
+
+
+
 
     _sql_constraints = [
         ('std_id_unique', 'unique(std_id,edit_number)', 'Policy Number  already exists!')]

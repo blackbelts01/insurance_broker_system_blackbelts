@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <record id="my_view_for_policy_form_kmlo1" model="ir.ui.view">
-            <field name="name">policy Form</field>
+            <field name="name">Policy Form</field>
             <field name="model">policy.broker</field>
             <field name="arch" type="xml">
                 <form string="my policy form">
@@ -193,7 +193,6 @@
                                         <field name="agent"/>
                                         <field name="share_commition"/>
                                         <field name="amount"/>
-
                                     </form>
                                 </field>
 
@@ -207,7 +206,23 @@
                                 </field>
                             </page>
                             <page string='Invoices'>
-                                <field name="invoice_ids"  nolabel="1" readonly="1"/>
+                                <field name="invoice_ids"  nolabel="1" readonly="1">
+                                    <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoices">
+                                        <field name="insured_type" />
+                                        <field name="insured_lOB" />
+                                        <field name="insured_insurer" />
+                                        <field name="insured_product" />
+                                        <field name="partner_id" groups="base.group_user" string="Partner"/>
+                                        <field name="date_invoice" string="Invoice Date"/>
+                                        <field name="number" string="Invoice Number"/>
+                                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                        <field name="user_id"/>
+                                        <field name="date_due"/>
+                                        <field name="amount_total_signed" string="Total" sum="Total"/>
+                                        <field name="residual_signed" string="Amount Due" sum="Amount Due"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -221,10 +236,10 @@
         </record>
 
         <record id="my_view_for_policy_tree" model="ir.ui.view">
-            <field name="name"> own policy</field>
+            <field name="name">Policy List</field>
             <field name="model">policy.broker</field>
             <field name="arch" type="xml">
-                <tree string="my_tree_for_policy">
+                <tree decoration-info="policy_status == 'approve'" string="my_tree_for_policy">
                     <field name="insurance_type" string="Type"/>
                     <field name="line_of_bussines" string="LOB"/>
                     <field name="company" string="Insurer"/>
@@ -238,6 +253,7 @@
                     <field name="end_date" string="Effective To"/>
                     <field name="gross_perimum" string="Gross Prem"/>
                     <field name="t_permimum" string="Net Prem"/>
+                    <field name="policy_status"/>
                 </tree>
             </field>
         </record>
@@ -253,7 +269,7 @@
 
 
         <record id="my_action_for_second_menu" model="ir.actions.act_window">
-            <field name="name">Policy form</field>
+            <field name="name">Policy</field>
             <field name="res_model">policy.broker</field>
             <field name="view_mode">tree,form,search</field>
             <field name="view_type">form</field>

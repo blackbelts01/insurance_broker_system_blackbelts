@@ -41,7 +41,7 @@
              <field name="res_model">account.invoice</field>
              <field name="view_type">form</field>
              <field name="view_mode">tree,form</field>
-            <field name="domain">[('type','=','out_invoice'),('name','=','customer_invoice')]</field>
+            <field name="domain">[('type','=','out_invoice'),('insured_invoice','=','customer_invoice')]</field>
             <field name="context">{'create':False,'edit':False}</field>
              <field name="help" type="html"> <p class="oe_view_nocontent_create"> Click here to create a Subscription.</p></field>
         </record>
@@ -82,7 +82,7 @@
              <field name="res_model">account.invoice</field>
              <field name="view_type">form</field>
              <field name="view_mode">tree,form</field>
-            <field name="domain">[('type','=','in_invoice'),('name','=','insurer_bill')]</field>
+            <field name="domain">[('type','=','in_invoice'),('insured_invoice','=','insurer_bill')]</field>
             <field name="context">{'create':False,'edit':False}</field>
             <field name="help" type="html"> <p class="oe_view_nocontent_create"> Click here to create a Insurer Bills.</p></field>
         </record>
@@ -125,7 +125,7 @@
              <field name="res_model">account.invoice</field>
              <field name="view_type">form</field>
              <field name="view_mode">tree,form</field>
-            <field name="domain">[('type','=','in_invoice'),('name','=','commission')]</field>
+            <field name="domain">[('type','=','in_invoice'),('insured_invoice','=','commission')]</field>
             <field name="context">{'create':False,'edit':False}</field>
              <field name="help" type="html"> <p class="oe_view_nocontent_create"> Click here to create a Commission.</p></field>
         </record>
@@ -168,7 +168,7 @@
              <field name="res_model">account.invoice</field>
              <field name="view_type">form</field>
              <field name="view_mode">tree,form</field>
-            <field name="domain">[('type','=','out_invoice'),('name','=','brokerage')]</field>
+            <field name="domain">[('type','=','out_invoice'),('insured_invoice','=','brokerage')]</field>
             <field name="context">{'create':False,'edit':False}</field>
              <field name="help" type="html"> <p class="oe_view_nocontent_create"> Click here to create a Brokerage.</p></field>
         </record>

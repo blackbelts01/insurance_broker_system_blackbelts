@@ -10,26 +10,8 @@ class PolicyBroker(models.Model):
     _name = "policy.broker"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    # @api.multi
-    # def show_claim(self):
-    #     form_view = self.env.ref('insurance_broker_system_blackbelts.tree_insurance_claim')
-    #     form_view3 =self.env.ref('insurance_broker_system_blackbelts.form_insurance_claim')
-    #     return {
-    #         'name': ('tree insurance claim'),
-    #         'view_type': 'form',
-    #         'view_mode': 'tree, form',
-    #         'views': [(form_view.id, 'form'),(form_view3.id, 'tree')],
-    #         'res_model': 'insurance.claim',
-    #         'target': 'current',
-    #         'type': 'ir.actions.act_window',
-    #         'context': {
-    # #                     "default_policy_number":self.id
-    #
-    #         }
-    # #     }
-    #
-    #
-    #
+
+
 
     @api.multi
     def show_claim(self):
@@ -205,30 +187,23 @@ class PolicyBroker(models.Model):
 
     @api.multi
     def To_renewal(self):
-        form_view = self.env.ref('insurance_broker_system_blackbelts.my_view_for_policy_form_kmlo1')
+        form_view = self.env.ref('insurance_broker_system_blackbelts.Renewal_Policy_form_one')
 
-    # @api.multi
-    # @api.onchange('bool')
-    # def setcovers_veh(self):
-    #     ids = self.env['insurance.product.coverage'].search(
-    #         [('product_id', '=', self.product_policy.id)])
-    #     print(ids)
-    #     if self.bool:
-    #         print('xxx')
-    #         for record in self.new_risk_ids:
-    #              for rec in ids:
-    #                  print('i enter')
-    #                  record.name_cover_risk_ids =(0, 0, {
-    #                      "name": rec.Name,
-    #                      "sum_insure": rec.defaultvalue,
-    #                      "check": rec.readonly,
-    #                      # "rate": rec.product_id.name_cover_ids.covers_rel_ids.rate,
-    #                      "net_perimum": rec.readonly and rec.defaultvalue
-    #                  })
+        return {
+                   'name': ('Renwal'),
+                   'view_type': 'form',
+                   'view_mode': 'form',
+                   'views': [(form_view.id, 'form')],
+                   'res_model': 'renewal.again',
+                   'target': 'current',
+                   'type': 'ir.actions.act_window',
+                   'context': {'default_old_number':self.id},
+        }
+
     @api.model
     def compute_date(self):
         if (datetime.today().strftime('%Y-%m-%d')):
-            if (datetime.today().strftime('%Y-%m-%d'))==self.end_date:
+            if (datetime.today().strftime('%Y-%m-%d'))>=self.end_date:
                 self.renewal_state=True
 
 
@@ -748,12 +723,7 @@ class CommisionSetup(models.Model):
     layer5 = fields.Float(string="L5 ")
 
 
-class InheritUsers(models.Model):
-    _inherit = "res.users"
 
-    layer = fields.Selection(
-        [("l1", "Layer 1"), ("l2", "Layer 2"), ("l3", "Layer 3"), ("l4", "Layer 4"), ("l5", "Layer 5"),
-         ("l6", "Layer 6"), ("l7", "Layer 7"), ("l8", "Layer 8")], string="Layer", required=True)
 
 
 class InheritSale(models.Model):

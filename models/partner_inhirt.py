@@ -129,3 +129,26 @@ class inhertResPartner(models.Model):
             return claim
 
 
+
+class InheritUsers(models.Model):
+    _inherit = "res.users"
+
+    layer = fields.Selection(
+        [("l1", "Layer 1"), ("l2", "Layer 2"), ("l3", "Layer 3"), ("l4", "Layer 4"), ("l5", "Layer 5"),
+         ("l6", "Layer 6"), ("l7", "Layer 7"), ("l8", "Layer 8")], string="Layer", required=True)
+
+    # @api.multi
+    # def partner_report_opp_agent(self):
+    #     opp = self.env['crm.lead'].search([('user_id', '=', self.id)])
+    #     return opp
+    #
+    # @api.multi
+    # def partner_report_policy_agent(self):
+    #     policy = self.env['policy.broker'].search([('salesperson', '=', self.id)])
+    #     return policy
+    #
+    # @api.multi
+    # def partner_report_claim_agent(self):
+    #     policy = self.env['policy.broker'].search([('salesperson', '=', self.id)]).ids
+    #     claim = self.env['insurance.claim'].search([('policy_number', 'in', policy)])
+    #     return claim

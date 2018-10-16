@@ -38,12 +38,19 @@
                 </field>
                 <xpath expr="//field[@name='name']" position="after">
                     <group>
-                        <div>
+                        <div class="o_row">
                             <label for="c_type" style="font-weight:bold"/>
-                            <div class="o_row" style="width: 47% !important;">
+                            <div class="o_row" style="width: 40% !important;">
                                 <field name="c_type"  style="width:20%; font-size: 15px"/>
                                 <field name="ammount" style="width:100px; font-size: 15px"/>
                             </div>
+                            <label for="policy_number" style="font-weight:bold" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}"/>
+                            <div class="o_row" style="width: 47% !important;" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}" >
+                                <field name="policy_number"  style="width:20%; font-size: 15px"/>
+                                <!--<field name="ammount" style="width:100px; font-size: 15px"/>-->
+                            </div>
+
+
                         </div>
                     </group>
                 </xpath>
@@ -70,6 +77,17 @@
                 <field name="tag_ids" position="after">
                     <field name="policy_number"   />
                     <field name="ins_type"/>
+
+                    <td></td>
+                    <div class="o_row">
+                        <!--<label string="Term"/>-->
+                        <label string="duration"/>
+                        <field name="duration_no"/>
+                        <label string="type"/>
+                        <field name="duration_type"/>
+                    </div>
+
+
                     <label string="Duration"/>
                     <div class="o_row">
                         <field name="duration_no"/>
@@ -77,6 +95,7 @@
                     </div>
 
                 </field>
+
 
 
 
@@ -335,22 +354,22 @@
             <field name="view_mode">kanban,tree,graph,pivot,form,calendar</field>
             <field name="domain">[('type','=','opportunity')]</field>
             <field name="context">{
-                    'default_type': 'opportunity',
-                    'default_user_id': uid
+                'default_type': 'opportunity',
+                'default_user_id': uid
                 }
             </field>
         </record>
         <record model="ir.actions.act_window.view" id="action_ibs_crm_lead_tree">
-             <field name="sequence" eval="1"/>
-             <field name="view_mode">tree</field>
-             <field name="view_id" ref="ibs_crm_case_tree_view_oppor"/>
-             <field name="act_window_id" ref="ibs_crm_lead_opportunities"/>
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="ibs_crm_case_tree_view_oppor"/>
+            <field name="act_window_id" ref="ibs_crm_lead_opportunities"/>
         </record>
         <record model="ir.actions.act_window.view" id="action_ibs_crm_lead_form">
-             <field name="sequence" eval="1"/>
-             <field name="view_mode">form</field>
-             <field name="view_id" ref="crm__lead_form_view"/>
-             <field name="act_window_id" ref="ibs_crm_lead_opportunities"/>
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="crm__lead_form_view"/>
+            <field name="act_window_id" ref="ibs_crm_lead_opportunities"/>
         </record>
 
     </data>

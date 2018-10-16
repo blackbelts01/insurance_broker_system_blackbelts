@@ -78,14 +78,14 @@
                     <field name="policy_number"   />
                     <field name="ins_type"/>
 
-                    <td></td>
-                    <div class="o_row">
-                        <!--<label string="Term"/>-->
-                        <label string="duration"/>
-                        <field name="duration_no"/>
-                        <label string="type"/>
-                        <field name="duration_type"/>
-                    </div>
+                    <!--<td></td>-->
+                    <!--<div class="o_row">-->
+                        <!--&lt;!&ndash;<label string="Term"/>&ndash;&gt;-->
+                        <!--<label string="duration"/>-->
+                        <!--<field name="duration_no"/>-->
+                        <!--<label string="type"/>-->
+                        <!--<field name="duration_type"/>-->
+                    <!--</div>-->
 
 
                     <label string="Duration"/>

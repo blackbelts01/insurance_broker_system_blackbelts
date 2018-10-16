@@ -273,9 +273,9 @@ class PolicyBroker(models.Model):
 
     customer = fields.Many2one('res.partner', 'Customer')
 
-    insurance_type = fields.Selection([('Life', 'Life'),
-                                       ('P&C', 'P&C'),
-                                       ('Health', 'Health'), ],
+    insurance_type = fields.Selection([('life', 'Life'),
+                                       ('p&c', 'P&C'),
+                                       ('health', 'Health'), ],
                                       'Insurance Type', track_visibility='onchange')
     ins_type = fields.Selection([('Individual', 'Individual'),
                                  ('Group', 'Group'), ],
@@ -452,7 +452,8 @@ class PolicyBroker(models.Model):
                 cust_invoice=self.env['account.invoice'].create({
                     'type': 'out_invoice',
                     'partner_id': self.customer.id,
-                    'name': 'customer_invoice',
+                    'insured_invoice': 'customer_invoice',
+                    'name': 'Customer Invoice of ' +str(self.customer.name),
                     'user_id': self.env.user.id,
                     'insurance_id': self.id,
                     'origin': self.policy_number,
@@ -461,7 +462,7 @@ class PolicyBroker(models.Model):
                     'insured_insurer': self.company.id,
                     'insured_product': self.product_policy.id,
                     'invoice_line_ids': [(0, 0, {
-                        'name': 'Customer Invoice',
+                        'name': str(self.line_of_bussines.line_of_business),
                         'quantity': 1,
                         'price_unit': record.amount,
                         'account_id': self.line_of_bussines.income_account.id,
@@ -472,7 +473,8 @@ class PolicyBroker(models.Model):
                 ins_bill=self.env['account.invoice'].create({
                     'type': 'in_invoice',
                     'partner_id': self.company.id,
-                    'name': 'insurer_bill',
+                    'insured_invoice': 'insurer_bill',
+                    'name': 'Insurer Bill  of ' +str(self.company.name),
                     'user_id': self.env.user.id,
                     'insurance_id': self.id,
                     'origin': self.policy_number,
@@ -481,7 +483,7 @@ class PolicyBroker(models.Model):
                     'insured_insurer': self.company.id,
                     'insured_product': self.product_policy.id,
                     'invoice_line_ids': [(0, 0, {
-                        'name': 'Insurer Bill',
+                        'name': str(self.line_of_bussines.line_of_business),
                         'quantity': 1,
                         'price_unit': record.amount,
                         'account_id': self.line_of_bussines.expense_account.id,
@@ -489,33 +491,12 @@ class PolicyBroker(models.Model):
                 })
                 ins_bill.action_invoice_open()
 
-        for record in self.share_policy_rel_ids:
-            if record.amount !=0:
-                comm_bill = self.env['account.invoice'].create({
-                    'type': 'in_invoice',
-                    'partner_id': record.agent.id,
-                    'name': 'commission',
-                    'user_id': self.env.user.id,
-                    'insurance_id': self.id,
-                    'origin': self.policy_number,
-                    'insured_type':self.insurance_type,
-                    'insured_lOB': self.line_of_bussines.id,
-                    'insured_insurer': self.company.id,
-                    'insured_product': self.product_policy.id,
-                    'invoice_line_ids': [(0, 0, {
-                        'name': 'Commission',
-                        'quantity': 1,
-                        'price_unit': record.amount,
-                        'account_id': self.line_of_bussines.expense_account.id,
-                    })],
-                })
-                comm_bill.action_invoice_open()
-
         if self.total_commision !=0:
             brok_invoice = self.env['account.invoice'].create({
                 'type': 'out_invoice',
-                'partner_id': 1,
-                'name': 'brokerage',
+                'partner_id': self.company.id,
+                'insured_invoice':'brokerage',
+                'name':'Brokerage  of ' +str(self.company.name),
                 'user_id': self.env.user.id,
                 'insurance_id': self.id,
                 'origin': self.policy_number,
@@ -524,13 +505,35 @@ class PolicyBroker(models.Model):
                 'insured_insurer':self.company.id,
                 'insured_product':self.product_policy.id,
                 'invoice_line_ids': [(0, 0, {
-                    'name': 'Brokerage',
+                    'name': str(self.line_of_bussines.line_of_business),
                     'quantity': 1,
                     'price_unit': self.total_commision,
-                    'account_id': self.line_of_bussines.expense_account.id,
+                    'account_id': self.line_of_bussines.income_account.id,
                 })],
             })
             brok_invoice.action_invoice_open()
+
+        if self.personcom !=0:
+            com_bill = self.env['account.invoice'].create({
+                'type': 'in_invoice',
+                'partner_id':self.salesperson.id,
+                'insured_invoice':'commission',
+                'name':'Commission  of ' +str(self.salesperson.name),
+                'user_id': self.env.user.id,
+                'insurance_id': self.id,
+                'origin': self.policy_number,
+                'insured_type':self.insurance_type,
+                'insured_lOB':self.line_of_bussines.id,
+                'insured_insurer':self.company.id,
+                'insured_product':self.product_policy.id,
+                'invoice_line_ids': [(0, 0, {
+                    'name': str(self.line_of_bussines.line_of_business),
+                    'quantity': 1,
+                    'price_unit': self.personcom,
+                    'account_id': self.line_of_bussines.expense_account.id,
+                })],
+            })
+            com_bill.action_invoice_open()
 
         self.hide_inv_button = False
 
@@ -542,6 +545,7 @@ class AccountInvoiceRelate(models.Model):
     insured_lOB = fields.Many2one('insurance.line.business',string='LOB')
     insured_insurer = fields.Many2one('res.partner',string='Insurer')
     insured_product = fields.Many2one('insurance.product',string='Product')
+    insured_invoice=fields.Char(string='insured invoice')
 
 
 class Extra_Covers(models.Model):

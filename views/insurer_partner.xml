@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group/group" position="inside">
                 <field name="insurer_type" readonly="1" force_save="1" attrs="{'invisible': ['|',('customer','=',True)]}"/>
+                <field name="agent"  attrs="{'invisible': [('insurer_type','=',True)]}"/>
                 <field name="holding_type" attrs="{'invisible': ['|',('company_type','!=','company'),('insurer_type','=',True)]}"  force_save="1"/>
                 <field name="holding_company" attrs="{'invisible': ['|',('company_type','!=','company'),('holding_type','=',False)]}"/>
                 <field name="numberofchildren" attrs="{'invisible': ['|',('company_type','=','company'),('insurer_type','=',True)]}"/>
@@ -116,6 +117,18 @@
         <field name="context">{'search_default_insurer': 1,'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Create the Insurer
+            </p>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_agent_view">
+        <field name="name">Agent</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('agent','=', True)]</field>
+        <field name="context">{"search_default_customer":1,"own_customer_only":1,'default_agent': 1}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Create the Agent
             </p>
         </field>
     </record>

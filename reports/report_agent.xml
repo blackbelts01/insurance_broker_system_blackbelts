@@ -1,26 +1,19 @@
 <odoo>
     <data>
         <report
-                id="partner_report"
-                model="res.partner"
+                id="agent_report"
+                model="hr.employee"
                 string="Boardrue"
                 report_type="qweb-pdf"
-                name="insurance_broker_system_blackbelts.report_partner_view"
-                file="insurance_broker_system_blackbelts.report_partner_view"
+                name="insurance_broker_system_blackbelts.report_partner_view_agent"
+                file="insurance_broker_system_blackbelts.report_partner_view_agent"
         />
-        <template id="report_partner_view">
+        <template id="report_partner_view_agent">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <t t-if="doc.insurer_type" >
-
-                                <p><h4><strong>Insurer: <span t-field="doc.name"/></strong></h4></p>
-                            </t>
-                            <t t-if="doc.customer" >
-
-                                <p><h4><strong>Customer: <span t-field="doc.name"/></strong></h4></p>
-                            </t>
+                            <p><h4><strong>Agent: <span t-field="doc.name"/></strong></h4></p>
                             <!--<div class="row">-->
                             <!--<div class="col-xs-6" t-if="o.partner_id">-->
                             <!--<t>-->
@@ -46,7 +39,7 @@
                                 </thead>
                                 <tbody>
                                     <t t-set="exp_sum" t-value="0"/>
-                                    <tr t-foreach="doc.partner_report_opp()" t-as="opp">
+                                    <tr t-foreach="doc.partner_report_opp_agent()" t-as="opp">
                                         <td>  <span t-esc="opp.insurance_type"/></td>
                                         <td>  <span t-esc="opp.LOB.line_of_business"/></td>
                                         <!--<t t-if="doc.insurer_type" >-->
@@ -96,7 +89,7 @@
                                     <t t-set="gross_sum" t-value="0"/>
                                     <t t-set="net_sum" t-value="0"/>
 
-                                    <tr t-foreach="doc.partner_report_policy()" t-as="policy">
+                                    <tr t-foreach="doc.partner_report_policy_agent()" t-as="policy">
                                         <td>  <span t-esc="policy.insurance_type"/></td>
                                         <td>  <span t-esc="policy.line_of_bussines.line_of_business"/></td>
                                         <!--<t t-if="doc.customer" >-->
@@ -161,7 +154,7 @@
                                     <t t-set="totalclaimexp_sum" t-value="0"/>
                                     <t t-set="totalsettled_sum" t-value="0"/>
                                     <t t-set="total_paid_amount_sum" t-value="0"/>
-                                    <tr t-foreach="doc.partner_report_claim()" t-as="claim">
+                                    <tr t-foreach="doc.partner_report_claim_agent()" t-as="claim">
                                         <td>  <span/></td>
                                         <td>  <span t-esc="claim.lob.line_of_business"/></td>
 
@@ -194,11 +187,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-
-
-
-
-
                         </div>
                     </t>
                 </t>

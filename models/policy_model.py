@@ -10,26 +10,8 @@ class PolicyBroker(models.Model):
     _name = "policy.broker"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    # @api.multi
-    # def show_claim(self):
-    #     form_view = self.env.ref('insurance_broker_system_blackbelts.tree_insurance_claim')
-    #     form_view3 =self.env.ref('insurance_broker_system_blackbelts.form_insurance_claim')
-    #     return {
-    #         'name': ('tree insurance claim'),
-    #         'view_type': 'form',
-    #         'view_mode': 'tree, form',
-    #         'views': [(form_view.id, 'form'),(form_view3.id, 'tree')],
-    #         'res_model': 'insurance.claim',
-    #         'target': 'current',
-    #         'type': 'ir.actions.act_window',
-    #         'context': {
-    # #                     "default_policy_number":self.id
-    #
-    #         }
-    # #     }
-    #
-    #
-    #
+
+
 
     @api.multi
     def show_claim(self):
@@ -202,11 +184,25 @@ class PolicyBroker(models.Model):
 
         if total > 100:
             raise ValidationError("Your share percentage must be under percentage")
+    @api.multi
+    def To_renewal(self):
+        form_view = self.env.ref('insurance_broker_system_blackbelts.Renewal_Policy_form_one')
+
+        return {
+                   'name': ('Renwal'),
+                   'view_type': 'form',
+                   'view_mode': 'form',
+                   'views': [(form_view.id, 'form')],
+                   'res_model': 'renewal.again',
+                   'target': 'current',
+                   'type': 'ir.actions.act_window',
+                   'context': {'default_old_number':self.id},
+        }
 
     @api.model
     def compute_date(self):
         if (datetime.today().strftime('%Y-%m-%d')):
-            if (datetime.today().strftime('%Y-%m-%d'))==self.end_date:
+            if (datetime.today().strftime('%Y-%m-%d'))>=self.end_date:
                 self.renewal_state=True
 
 
@@ -804,82 +800,4 @@ class InstallmentClass(models.Model):
                              ('paid', 'Paid')],
                            'State',defualt='open')
     installment_rel_id = fields.Many2one("policy.broker")
-
-# class Layers(models.Model):
-#     _name = "layers.layer"
-#     _rec_name = "agent"
-#
-#     agent = fields.Many2one("res.users", string="Agent")
-#     l1 = fields.Char(string="Layer")
-#     allocation_layer1 = fields.Float(string="allocation", compute="_com_sum_one_name")
-#
-#     portion1 = fields.Float(string="portion", compute="_com_sum_two_name")
-#     com_rel_ids = fields.Many2one("commision.setup")
-#
-#     policy_rel_do_id = fields.Many2one("policy.broker")
-#
-#     @api.multi
-#     @api.onchange("agent")
-#     def _compute_lay(self):
-#         for rec in self:
-#             rec.l1 = rec.agent.layer
-#
-#     @api.multi
-#     def _com_sum_one_name(self):
-#         for record in self:
-#             if record.l1 == 'l1':
-#                 record.allocation_layer1 = record.policy_rel_do_id.propoasl_ids.product_pol.commision_id.layer1
-#             elif record.l1 == 'l2':
-#
-#                 record.allocation_layer1 = record.policy_rel_do_id.propoasl_ids.product_pol.commision_id.layer2
-#             elif record.l1 == 'l3':
-#
-#                 record.allocation_layer1 = record.policy_rel_do_id.propoasl_ids.product_pol.commision_id.layer3
-#             elif record.l1 == 'l4':
-#
-#                 record.allocation_layer1 = record.policy_rel_do_id.propoasl_ids.product_pol.commision_id.layer4
-#             elif record.l1 == 'l5':
-#
-#                 record.allocation_layer1 = record.policy_rel_do_id.propoasl_ids.product_pol.commision_id.layer5
-#
-#     @api.multi
-#     def _com_sum_two_name(self):
-#         for record in self:
-#             if record.l1 == 'l1':
-#                 record.portion1 = (record.allocation_layer1 * record.policy_rel_do_id.commision) / 100
-#             elif record.l1 == 'l2':
-#                 record.portion1 = (record.allocation_layer1 * record.policy_rel_do_id.commision) / 100
-#             elif record.l1 == 'l3':
-#                 record.portion1 = (record.allocation_layer1 * record.policy_rel_do_id.commision) / 100
-#             elif record.l1 == 'l4':
-#                 record.portion1 = (record.allocation_layer1 * record.policy_rel_do_id.commision) / 100
-#             elif record.l1 == 'l5':
-#                 record.portion1 = (record.allocation_layer1 * record.policy_rel_do_id.commision) / 100
-#
-#
-# class CommisionSetup(models.Model):
-#     _name = "commision.setup"
-#     _rec_name = "date_from"
-#
-#     date_from = fields.Date(string="Date From")
-#     date_to = fields.Date(string="Date To")
-#     policy_relation_id = fields.Many2one("insurance.product")
-#     layer1 = fields.Float(string="L1 ")
-#     layer2 = fields.Float(string="L2 ")
-#     layer3 = fields.Float(string="L3 ")
-#     layer4 = fields.Float(string="L4 ")
-#     layer5 = fields.Float(string="L5 ")
-
-
-# class InheritUsers(models.Model):
-#     _inherit = "res.users"
-#
-#     layer = fields.Selection(
-#         [("l1", "Layer 1"), ("l2", "Layer 2"), ("l3", "Layer 3"), ("l4", "Layer 4"), ("l5", "Layer 5"),
-#          ("l6", "Layer 6"), ("l7", "Layer 7"), ("l8", "Layer 8")], string="Layer", required=True)
-#
-#
-# class InheritSale(models.Model):
-#     _inherit = "crm.lead"
-
 

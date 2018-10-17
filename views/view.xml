@@ -9,6 +9,7 @@
                         <button name="print_policy" string="Print" type="object"  class="btn-primary o_sale_print"/>
                         <button name="send_mail_template_policy" string="Send by Email" type="object"  class="btn-primary o_sale_print"/>
                         <button name="" string="Renew" type="object"  class="btn-primary o_sale_print" attrs="{'invisible': [('renewal_state', '!=', True)]}"/>
+                        <button name="To_renewal" string="Renew" type="object"  class="btn-primary o_sale_print" attrs="{'invisible': [('renewal_state', '!=', True)]}"/>
                         <button name="confirm_policy" string="Approve" type="object"
                                 class="oe_highlight" attrs="{'invisible': [('policy_status', '=', 'approve')]}"/>
                         <button name="create_invoices" string="Create Invoices" type="object" class="oe_highlight"
@@ -216,7 +217,6 @@
                                         <field name="date_invoice" string="Invoice Date"/>
                                         <field name="number" string="Invoice Number"/>
                                         <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                                        <field name="user_id"/>
                                         <field name="date_due"/>
                                         <field name="amount_total_signed" string="Total" sum="Total"/>
                                         <field name="residual_signed" string="Amount Due" sum="Amount Due"/>
@@ -257,17 +257,6 @@
                 </tree>
             </field>
         </record>
-        <!--<record id="my_view_search_view" model="ir.ui.view" >-->
-            <!--<field name="name">policy.broker</field>-->
-            <!--<field name="model">policy.broker</field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<search>-->
-                    <!--<filter string="Salesperson" name="by_salesperson" domain="[('salesperson','=',uid)]"/>-->
-                <!--</search>-->
-            <!--</field>-->
-        <!--</record>-->
-
-
         <record id="my_action_for_second_menu" model="ir.actions.act_window">
             <field name="name">Policy</field>
             <field name="res_model">policy.broker</field>

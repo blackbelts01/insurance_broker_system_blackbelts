@@ -32,6 +32,7 @@
         'reports/crm_report_template.xml',
         'reports/claim_report.xml',
         'reports/report_opp_partner.xml',
+        'reports/report_agent.xml',
         'data/mail_template_data.xml',
         'views/policy_setup_view.xml',
         'views/endorsement.xml',

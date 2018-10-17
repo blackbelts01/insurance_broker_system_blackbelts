@@ -45,7 +45,6 @@ class claimAction(models.Model):
     _name='product.claim.action'
 
     action=fields.Char('Claim Action')
-    completed=fields.Boolean(string='Completed')
     comments=fields.Text(string='Comments')
     product=fields.Many2one('insurance.product')
     claim=fields.Many2one('insurance.claim')

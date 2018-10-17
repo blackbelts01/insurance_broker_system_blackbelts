@@ -84,9 +84,8 @@
                             </page>
                             <page string="Claim Action">
                                 <field name="claim_action">
-                                    <tree>
+                                    <tree editable="1">
                                         <field name="action"/>
-                                        <field name="completed"/>
                                         <field name="comments"/>
                                     </tree>
                                 </field>
@@ -239,7 +238,6 @@
             <form>
                 <group>
                     <field name="action"/>
-                    <field name="completed"/>
                     <field name="comments"/>
                 </group>
             </form>

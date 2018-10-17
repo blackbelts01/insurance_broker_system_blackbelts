@@ -202,7 +202,7 @@ class PolicyBroker(models.Model):
     @api.model
     def compute_date(self):
         if (datetime.today().strftime('%Y-%m-%d')):
-            if (datetime.today().strftime('%Y-%m-%d'))>=self.end_date:
+            if (datetime.today().strftime('%Y-%m-%d')) >= self.end_date:
                 self.renewal_state=True
 
 
@@ -331,70 +331,6 @@ class PolicyBroker(models.Model):
             rec.total_commision = rec.commision + rec.com_commision + rec.fixed_commision + rec.earl_commision
 
 
-    # @api.multi
-    # @api.depends("product_policy")
-    # def _compute_com_commision(self):
-    #     for rec in self:
-    #         rec.com_commision = (rec.product_policy.brokerage.complementary_commission * rec.t_permimum) / 100
-    #
-    # @api.multi
-    # @api.depends("product_policy")
-    # def _compute_earl_commision(self):
-    #     for rec in self:
-    #             rec.earl_commision = (rec.product_policy.brokerage.early_collection * rec.t_permimum) / 100
-    #
-    #
-    # @api.multi
-    # @api.depends("product_policy")
-    # def _compute_fixed_commision(self):
-    #     for rec in self:
-    #             rec.fixed_commision = (rec.product_policy.brokerage.fixed_commission * rec.t_permimum) / 100
-    #
-    # @api.multi
-    # def _compute_sum(self):
-    #     for rec in self:
-    #         rec.total_commision = rec.commision + rec.com_commision + rec.fixed_commision
-
-    # @api.multi
-    # @api.depends("salesperson","onlayer","t_permimum")
-    # def _compute_personcom(self):
-    #     if self.onlayer == "l1":
-    #         self.personcom = (self.product_policy.commision_id.layer1 * self.t_permimum) / 100
-    #     elif self.onlayer == "l2":
-    #         self.personcom = (self.product_policy.commision_id.layer2 * self.t_permimum) / 100
-    #     elif self.onlayer == "l3":
-    #         self.personcom = (self.product_policy.commision_id.layer3 * self.t_permimum) / 100
-    #     elif self.onlayer == "l4":
-    #         self.personcom = (self.product_policy.commision_id.layer4 * self.t_permimum) / 100
-    #     elif self.onlayer == "l5":
-    #         self.personcom = (self.product_policy.commision_id.layer5 * self.t_permimum) / 100
-
-
-    # @api.multi
-    # @api.onchange("salesperson")
-    # def onchange_objectx(self):
-    #     for rec in self:
-    #         self.rel_com_detail_id = [
-    #             (0, 0, {
-    #                 "agent": rec.salesperson,
-    #                 "l1": rec.salesperson.layer,
-    #                 "allocation_layer1": rec.rel_com_detail_id.allocation_layer1,
-    #                 "portion1": rec.rel_com_detail_id.portion1
-    #             })]
-
-    # @api.multi
-    # @api.onchange("salesperson")
-    # def onchange_num_objectx(self):
-    #     for rec in self:
-    #         self.share_policy_rel_ids = [
-    #             (0, 0, {
-    #                 "agent": rec.salesperson,
-    #                 "share_commition": rec.share_policy_rel_ids.share_commition,
-    #                 "amount": rec.share_policy_rel_ids.amount
-    #             })]
-
-
-
     @api.multi
     def generate_covers(self):
         self.checho = True
@@ -413,128 +349,107 @@ class PolicyBroker(models.Model):
 
 
     _sql_constraints = [
-        ('std_id_unique', 'unique(std_id,edit_number)', 'Policy Number  already exists!')]
+        ('std_id_unique', 'unique(std_id,policy_number)', 'Policy Number  already exists!')]
 
 
-    # @api.multi
-    # def create_renewal(self):
-    #     form_view = self.env.ref('insurance_broker_system_blackbelts.my_view_for_policy_form_kmlo1')
-    #     riskrecordd = self.env["new.risks"].search([('id', 'in', self.new_risk_ids.ids)])
-    #     records_cargo = []
-    #     for rec in riskrecordd:
-    #         objectcargo = (
-    #             0, 0, {'risk_description': rec.risk_description,
-    #
-    #                    'car_tybe':rec.car_tybe.id, 'motor_cc':rec.motor_cc, 'year_of_made':rec.year_of_made, 'model':rec.model.id, 'Man':rec.Man.id,
-    #
-    #                    'name':rec.name, 'DOB':rec.DOB, 'job':rec.job.id,
-    #
-    #                    'From':rec.From, 'To':rec.To, 'cargo_type':rec.cargo_type, 'weight':rec.weight,
-    #                    'address':rec.address , 'type':rec.type,
-    #
-    #                    'group_name': rec.group_name, 'count': rec.count, 'file': rec.file,
-    #
-    #                    })
-    #         records_cargo.append(objectcargo)
-    #
-    #         sharecommition = self.env["share.commition"].search([('id', 'in', self.share_policy_rel_ids.ids)])
-    #         records_sharecommition = []
-    #         for rec in sharecommition:
-    #             comm = (
-    #                 0, 0, {'agent': rec.agent.id, 'share_commition': rec.share_commition,
-    #                        'amount': rec.amount,
-    #                        })
-    #             records_sharecommition.append(comm)
-    #
-    #         installments = self.env["installment.installment"].search([('id', 'in', self.rella_installment_id.ids)])
-    #         records_installments = []
-    #         for rec in installments:
-    #             install = (
-    #                 0, 0, {'date': rec.date, 'amount': rec.amount,
-    #                        'state': rec.state,
-    #                        })
-    #             records_installments.append(install)
-    #
-    #     coverlines = self.env["covers.lines"].search([('id', 'in', self.name_cover_rel_ids.ids)])
-    #     print(coverlines)
-    #     value = []
-    #     for rec in coverlines:
-    #         print(rec)
-    #         covers=(
-    #             0,0,{'riskk':rec.riskk.id,
-    #                  'name1':rec.name1.id,
-    #                  'check':rec.check,
-    #                  'sum_insure':rec.sum_insure,
-    #                  'deductible':rec.deductible,
-    #                  'limitone': rec.limitone,
-    #                  'limittotal': rec.limittotal,
-    #                  'rate':rec.rate,
-    #                  'net_perimum':rec.net_perimum,
-    #
-    #                  }
-    #         )
-    #         value.append(covers)
-    #
-    #
-    #     if self.new_number:
-    #         return {
-    #             'name': ('Policy'),
-    #             'view_type': 'form',
-    #             'view_mode': 'form',
-    #             'views': [(form_view.id, 'form')],
-    #             'res_model': 'policy.broker',
-    #             'target': 'current',
-    #             'type': 'ir.actions.act_window',
-    #             # 'flags': {'form': {'options': {'mode': 'view'}}},
-    #             'context': {
-    #                 'default_renwal_check': True,
-    #                 'default_checho': True,
-    #                 'default_company': self.company.id,
-    #
-    #                 'default_product_policy': self.product_policy.id,
-    #
-    #                 'default_policy_number':self.new_number,
-    #
-    #                 'default_std_id': self.std_id,
-    #
-    #                 'default_customer': self.customer.id,
-    #
-    #                 'default_issue_date': self.issue_date,
-    #
-    #                 'default_start_date': self.start_date,
-    #
-    #                 'default_end_date': self.end_date,
-    #
-    #                 'default_branch': self.branch.id,
-    #
-    #                 'default_salesperson': self.salesperson.id,
-    #
-    #                 'default_onlayer': self.onlayer,
-    #
-    #                 'default_currency_id': self.currency_id.id,
-    #
-    #                 'default_benefit': self.benefit,
-    #                 'default_benefit': self.gross_perimum,
-    #
-    #                 'default_insurance_type': self.insurance_type,
-    #
-    #                 'default_line_of_bussines': self.line_of_bussines.id,
-    #
-    #                 'default_ins_type': self.ins_type,
-    #                 'default_commision': self.commision,
-    #                 'default_com_commision': self.com_commision,
-    #                 'default_earl_commision': self.earl_commision,
-    #                 'default_fixed_commision': self.fixed_commision,
-    #                 'default_total_commision': self.total_commision,
-    #
-    #
-    #                 'default_new_risk_ids': records_cargo,
-    #                 'default_share_policy_rel_ids': records_sharecommition,
-    #                 'default_rella_installment_id': records_installments,
-    #
-    #                 'default_name_cover_rel_ids': value,
-    #             }
-    #         }
+    @api.multi
+    def create_renewal(self):
+        view = self.env.ref('insurance_broker_system_blackbelts.my_view_for_policy_form_kmlo1')
+
+        risk = self.env["new.risks"].search([('id', 'in', self.new_risk_ids.ids)])
+        records_risk = []
+        for rec in risk:
+            object = (0, 0,
+                      {'risk_description': rec.risk_description,
+                       'car_tybe':rec.car_tybe.id, 'motor_cc':rec.motor_cc, 'year_of_made':rec.year_of_made, 'model':rec.model.id, 'Man':rec.Man.id,
+                       'name':rec.name, 'DOB':rec.DOB, 'job':rec.job.id,
+                       'From':rec.From, 'To':rec.To, 'cargo_type':rec.cargo_type, 'weight':rec.weight,
+                       'address':rec.address , 'type':rec.type,
+                       'group_name': rec.group_name, 'count': rec.count, 'file': rec.file,
+                       })
+            records_risk.append(object)
+
+        share_commission = self.env["insurance.share.commission"].search([('id', 'in', self.share_commission.ids)])
+        records_commission = []
+        for rec in share_commission:
+            comm = (0, 0,
+                    {'agent': rec.agent.id,
+                     'commission_per': rec.commission_per,
+                       })
+            records_commission.append(comm)
+
+        installments = self.env["installment.installment"].search([('id', 'in', self.rella_installment_id.ids)])
+        records_installments = []
+        for rec in installments:
+            install = (0, 0,
+                       {'date': rec.date,
+                        'amount': rec.amount,
+                        'state': rec.state,
+                       })
+            records_installments.append(install)
+
+        coverlines = self.env["covers.lines"].search([('id', 'in', self.name_cover_rel_ids.ids)])
+        print(coverlines)
+        records_cover = []
+        for rec in coverlines:
+            print(rec)
+            covers=(
+                0,0,{'riskk':rec.riskk.id,
+                     'name1':rec.name1.id,
+                     'check':rec.check,
+                     'sum_insure':rec.sum_insure,
+                     'deductible':rec.deductible,
+                     'limitone': rec.limitone,
+                     'limittotal': rec.limittotal,
+                     'rate':rec.rate,
+                     'net_perimum':rec.net_perimum,
+
+                     }
+            )
+            records_cover.append(covers)
+
+        return {
+            'name': ('Policy'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'views': [(view.id, 'form')],
+            'res_model': 'policy.broker',
+            'target': 'current',
+            'type': 'ir.actions.act_window',
+            # 'flags': {'form': {'options': {'mode': 'view'}}},
+            'context': {
+                'default_renwal_check': True,
+                'default_checho': True,
+                'default_policy_number': self.std_id,
+                'default_company': self.company.id,
+                'default_ins_type': self.ins_type,
+                'default_line_of_bussines': self.line_of_bussines.id,
+                'default_product_policy': self.product_policy.id,
+                'default_insurance_type': self.insurance_type,
+                'default_customer': self.customer.id,
+                'default_issue_date': self.issue_date,
+                'default_start_date': self.start_date,
+                'default_end_date': self.end_date,
+                'default_branch': self.branch.id,
+                'default_salesperson': self.salesperson.id,
+                'default_currency_id': self.currency_id.id,
+                'default_benefit': self.benefit,
+                'default_gross_perimum': self.gross_perimum,
+                'default_commision': self.commision,
+                'default_com_commision': self.com_commision,
+                'default_earl_commision': self.earl_commision,
+                'default_fixed_commision': self.fixed_commision,
+                'default_total_commision': self.total_commision,
+
+                'default_new_risk_ids': records_risk,
+                'default_share_commission': records_commission,
+                'default_rella_installment_id': records_installments,
+                'default_name_cover_rel_ids': records_cover,
+            }
+        }
+
+
+
 
 
 
@@ -570,6 +485,7 @@ class PolicyBroker(models.Model):
                     'insured_lOB': self.line_of_bussines.id,
                     'insured_insurer': self.company.id,
                     'insured_product': self.product_policy.id,
+                    'date_due':self.record.date,
                     'invoice_line_ids': [(0, 0, {
                         'name': str(self.line_of_bussines.line_of_business),
                         'quantity': 1,
@@ -591,6 +507,7 @@ class PolicyBroker(models.Model):
                     'insured_lOB': self.line_of_bussines.id,
                     'insured_insurer': self.company.id,
                     'insured_product': self.product_policy.id,
+                    'date_due': self.record.date,
                     'invoice_line_ids': [(0, 0, {
                         'name': str(self.line_of_bussines.line_of_business),
                         'quantity': 1,

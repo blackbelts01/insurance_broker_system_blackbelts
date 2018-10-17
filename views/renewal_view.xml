@@ -52,7 +52,8 @@
         <field name="res_model">policy.broker</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
-        <field name='domain'>[('end_date','=', context_today().strftime('%Y-%m-%d'))]</field>
+        <field name="context">{'create':False,'edit':False}</field>
+        <field name='domain'>[('end_date','&lt;=', context_today().strftime('%Y-%m-%d')),('renwal_check','=',False)]</field>
     </record>
     <record model="ir.actions.act_window.view" id="action_renewal_tree">
          <field name="sequence" eval="1"/>

@@ -27,7 +27,6 @@
                     <field name="date_invoice"/>
                     <field name="number" string="Invoice Number"/>
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                    <field name="user_id"/>
                     <field name="date_due"/>
                     <field name="amount_total_signed" string="Total" sum="Total"/>
                     <field name="residual_signed" string="Amount Due" sum="Amount Due"/>
@@ -66,7 +65,6 @@
                     <field name="number" string="Bill Number"/>
                     <field name="date_invoice"/>
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                    <field name="user_id"/>
                     <field name="date_due"/>
                     <field name="origin"/>
                     <field name="amount_total_signed" string="Total" sum="Total"/>
@@ -109,7 +107,6 @@
                     <field name="number" string="Bill Number"/>
                     <field name="date_invoice"/>
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                    <field name="user_id"/>
                     <field name="date_due"/>
                     <field name="origin"/>
                     <field name="amount_total_signed" string="Total" sum="Total"/>
@@ -152,7 +149,6 @@
                     <field name="number" string="Invoice Number"/>
                     <field name="date_invoice"/>
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                    <field name="user_id"/>
                     <field name="date_due"/>
                     <field name="origin"/>
                     <field name="amount_total_signed" string="Total" sum="Total"/>

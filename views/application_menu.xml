@@ -17,6 +17,8 @@
                   action="action_customer_view"/>
         <menuitem id="insurer_view_menu" name="Insurer" parent="partners_views_menu"
                   action="action_insurer_view"/>
+        <menuitem id="agent_view_menu" name="Agent" parent="partners_views_menu"
+                  action="action_agent_view"/>
         <menuitem id="print_out_partners_view_menu" name="Print out" parent="partners_views_menu"/>
         <menuitem id="configuration_partners_view_menu" name="Configuration" parent="partners_views_menu"/>
 

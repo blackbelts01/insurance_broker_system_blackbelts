@@ -8,7 +8,7 @@
                     <header>
                         <button name="print_policy" string="Print" type="object"  class="btn-primary o_sale_print"/>
                         <button name="send_mail_template_policy" string="Send by Email" type="object"  class="btn-primary o_sale_print"/>
-                        <button name="send_mail_template_policy" string="Renew" type="object"  class="btn-primary o_sale_print" attrs="{'invisible': [('renewal_state', '!=', True)]}"/>
+                        <button name="" string="Renew" type="object"  class="btn-primary o_sale_print" attrs="{'invisible': [('renewal_state', '!=', True)]}"/>
                         <button name="confirm_policy" string="Approve" type="object"
                                 class="oe_highlight" attrs="{'invisible': [('policy_status', '=', 'approve')]}"/>
                         <button name="create_invoices" string="Create Invoices" type="object" class="oe_highlight"
@@ -72,8 +72,7 @@
                                 <field name="end_date"/>
                                 <field name="benefit"/>
                                 <field name="salesperson"/>
-                                <field name="onlayer"/>
-                                <field name="personcom"/>
+                                <field name="commission_per"/>
                             </group>
                             <!--<group string="commision">-->
                             <!--<field name="gross_perimum"/>-->
@@ -182,17 +181,18 @@
                                 </group>
                             </page>
                             <page string='Share commition'>
-                                <field name="share_policy_rel_ids" nolabel="1"  >
-                                    <tree editable="bottom">
+                                <field name="share_commission">
+                                    <tree editable="1">
                                         <field name="agent"/>
-                                        <field name="share_commition"/>
+                                        <field name="commission_per"/>
                                         <field name="amount"/>
-
+                                        <field name="policy_id" invisible="1"/>
                                     </tree>
                                     <form>
                                         <field name="agent"/>
-                                        <field name="share_commition"/>
-                                        <field name="amount"/>
+                                        <field name="commission_per"/>
+                                        <field name="amount" readonly="1" force_save="1"/>
+                                        <field name="policy_id" invisible="1"/>
                                     </form>
                                 </field>
 
@@ -257,25 +257,22 @@
                 </tree>
             </field>
         </record>
-        <record id="my_view_search_view" model="ir.ui.view" >
-            <field name="name">policy.broker</field>
-            <field name="model">policy.broker</field>
-            <field name="arch" type="xml">
-                <search>
-                    <filter string="Salesperson" name="by_salesperson" domain="[('salesperson','=',uid)]"/>
-                </search>
-            </field>
-        </record>
+        <!--<record id="my_view_search_view" model="ir.ui.view" >-->
+            <!--<field name="name">policy.broker</field>-->
+            <!--<field name="model">policy.broker</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<search>-->
+                    <!--<filter string="Salesperson" name="by_salesperson" domain="[('salesperson','=',uid)]"/>-->
+                <!--</search>-->
+            <!--</field>-->
+        <!--</record>-->
 
 
         <record id="my_action_for_second_menu" model="ir.actions.act_window">
             <field name="name">Policy</field>
             <field name="res_model">policy.broker</field>
-            <field name="view_mode">tree,form,search</field>
+            <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
-            <field name="search_view_id" ref="my_view_search_view"/>
-            <!--<field name='domain'>[('salesperson','=',uid)]</field>-->
-            <field name="context" >{}</field>
         </record>
 
     </data>

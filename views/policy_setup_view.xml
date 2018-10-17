@@ -73,6 +73,7 @@
                             <field name="insurer" context="{'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}"/>
                             <field name="line_of_bus"/>
                             <field name="product_name"/>
+                            <field name="commission_per"/>
                         </group>
                         <notebook colspan="4">
                             <page string="Coverage Definition">
@@ -83,23 +84,9 @@
                             </page>
                             <page string="Claim Action">
                                 <field name="claim_action">
-                                    <tree>
-                                        <field name="action"/>
-                                        <field name="completed"/>
-                                        <field name="comments"/>
-                                    </tree>
-                                </field>
-                            </page>
-                            <page string="Commision">
-                                <field name="commision_id">
                                     <tree editable="1">
-                                        <field name="date_from"/>
-                                        <field name="date_to"/>
-                                        <field name="layer1"/>
-                                        <field name="layer2"/>
-                                        <field name="layer3"/>
-                                        <field name="layer4"/>
-                                        <field name="layer5"/>
+                                        <field name="action"/>
+                                        <field name="comments"/>
                                     </tree>
                                 </field>
                             </page>
@@ -251,7 +238,6 @@
             <form>
                 <group>
                     <field name="action"/>
-                    <field name="completed"/>
                     <field name="comments"/>
                 </group>
             </form>

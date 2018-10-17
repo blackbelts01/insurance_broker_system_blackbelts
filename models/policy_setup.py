@@ -34,7 +34,7 @@ class Product(models.Model):
     line_of_bus=fields.Many2one('insurance.line.business','Line of Business')
     coverage=fields.One2many('insurance.product.coverage','product_id',string='Coverage')
     brokerage=fields.One2many('insurance.product.brokerage','product_id',string='Brokerage')
-    commision_id = fields.One2many("commision.setup","policy_relation_id")
+    commission_per=fields.Float(string='Commission Percentage')
     claim_action=fields.One2many('product.claim.action','product')
     name_cover_id = fields.Many2one("name.cover")
 
@@ -45,7 +45,6 @@ class claimAction(models.Model):
     _name='product.claim.action'
 
     action=fields.Char('Claim Action')
-    completed=fields.Boolean(string='Completed')
     comments=fields.Text(string='Comments')
     product=fields.Many2one('insurance.product')
     claim=fields.Many2one('insurance.claim')

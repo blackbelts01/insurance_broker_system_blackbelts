@@ -53,14 +53,16 @@ class Endorsement_edit(models.Model):
                        })
             records_cargo.append(objectcargo)
 
-            sharecommition = self.env["share.commition"].search([('id', 'in', self.last_policy.share_policy_rel_ids.ids)])
-            records_sharecommition = []
-            for rec in sharecommition:
-                comm = (
-                    0, 0, {'agent': rec.agent.id, 'share_commission': rec.share_commission,
-                           'amount': rec.amount,
-                           })
-                records_sharecommition.append(comm)
+
+            share_commission = self.env["insurance.share.commission"].search([('id', 'in', self.last_policy.share_commission.ids)])
+            records_commission = []
+            for rec in share_commission:
+                comm = (0, 0,
+                        {'agent': rec.agent.id,
+                         'commission_per': rec.commission_per,
+                         })
+                records_commission.append(comm)
+
 
             installments = self.env["installment.installment"].search([('id', 'in', self.last_policy.rella_installment_id.ids)])
             records_installments = []
@@ -126,7 +128,7 @@ class Endorsement_edit(models.Model):
 
                     'default_currency_id':self.last_policy.currency_id.id,
                     'default_benefit':self.last_policy.benefit,
-                    'default_benefit': self.last_policy.gross_perimum,
+                    'default_gross_perimum': self.last_policy.gross_perimum,
                     'default_edit_number':self.number_edit ,
                     'default_insurance_type': self.last_policy.insurance_type,
                     'default_commision':self.last_policy.commision,
@@ -138,7 +140,7 @@ class Endorsement_edit(models.Model):
                     'default_line_of_bussines':self.last_policy.line_of_bussines.id ,
                     'default_ins_type': self.last_policy.ins_type,
                     'default_new_risk_ids':records_cargo,
-                    'default_share_policy_rel_ids': records_sharecommition,
+                    'default_share_policy_rel_ids': records_commission,
                     'default_rella_installment_id': records_installments,
                     'default_name_cover_rel_ids':value,
 

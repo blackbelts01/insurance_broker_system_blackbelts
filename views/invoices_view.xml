@@ -12,6 +12,18 @@
                 </xpath>
             </field>
         </record>
+        <record id="view_bills_form" model="ir.ui.view">
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page/group/group/field[@name='name']" position="after">
+                    <field name="insured_type" />
+                    <field name="insured_lOB" />
+                    <field name="insured_insurer" />
+                    <field name="insured_product" />
+                </xpath>
+            </field>
+        </record>
 
         <!--customer invoice-->
         <record id="ibs_customer_invoice_tree" model="ir.ui.view">
@@ -27,7 +39,6 @@
                     <field name="date_invoice"/>
                     <field name="number" string="Invoice Number"/>
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                    <field name="user_id"/>
                     <field name="date_due"/>
                     <field name="amount_total_signed" string="Total" sum="Total"/>
                     <field name="residual_signed" string="Amount Due" sum="Amount Due"/>
@@ -52,6 +63,12 @@
              <field name="view_id" ref="ibs_customer_invoice_tree"/>
              <field name="act_window_id" ref="action_ibs_customer_invoice"/>
         </record>
+        <record model="ir.actions.act_window.view" id="action_ibs_customer_invoice_form">
+             <field name="sequence" eval="1"/>
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="account.invoice_form"/>
+             <field name="act_window_id" ref="action_ibs_customer_invoice"/>
+        </record>
         <!--insurer bills-->
         <record id="ibs_insurer_bills_tree" model="ir.ui.view">
             <field name="name">account.invoice.tree</field>
@@ -66,7 +83,6 @@
                     <field name="number" string="Bill Number"/>
                     <field name="date_invoice"/>
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                    <field name="user_id"/>
                     <field name="date_due"/>
                     <field name="origin"/>
                     <field name="amount_total_signed" string="Total" sum="Total"/>
@@ -109,7 +125,6 @@
                     <field name="number" string="Bill Number"/>
                     <field name="date_invoice"/>
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                    <field name="user_id"/>
                     <field name="date_due"/>
                     <field name="origin"/>
                     <field name="amount_total_signed" string="Total" sum="Total"/>
@@ -152,7 +167,6 @@
                     <field name="number" string="Invoice Number"/>
                     <field name="date_invoice"/>
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                    <field name="user_id"/>
                     <field name="date_due"/>
                     <field name="origin"/>
                     <field name="amount_total_signed" string="Total" sum="Total"/>
@@ -177,6 +191,12 @@
              <field name="sequence" eval="1"/>
              <field name="view_mode">tree</field>
              <field name="view_id" ref="ibs_brokerage_tree"/>
+             <field name="act_window_id" ref="action_ibs_brokerage"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_ibs_brokerage_form">
+             <field name="sequence" eval="1"/>
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="account.invoice_form"/>
              <field name="act_window_id" ref="action_ibs_brokerage"/>
         </record>
     </data>

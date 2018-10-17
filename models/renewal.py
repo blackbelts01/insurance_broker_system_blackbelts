@@ -20,7 +20,7 @@ class Renewal_Again(models.Model):
             order='edit_number desc',
             limit=1
         )
-        self.last_policy = last_confirmed_edit.id
+        self = last_confirmed_edit.id
         # self.number_edit = (last_confirmed_edit.edit_number) + 1
 
     @api.multi
@@ -28,7 +28,7 @@ class Renewal_Again(models.Model):
         form_view = self.env.ref('insurance_broker_system_blackbelts.my_view_for_policy_form_kmlo1')
 
 
-        riskrecordd = self.env["new.risks"].search([('id', 'in', self.last_policy.new_risk_ids.ids)])
+        riskrecordd = self.env["new.risks"].search([('id', 'in', self.new_risk_ids.ids)])
         records_cargo = []
         for rec in riskrecordd:
             objectcargo = (
@@ -46,7 +46,7 @@ class Renewal_Again(models.Model):
                        })
             records_cargo.append(objectcargo)
 
-            sharecommition = self.env["share.commition"].search([('id', 'in', self.last_policy.share_policy_rel_ids.ids)])
+            sharecommition = self.env["share.commition"].search([('id', 'in', self.share_policy_rel_ids.ids)])
             records_sharecommition = []
             for rec in sharecommition:
                 comm = (
@@ -55,7 +55,7 @@ class Renewal_Again(models.Model):
                            })
                 records_sharecommition.append(comm)
 
-            installments = self.env["installment.installment"].search([('id', 'in', self.last_policy.rella_installment_id.ids)])
+            installments = self.env["installment.installment"].search([('id', 'in', self.rella_installment_id.ids)])
             records_installments = []
             for rec in installments:
                 install = (
@@ -64,7 +64,7 @@ class Renewal_Again(models.Model):
                            })
                 records_installments.append(install)
 
-        coverlines = self.env["covers.lines"].search([('id', 'in', self.last_policy.name_cover_rel_ids.ids)])
+        coverlines = self.env["covers.lines"].search([('id', 'in', self.name_cover_rel_ids.ids)])
         print(coverlines)
         value = []
         for rec in coverlines:
@@ -98,15 +98,15 @@ class Renewal_Again(models.Model):
                 'context': {
                     'default_renwal_check': True,
                     'default_checho': True,
-                    'default_company': self.last_policy.company.id,
+                    'default_company': self.company.id,
 
-                    'default_product_policy': self.last_policy.product_policy.id,
+                    'default_product_policy': self.product_policy.id,
 
                     'default_policy_number':self.new_number,
 
-                    'default_std_id': self.last_policy.std_id,
+                    'default_std_id': self.std_id,
 
-                    'default_customer': self.last_policy.customer.id,
+                    'default_customer': self.customer.id,
 
                     'default_issue_date': self.issue_date,
 
@@ -114,27 +114,27 @@ class Renewal_Again(models.Model):
 
                     'default_end_date': self.end_date,
 
-                    'default_branch': self.last_policy.branch.id,
+                    'default_branch': self.branch.id,
 
-                    'default_salesperson': self.last_policy.salesperson.id,
+                    'default_salesperson': self.salesperson.id,
 
-                    'default_onlayer': self.last_policy.onlayer,
+                    'default_onlayer': self.onlayer,
 
-                    'default_currency_id': self.last_policy.currency_id.id,
+                    'default_currency_id': self.currency_id.id,
 
-                    'default_benefit': self.last_policy.benefit,
-                    'default_benefit': self.last_policy.gross_perimum,
+                    'default_benefit': self.benefit,
+                    'default_benefit': self.gross_perimum,
 
-                    'default_insurance_type': self.last_policy.insurance_type,
+                    'default_insurance_type': self.insurance_type,
 
-                    'default_line_of_bussines': self.last_policy.line_of_bussines.id,
+                    'default_line_of_bussines': self.line_of_bussines.id,
 
-                    'default_ins_type': self.last_policy.ins_type,
-                    'default_commision': self.last_policy.commision,
-                    'default_com_commision': self.last_policy.com_commision,
-                    'default_earl_commision': self.last_policy.earl_commision,
-                    'default_fixed_commision': self.last_policy.fixed_commision,
-                    'default_total_commision': self.last_policy.total_commision,
+                    'default_ins_type': self.ins_type,
+                    'default_commision': self.commision,
+                    'default_com_commision': self.com_commision,
+                    'default_earl_commision': self.earl_commision,
+                    'default_fixed_commision': self.fixed_commision,
+                    'default_total_commision': self.total_commision,
 
 
                     'default_new_risk_ids': records_cargo,

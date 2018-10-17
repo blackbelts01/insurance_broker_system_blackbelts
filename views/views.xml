@@ -25,7 +25,7 @@
                 </header>
                 <notebook >
 
-                    <page string="Under Writting">
+                    <page string="Underwritting/Survey">
                         <label for="my_notes"/>
                         <field name="my_notes" />
 
@@ -65,7 +65,7 @@
                 <field name="date_deadline" position="after">
                     <field name="oppor_type"/>
                     <field name="create_uid" readonly='True'/>
-                    <field name="selected_coverage"  attrs="{'invisible': ['|',('set_covers', '=', False)]}"/>
+                    <field name="selected_coverage"  />
                 </field>
                 <field name="team_id" position="after">
                     <field name="test1"  invisible="1" />
@@ -80,11 +80,11 @@
 
                     <!--<td></td>-->
                     <!--<div class="o_row">-->
-                        <!--&lt;!&ndash;<label string="Term"/>&ndash;&gt;-->
-                        <!--<label string="duration"/>-->
-                        <!--<field name="duration_no"/>-->
-                        <!--<label string="type"/>-->
-                        <!--<field name="duration_type"/>-->
+                    <!--&lt;!&ndash;<label string="Term"/>&ndash;&gt;-->
+                    <!--<label string="duration"/>-->
+                    <!--<field name="duration_no"/>-->
+                    <!--<label string="type"/>-->
+                    <!--<field name="duration_type"/>-->
                     <!--</div>-->
 
 
@@ -101,109 +101,87 @@
 
                 <xpath expr="/form/sheet/group[1]" position="after" >
                     <field name="test" style="width:20%; font-size: 15px"  invisible="1"  />
-                    <group string="Insured"  attrs="{'invisible': ['|',('test', '=', False)]}">
+                    <!--<group string="Insured"  attrs="{'invisible': ['|',('test', '=', False)]}">-->
 
-                        <group attrs="{'invisible': ['|',('ins_type', '!=', 'Group')]}">
+                    <!--<group attrs="{'invisible': ['|',('ins_type', '!=', 'Group')]}">-->
 
-                            <field name="group" />
-                        </group>
+                    <!--<field name="group" />-->
+                    <!--</group>-->
 
-                        <!--<group >-->
-                        <!--<button name="Insured_button" string="Add Risk Details" class="oe_highlight" type="object" attrs="{'invisible': [('active','=',False)]}"/>-->
-                        <!--</group>-->
-
-                        <field name="objectrisks" >
-                            <tree>
+                    <!--<group >-->
+                    <!--<button name="Insured_button" string="Add Risk Details" class="oe_highlight" type="object" attrs="{'invisible': [('active','=',False)]}"/>-->
+                    <!--</group>-->
+                    <label string="Insured" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('test', '=', False)]}" ></label>
+                    <field name="objectrisks" attrs="{'invisible': ['|',('test', '=', False)]}" >
+                        <tree>
+                            <!--<field name="risk"/>-->
+                            <field name="risk_description"/>
+                        </tree>
+                        <form>
+                            <group>
                                 <!--<field name="risk"/>-->
-                                <field name="risk_description"/>
-                            </tree>
-                            <form>
-                                <group>
-                                    <!--<field name="risk"/>-->
-                                    <field name="risk_description" invisible="1"/>
-                                    <field name="risks_crm" invisible="1"/>
-                                    <field name="type_risk" invisible="1"/>
+                                <field name="risk_description" invisible="1"/>
+                                <field name="risks_crm" />
+                                <field name="type_risk" invisible="1"/>
 
-                                </group>
+                            </group>
 
-                                <group string="Vehicle" attrs="{'invisible': ['|',('type_risk', '!=', 'vehicle')]}" >
-                                    <field name="car_tybe" widget="selection"/>
-                                    <field name="Man" widget="selection"/>
-                                    <field name="model" widget="selection"/>
-                                    <field name="year_of_made"/>
-                                    <field name="motor_cc"/>
-                                </group>
-                                <group string="Person" attrs="{'invisible': ['|',('type_risk', '!=', 'person')]}">
-                                    <field name="name"/>
-                                    <field name="DOB"/>
-                                    <field name="job" widget="selection"/>
-                                </group>
-                                <group string="Cargo"  attrs="{'invisible': ['|',('type_risk', '!=', 'cargo')]}">
-                                    <field name="From"  />
-                                    <field name="To"  />
-                                    <field name="cargo_type" />
-                                    <field name="weight"   />
-                                </group>
-                                <group string="Location"  attrs="{'invisible': ['|',('type_risk', '!=', 'location')]}">
-                                    <field name="address"  />
-                                    <field name="type"  />
-                                </group>
+                            <group string="Vehicle" attrs="{'invisible': ['|',('type_risk', '!=', 'vehicle')]}" >
+                                <field name="car_tybe" widget="selection"/>
+                                <field name="Man" widget="selection"/>
+                                <field name="model" widget="selection"/>
+                                <field name="motor_cc"/>
+                                <field name="year_of_made"/>
+                                <field name="plate_no"/>
+                                <field name="chassis_no"/>
+                                <field name="engine"/>
+                            </group>
+                            <group string="Person" attrs="{'invisible': ['|',('type_risk', '!=', 'person')]}">
+                                <field name="name"/>
+                                <field name="DOB"/>
+                                <field name="job" widget="selection"/>
+                            </group>
+                            <group string="Cargo"  attrs="{'invisible': ['|',('type_risk', '!=', 'cargo')]}">
+                                <field name="From"  />
+                                <field name="To"  />
+                                <field name="cargo_type" />
+                                <field name="weight"   />
+                            </group>
+                            <group string="Location"  attrs="{'invisible': ['|',('type_risk', '!=', 'location')]}">
+                                <field name="address"  />
+                                <field name="type"  />
+                            </group>
 
 
-                            </form>
-                        </field>
-
-                    </group>
-                </xpath>
-                <xpath expr="/form/sheet/group[2]" position="after">
-                    <field name="test" style="width:20%; font-size: 15px"  invisible="1"  />
-                    <group string="Proposals"  attrs="{'invisible': ['|',('test', '=', False)]}">
-                        <group attrs="{'invisible': ['|',('ins_type', '!=', 'Group')]}">
-
-                            <field name="group" />
-                        </group>
-
-
-                        <field name="proposal_opp" >
-                            <tree>
-
-                                <!--<field name="proposal_id"/>-->
-                                <field name="Company"/>
-                                <field name="product_pol"/>
-                                <field name="proposal_desc"/>
-
-
-                                <field name="premium"/>
-                            </tree>
-                        </field>
-
-                    </group>
-
-                </xpath>
-
-                <xpath expr="/form/sheet/group[3]" position="after">
-                    <button name="covers_button" string="create covers line" class="oe_highlight" type="object"  attrs="{'invisible': ['|',('test', '=', False)]}"/>
-
+                        </form>
+                    </field>
+                    <label string="Proposals" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('test', '=', False)]}" ></label>
+                    <field name="proposal_opp"  attrs="{'invisible': ['|',('test', '=', False)]}" >
+                        <tree>
+                            <field name="Company"/>
+                            <field name="product_pol"/>
+                            <field name="proposal_desc"/>
+                            <field name="premium"/>
+                        </tree>
+                    </field>
                     <field name="set_covers" invisible="1"/>
-                    <field name="id" invisible="1"/>
-                    <group string="Proposal lines"   >
-                    </group>
-
+                    <button name="covers_button" string="Validate" class="oe_highlight" type="object"  attrs="{'invisible': ['|',('test', '=', False)]}"/><br/>
+                    <label string="Proposal Lines" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('test', '=', False)]}" ></label>
                     <field name="coverage_line"  attrs="{'invisible': ['|',('set_covers', '=', False)]}">
 
                         <tree editable="bottom">
-                            <field name="proposal_id"  style="color:Red;"/>
+                            <field name="proposal_id"  style="color:#2e70b8 ;"/>
                             <field name="insurer" invisible="1"/>
                             <field name="product" invisible="1"/>
                             <field name="risk_id_covers" options="{'no_create': True, 'no_open': True}"/>
                             <!--<field name="risk_desc"/>-->
-                            <field name="covers" />
-                            <field name="deductible"/>
-                            <field name="limitone"/>
-                            <field name="limittotal"/>
-                            <field name="sum_insured"/>
-                            <field name="rate"/>
-                            <field name="net_premium"/>
+                            <field name="check" invisible="1"/>
+                            <field name="sum_insured" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+                            <field name="rate" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+                            <field name="net_premium" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+                            <field name="limitone" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+                            <field name="limittotal" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+                            <field name="deductible" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
 
                         </tree>
                         <!--<form>-->
@@ -220,6 +198,72 @@
 
 
                 </xpath>
+
+                <!--<xpath expr="/form/sheet/group[1]" position="after">-->
+                <!--<field name="test" style="width:20%; font-size: 15px"  invisible="1"  />-->
+                <!--<group string="Proposals"  attrs="{'invisible': ['|',('test', '=', False)]}">-->
+                <!--<group attrs="{'invisible': ['|',('ins_type', '!=', 'Group')]}">-->
+
+                <!--<field name="group" />-->
+                <!--</group>-->
+
+
+                <!--<field name="proposal_opp" >-->
+                <!--<tree>-->
+
+                <!--&lt;!&ndash;<field name="proposal_id"/>&ndash;&gt;-->
+                <!--<field name="Company"/>-->
+                <!--<field name="product_pol"/>-->
+                <!--<field name="proposal_desc"/>-->
+
+
+                <!--<field name="premium"/>-->
+                <!--</tree>-->
+                <!--</field>-->
+
+                <!--</group>-->
+
+                <!--</xpath>-->
+
+                <!--<xpath expr="/form/sheet/group[2]" position="after">-->
+                <!--<button name="covers_button" string="Validate" class="oe_highlight" type="object"  attrs="{'invisible': ['|',('test', '=', False)]}"/>-->
+
+                <!--<field name="set_covers" invisible="1"/>-->
+                <!--<field name="id" invisible="1"/>-->
+                <!--<group string="Proposal lines"   >-->
+                <!--</group>-->
+
+                <!--<field name="coverage_line"  attrs="{'invisible': ['|',('set_covers', '=', False)]}">-->
+
+                <!--<tree editable="bottom">-->
+                <!--<field name="proposal_id"  style="color:Blue;"/>-->
+                <!--<field name="insurer" invisible="1"/>-->
+                <!--<field name="product" invisible="1"/>-->
+                <!--<field name="risk_id_covers" options="{'no_create': True, 'no_open': True}"/>-->
+                <!--&lt;!&ndash;<field name="risk_desc"/>&ndash;&gt;-->
+                <!--<field name="check" invisible="1"/>-->
+                <!--<field name="sum_insured" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+                <!--<field name="rate" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+                <!--<field name="net_premium" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+                <!--<field name="limitone" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+                <!--<field name="limittotal" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+                <!--<field name="deductible" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+
+                <!--</tree>-->
+                <!--&lt;!&ndash;<form>&ndash;&gt;-->
+                <!--&lt;!&ndash;<group>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="proposal_id"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="risk_id_covers"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="risk_desc"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="covers"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="covers_crm" invisible="1"  />&ndash;&gt;-->
+
+                <!--&lt;!&ndash;</group>&ndash;&gt;-->
+                <!--&lt;!&ndash;</form>&ndash;&gt;-->
+                <!--</field>-->
+
+
+                <!--</xpath>-->
 
             </field>
         </record>

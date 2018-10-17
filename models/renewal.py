@@ -50,7 +50,7 @@ class Renewal_Again(models.Model):
             records_sharecommition = []
             for rec in sharecommition:
                 comm = (
-                    0, 0, {'agent': rec.agent.id, 'share_commition': rec.share_commition,
+                    0, 0, {'agent': rec.agent.id, 'share_commission': rec.share_commission,
                            'amount': rec.amount,
                            })
                 records_sharecommition.append(comm)

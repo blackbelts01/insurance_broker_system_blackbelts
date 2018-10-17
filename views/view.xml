@@ -96,12 +96,15 @@
                                 <field name="t_permimum"/>
                                 <field name="term"/>
                                 <field name="number"  attrs="{'invisible': [('term', '!=', 'year')]}"/>
+
                             </group>
                             <group>
                                 <field name="check_item" invisible="1"/>
                                 <field name="group" invisible="1"/>
                             </group>
-                            <field name="new_risk_ids"  >
+                            <label string="Insured" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('check_item', '=', False)]}" ></label>
+
+                            <field name="new_risk_ids" attrs="{'invisible': ['|',('check_item', '=', False)]}" >
                                 <tree>
                                     <!--<field name="risk"/>-->
                                     <field name="risk_description"  />
@@ -109,7 +112,7 @@
                                 <form>
                                     <group>
                                         <!--<field name="risk"/>-->
-                                        <field name="risk_description" invisible="1"/>
+                                        <field name="risk_description" />
                                         <field name="policy_risk_id" invisible="1"/>
                                         <field name="test" invisible="1"/>
                                     </group>
@@ -119,6 +122,9 @@
                                         <field name="model" widget="selection"/>
                                         <field name="motor_cc"/>
                                         <field name="year_of_made"/>
+                                        <field name="plate_no"/>
+                                        <field name="chassis_no"/>
+                                        <field name="engine"/>
                                     </group>
                                     <group string="Person" attrs="{'invisible': ['|',('test', '!=', 'person')]}">
                                         <field name="name"/>
@@ -137,25 +143,25 @@
                                     </group>
                                 </form>
                             </field>
-                            <button name="generate_covers" string="Generate Covers" class="oe_highlight" type="object" attrs="{'invisible': [('check_item', '=', False)]}" />
+
+                            <button name="generate_covers" string="Validate" class="oe_highlight"  style="width:15%;" type="object" attrs="{'invisible': [('checho', '=', False)]}" /><br/>
+                            <label string="Coverage" style="font-size: 30px; color:#2e70b8; " attrs="{'invisible': ['|',('checho', '=', False)]}" ></label>
                             <field name="checho" invisible="1"/>
-                            <field name="name_cover_rel_ids" nolabel="1" force_save="1"  attrs="{'invisible': [('checho', '=', False)]}">
+                            <field name="name_cover_rel_ids" nolabel="1" force_save="1"  attrs="{'invisible': [('checho', '=', False)]}" >
                                 <tree editable="1">
-                                    <field name="riskk" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="riskk" options="{'no_create': True, 'no_open': True}" style="color:#2e70b8 ;"/>
                                     <!--<field name="risk_description"/>-->
                                     <field name="policy_rel_id" invisible="1"/>
                                     <field name="insurerd" invisible="1"/>
                                     <field name="prod_product" invisible="1"/>
-
                                     <field name="name1" options="{'no_create': True, 'no_open': True}"/>
                                     <field name="check" invisible="1"/>
+                                    <field name="sum_insure" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
+                                    <field name="rate" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="net_perimum" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="limitone" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="limittotal" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
                                     <field name="deductible" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
-                                    <field name="sum_insure" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
-                                    <field name="rate" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
-
                                 </tree>
                             </field>
                         </group>
@@ -181,17 +187,17 @@
                                     </group>
                                 </group>
                             </page>
-                            <page string='Share commition'>
+                            <page string='Share commission'>
                                 <field name="share_policy_rel_ids" nolabel="1"  >
                                     <tree editable="bottom">
                                         <field name="agent"/>
-                                        <field name="share_commition"/>
+                                        <field name="share_commission"/>
                                         <field name="amount"/>
 
                                     </tree>
                                     <form>
                                         <field name="agent"/>
-                                        <field name="share_commition"/>
+                                        <field name="share_commission"/>
                                         <field name="amount"/>
                                     </form>
                                 </field>

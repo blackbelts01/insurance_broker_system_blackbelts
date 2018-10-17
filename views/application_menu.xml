@@ -1,13 +1,55 @@
 <odoo>
     <data>
+
+        <record id="dashboard" model="ir.ui.view">
+            <field name="name"> DashBoard</field>
+            <field name="model">dash</field>
+            <field name="arch" type="xml">
+
+                <form string="Embedded Webpage" version="7.0" edit="false" create="false">
+
+                    <center>
+
+                        <iframe src="http://178.128.197.205/newibsdash/production/index.html" marginwidth="0" marginheight="0" frameborder="no"  style="height: 100%; width: 100%; border-width:0px;">
+
+                        </iframe>
+
+                    </center>
+
+                </form>
+
+            </field>
+        </record>
+        <record id="action_dashboard" model="ir.actions.act_window">
+            <field name="name">Renewal</field>
+            <field name="res_model">dash</field>
+            <field name="target">inline</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+
+        </record>
+        <record model="ir.actions.act_window.view" id="action_dash">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="dashboard"/>
+            <field name="act_window_id" ref="action_dashboard"/>
+
+        </record>
+        <record id="external_link" model="ir.actions.act_url">
+            <field name="name">Dashboard</field>
+            <field name="type">ir.actions.act_url</field>
+            <field name="target">self</field>
+            <field name="url">http://178.128.197.205/newibsdash/production/index.html</field>
+        </record>
         <menuitem id="main_ibs_menu" name="IBS"/>
 
         <!--Dashboards-->
 
-        <!--<menuitem id="dashboard_views_menu" name="Dashboard"-->
-                  <!--parent="main_ibs_menu" sequence="0"/>-->
-        <!--<menuitem id="agent_dashboard_view_menu" name="Agent Dashboard" parent="dashboard_views_menu"/>-->
-        <!--<menuitem id="admin_dashboard_menu" name="Admin Dashboard" parent="dashboard_views_menu"/>-->
+        <menuitem id="dashboard_views_menu" name="Dashboard" action="action_dashboard"
+                  parent="main_ibs_menu" sequence="0"/>
+        <menuitem id="agent_dashboard_view_menu" name="Agent Dashboard" parent="dashboard_views_menu"/>
+        <menuitem id="admin_dashboard_menu" name="Admin Dashboard" parent="dashboard_views_menu"/>
 
         <!--Partners-->
 
@@ -22,76 +64,76 @@
 
         <!--HR-->
         <menuitem id="hr_management_views_menu" name="Human Resources"
-          parent="main_ibs_menu" sequence="6"/>
+                  parent="main_ibs_menu" sequence="6"/>
         <menuitem id="employees_view_menu" name="Employees" parent="hr_management_views_menu"
-          action="hr.open_view_employee_list_my"/>
+                  action="hr.open_view_employee_list_my"/>
         <menuitem id="employees_list_view_menu" name="Employees" parent="employees_view_menu"
-          action="hr.open_view_employee_list_my"/>
+                  action="hr.open_view_employee_list_my"/>
         <menuitem id="contract_view_menu" name="Contracts" parent="employees_view_menu"
-          action="hr_contract.action_hr_contract"/>
+                  action="hr_contract.action_hr_contract"/>
         <menuitem id="department_view_menu" name="Departments" parent="employees_view_menu"
-          action="hr.open_module_tree_department"/>
+                  action="hr.open_module_tree_department"/>
         <menuitem id="attendance_view_menu" name="Attendance" parent="hr_management_views_menu"
-          action="hr_attendance.hr_attendance_action"/>
+                  action="hr_attendance.hr_attendance_action"/>
         <menuitem id="leaves_view_menu" name="Leaves" parent="hr_management_views_menu"
-          action="hr_holidays.action_hr_holidays_dashboard"/>
+                  action="hr_holidays.action_hr_holidays_dashboard"/>
         <menuitem id="myleaves_view_menu" name="My Leaves" parent="leaves_view_menu"/>
         <menuitem id="leaves_summary_view_menu" name="Leaves Summary" parent="myleaves_view_menu"
-          action="hr_holidays.open_company_allocation"/>
+                  action="hr_holidays.open_company_allocation"/>
         <menuitem id="leaves_request_view_menu" name="Leaves Request" parent="myleaves_view_menu"
-          action="hr_holidays.open_ask_holidays"/>
+                  action="hr_holidays.open_ask_holidays"/>
         <menuitem id="allocation_request_view_menu" name="Allocation Request" parent="myleaves_view_menu"
-          action="hr_holidays.open_allocation_holidays"/>
+                  action="hr_holidays.open_allocation_holidays"/>
         <menuitem id="leaves_approve_view_menu" name="Leaves to Approve" parent="leaves_view_menu"/>
         <menuitem id="dep_leaves_view_menu" name="Department Leaves" parent="leaves_approve_view_menu"
-          action="hr_holidays.open_department_holidays_approve"/>
+                  action="hr_holidays.open_department_holidays_approve"/>
         <menuitem id="leaves_dep_all_view_menu" name="Department Leaves Allocation" parent="leaves_approve_view_menu"
-          action="hr_holidays.open_department_holidays_allocation_approve"/>
+                  action="hr_holidays.open_department_holidays_allocation_approve"/>
         <menuitem id="leaves_reporting_view_menu" name="Reporting" parent="leaves_view_menu"/>
         <menuitem id="leaves_details_view_menu" name="Leave Details" parent="leaves_reporting_view_menu"
-          action="hr_holidays.open_employee_leaves"/>
+                  action="hr_holidays.open_employee_leaves"/>
         <menuitem id="leaves_analy_view_menu" name="Leaves Analysis" parent="leaves_reporting_view_menu"
-          action="hr_holidays.action_hr_available_holidays_report"/>
+                  action="hr_holidays.action_hr_available_holidays_report"/>
         <menuitem id="expenses_view_menu" name="Expenses" parent="hr_management_views_menu"/>
         <menuitem id="myexpense_view_menu" name="My Expense" parent="expenses_view_menu"/>
         <menuitem id="expense_submit_view_menu" name="My Expenses to Submit" parent="myexpense_view_menu"
-          action="hr_expense.hr_expense_actions_my_unsubmitted"/>
+                  action="hr_expense.hr_expense_actions_my_unsubmitted"/>
         <menuitem id="refused_reports_view_menu" name="My Refused Reports" parent="myexpense_view_menu"
-          action="hr_expense.action_hr_expense_sheet_my_refused"/>
+                  action="hr_expense.action_hr_expense_sheet_my_refused"/>
         <menuitem id="exp_reports_view_menu" name="My Reports" parent="myexpense_view_menu"
-          action="hr_expense.action_hr_expense_sheet_my_all"/>
+                  action="hr_expense.action_hr_expense_sheet_my_all"/>
         <menuitem id="to_Approve_exp_view_menu" name="To Approve" parent="expenses_view_menu"
-               action="hr_expense.action_hr_expense_sheet_all_to_approve"/>
+                  action="hr_expense.action_hr_expense_sheet_all_to_approve"/>
         <menuitem id="account_exp_view_menu" name="Accountant" parent="expenses_view_menu"/>
         <menuitem id="expense_report_approve_view_menu" name="Expense Reports to Approve" parent="account_exp_view_menu"
-          action="hr_expense.action_hr_expense_sheet_all_to_approve"/>
+                  action="hr_expense.action_hr_expense_sheet_all_to_approve"/>
         <menuitem id="expense_report_pay_view_menu" name="Expense Reports To Pay" parent="account_exp_view_menu"
-          action="hr_expense.action_hr_expense_sheet_all_to_pay"/>
+                  action="hr_expense.action_hr_expense_sheet_all_to_pay"/>
         <menuitem id="appraisals_view_menu" name="Appraisals" parent="hr_management_views_menu"
-          action=""/>
+                  action=""/>
         <menuitem id="recruitment_view_menu" name="Recruitment" parent="hr_management_views_menu"/>
         <menuitem id="recruitment_job_views_menu" name="Job Positions" parent="recruitment_view_menu"
-        action="hr_recruitment.action_hr_job"/>
+                  action="hr_recruitment.action_hr_job"/>
         <menuitem id="recruitment_applications_views_menu" name="Applications" parent="recruitment_view_menu"/>
         <menuitem id="recruitment_all_app_views_menu" name="All Applications" parent="recruitment_applications_views_menu"
-        action="hr_recruitment.crm_case_categ0_act_job"/>
+                  action="hr_recruitment.crm_case_categ0_act_job"/>
         <menuitem id="recruitment_next_active_views_menu" name="Next Activities" parent="recruitment_applications_views_menu"
-        action="hr_recruitment.hr_applicant_action_activity"/>
+                  action="hr_recruitment.hr_applicant_action_activity"/>
         <menuitem id="recruitment_resume_views_menu" name="Resumes and Letters" parent="recruitment_view_menu"
-        action="hr_recruitment.hr_applicant_resumes"/>
+                  action="hr_recruitment.hr_applicant_resumes"/>
         <menuitem id="recruitment_configurations_views_menu" name="Configurations" parent="recruitment_view_menu"/>
         <menuitem id="recruitment_conf_stages_views_menu" name="Stages" parent="recruitment_configurations_views_menu"
-        action="hr_recruitment.hr_recruitment_stage_act"/>
+                  action="hr_recruitment.hr_recruitment_stage_act"/>
         <menuitem id="recruitment_conf_tags_views_menu" name="Tags" parent="recruitment_configurations_views_menu"
-        action="hr_recruitment.hr_applicant_category_action"/>
+                  action="hr_recruitment.hr_applicant_category_action"/>
         <menuitem id="recruitment_conf_degree_views_menu" name="Degree" parent="recruitment_configurations_views_menu"
-        action="hr_recruitment.hr_recruitment_degree_action"/>
+                  action="hr_recruitment.hr_recruitment_degree_action"/>
         <menuitem id="recruitment_conf_positions_views_menu" name="Job Positions" parent="recruitment_configurations_views_menu"
-        action="hr_recruitment.action_hr_job_config"/>
+                  action="hr_recruitment.action_hr_job_config"/>
         <menuitem id="recruitment_conf_sources_applicants_views_menu" name="Sources of Applicants" parent="recruitment_configurations_views_menu"
-        action="hr_recruitment.hr_recruitment_source_action"/>
+                  action="hr_recruitment.hr_recruitment_source_action"/>
         <menuitem id="recruitment_conf_departments_views_menu" name="Departments" parent="recruitment_configurations_views_menu"
-        action="hr_recruitment.action_hr_department"/>
+                  action="hr_recruitment.action_hr_department"/>
 
         <!--Sales-->
         <menuitem id="ibs_sales_menu" name="Sales" parent="main_ibs_menu" sequence="1"/>
@@ -100,7 +142,7 @@
         <menuitem id="opportunities_view_menu" name="Opportunities" parent="ibs_sales_menu"
                   action="ibs_crm_lead_opportunities" sequence="1"/>
         <!--<menuitem id="channel_view_menu" name="Sales Channels" parent="ibs_sales_menu"-->
-                  <!--action="sales_team.crm_team_salesteams_act" sequence="2"/>-->
+        <!--action="sales_team.crm_team_salesteams_act" sequence="2"/>-->
         <menuitem id="Print_out_production_view_menu" name="Print out" parent="ibs_sales_menu"/>
         <menuitem id="configuration_production_view_menu" name="Configuration" parent="ibs_sales_menu"/>
 
@@ -192,6 +234,7 @@
                   action="insurance_Products_action" sequence="1"/>
         <menuitem id="setup_item_view_menu" name="Setup Items" parent="configuration_view_menu"
                   action="insurance_setup_action" sequence="2"/>
+
 
     </data>
 </odoo>

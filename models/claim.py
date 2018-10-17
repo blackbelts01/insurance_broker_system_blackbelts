@@ -140,7 +140,7 @@ class settleHistory(models.Model):
     #Vehicle details
     vcar_type = fields.Many2one(related='risk_id.car_tybe',string='Vehicle Type')
     vmotor_cc = fields.Char(related='risk_id.motor_cc',string="Motor cc")
-    vyear_of_made = fields.Integer(related='risk_id.year_of_made',string="Year of Made")
+    vyear_of_made = fields.Char(related='risk_id.year_of_made',string="Year of Made")
     vbrande = fields.Many2one(related='risk_id.Man',string='Maker')
     vmodel = fields.Many2one(related='risk_id.model',string="Model")
     #Person details

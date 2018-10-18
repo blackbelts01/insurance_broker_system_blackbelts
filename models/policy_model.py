@@ -160,9 +160,6 @@ class PolicyBroker(models.Model):
                 duration = duration + timedelta(days=30)
             self.rella_installment_id = phone_numbers
 
-    # def proposalselected(self):
-    #     ids = self.env['proposal.bb'].search([('id', '=', self.prop_id)]).ids
-    #     self.selected_proposal = [(6, 0, ids)]
 
     @api.onchange('line_of_bussines')
     def _compute_comment(self):
@@ -174,16 +171,6 @@ class PolicyBroker(models.Model):
         return self.env.ref('insurance_broker_system_blackbelts.policy_report').report_action(self)
 
 
-    @api.multi
-    @api.constrains('share_policy_rel_ids')
-    @api.onchange("share_commition")
-    def _check_something(self):
-        total = 0.0
-        for rec in self.share_policy_rel_ids:
-            total += rec.share_commition
-
-        if total > 100:
-            raise ValidationError("Your share percentage must be under percentage")
     @api.multi
     def To_renewal(self):
         form_view = self.env.ref('insurance_broker_system_blackbelts.Renewal_Policy_form_one')
@@ -244,7 +231,7 @@ class PolicyBroker(models.Model):
 
     @api.multi
     def _compute_commission_per(self):
-        self.commission_per=(self.product_policy.commission_per/100)*self.t_permimum
+        self.commission_per=(self.product_policy.commission_per/100)*self.total_commision
 
 
     @api.onchange("t_permimum","term")
@@ -649,42 +636,6 @@ class Extra_Covers(models.Model):
     def onchange_risc_desc(self):
         if self.riskk:
             self.risk_description = self.riskk.risk_description
-
-    #     res = {}
-    #     self.riskk = False
-    #     if self.policy_rel_id.new_risk_ids:
-    #         print("khaled")
-    #         ids = self.env["policy.broker"].browse([self.policy_rel_id.new_risk_ids])
-    #         print(ids)
-    #         # ids = self.policy_rel_id.new_risk_ids.mapped('id')
-    #         # print(ids)
-    #         # for rec in ids:
-    #         #     self.riskk = rec.risk
-    #     #     res['domain'] = {'riskk': [('risk', 'in', ids)]}
-    #     #     print(res)
-    #     # return res
-
-    # @api.multi
-    # def _compute_risk(self):
-    #     bns = self.env["new.risks"].search([('risk', '=', self.policy_rel_id.new_risk_ids.id)])
-    #     print(bns.ids)
-    #     for rec in bns.ids:
-    #         self.riskk = rec.risk
-
-
-    # @api.multi
-    # def _compute_coverage(self):
-    #     obj = self.env['insurance.product.coverage'].search([('product_id','=',self.policy_rel_id.product_policy.id)])
-    #     print(obj.ids)
-    #     for rec in obj.ids:
-    #         self.name = rec.Name
-    #         self.check = rec.readonly
-    #         self.sum_insure = rec.defaultvalue
-
-
-
-
-
 
 class ShareCommition(models.Model):
     _name = "insurance.share.commission"

@@ -20,33 +20,6 @@
             </tree>
         </field>
     </record>
-       <record id="Renewal_Policy_form_one" model="ir.ui.view">
-            <field name="name"> Renewal Policy</field>
-            <field name="model">renewal.again</field>
-            <field name="arch" type="xml">
-                <form string="my_form_Renewal_policy">
-                    <header>
-                        <button name="create_renewal" string="Convert  Renewal t0 Policy" class="oe_highlight" type="object" />
-                    </header>
-                    <sheet>
-                        <group string="renewal">
-                            <field name="old_number"/>
-                            <field name="last_policy" invisible="1"/>
-                            <field name="new_number"/>
-                            <field name="issue_date"/>
-                            <field name="start_date"/>
-                            <field name="end_date"/>
-                        </group>
-
-                    </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
-                   </div>
-                </form>
-            </field>
-        </record>
     <record id="action_renewal_policy" model="ir.actions.act_window">
         <field name="name">Renewal</field>
         <field name="res_model">policy.broker</field>

@@ -9,8 +9,8 @@ class Covers(models.Model):
     _rec_name='proposal_id'
 
     covers_crm=fields.Many2one('crm.lead','covers opp')
-    proposal_id=fields.Many2one('proposal.opp.bb','proposal id')
-    risk_id_covers = fields.Many2one('new.risks', 'Risk id')
+    proposal_id=fields.Many2one('proposal.opp.bb','Proposal')
+    risk_id_covers = fields.Many2one('new.risks', 'Risk')
     # risk_desc=fields.Char('Risk Description')
     # Company = fields.Many2one('res.partner', domain="[('insurer_type','=',1)]", string="Insurer")
     # product_pol = fields.Many2one('insurance.product', domain="[('insurer','=',Company)]", string="Product")
@@ -44,9 +44,8 @@ class Covers(models.Model):
                self.deductible=self.covers.deductible
                self.limitone=self.covers.limitone
                self.limittotal=self.covers.limittotal
-               self.net_premium = self.sum_insured
 
-    @api.onchange('rate')
+    @api.onchange('rate','sum_insured')
     def compute_premium(self):
         if self.covers and self.rate:
                self.net_premium=(self.sum_insured*self.rate)/100

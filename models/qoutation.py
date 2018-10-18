@@ -13,9 +13,9 @@ class crm_leads(models.Model):
     create_uid = fields.Many2one('res.users', string='Lead Generator')
     policy_number = fields.Char( string='Policy Number')
 
-    insurance_type = fields.Selection([('life', 'Life'),
-                                       ('p&c', 'P&C'),
-                                       ('health', 'Health'), ],
+    insurance_type = fields.Selection([('Life', 'Life'),
+                                       ('P&C', 'P&C'),
+                                       ('Health', 'Health'), ],
                                       'Insurance Type', track_visibility='onchange')
     ins_type = fields.Selection([('Individual', 'Individual'),
                                  ('Group', 'Group'),],
@@ -287,6 +287,7 @@ class crm_leads(models.Model):
     def _change(self):
         if self.c_type.id:
             self.planned_revenue = self.ammount / self.c_type.rate
+            print(self.c_type.rate)
 
 
 

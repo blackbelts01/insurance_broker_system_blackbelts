@@ -100,7 +100,7 @@
         <field name="res_model">res.partner</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
-        <field name="domain">[('insurer_type','=', False)]</field>
+        <field name="domain">[('insurer_type','=', False),('agent','=', False)]</field>
         <field name="context">{"search_default_customer":1,"own_customer_only":1}</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Create the Customer
@@ -126,7 +126,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="domain">[('agent','=', True)]</field>
-        <field name="context">{"search_default_customer":1,"own_customer_only":1,'default_agent': 1}</field>
+        <field name="context">{'default_agent': 1}</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Create the Agent
             </p>

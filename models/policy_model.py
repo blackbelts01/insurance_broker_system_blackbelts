@@ -10,9 +10,6 @@ class PolicyBroker(models.Model):
     _name = "policy.broker"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-
-
-
     @api.multi
     def show_claim(self):
         return {
@@ -162,7 +159,7 @@ class PolicyBroker(models.Model):
 
 
     @api.onchange('line_of_bussines')
-    def _compute_comment(self):
+    def _compute_comment_policy(self):
         for record in self:
             record.check_item = record.line_of_bussines.object
 
@@ -170,31 +167,11 @@ class PolicyBroker(models.Model):
     def print_policy(self):
         return self.env.ref('insurance_broker_system_blackbelts.policy_report').report_action(self)
 
-
-    @api.multi
-    def To_renewal(self):
-        form_view = self.env.ref('insurance_broker_system_blackbelts.Renewal_Policy_form_one')
-
-        return {
-                   'name': ('Renwal'),
-                   'view_type': 'form',
-                   'view_mode': 'form',
-                   'views': [(form_view.id, 'form')],
-                   'res_model': 'renewal.again',
-                   'target': 'current',
-                   'type': 'ir.actions.act_window',
-                   'context': {'default_old_number':self.id},
-        }
-
     @api.model
     def compute_date(self):
         if (datetime.today().strftime('%Y-%m-%d')):
             if (datetime.today().strftime('%Y-%m-%d')) >= self.end_date:
                 self.renewal_state=True
-
-
-
-
 
 
     bool = fields.Boolean()
@@ -215,23 +192,22 @@ class PolicyBroker(models.Model):
 
 
 
-
     term = fields.Selection(
         [("onetime", "One Time"), ("year", "yearly"), ("quarter", "Quarterly"), ("month", "Monthly")],
-        string="payment frequency")
-    number = fields.Integer(string="No Of Years", default=1)
+        string="Payment Frequency")
+    number = fields.Integer(string="No. Years", default=1)
 
 
     gross_perimum = fields.Float(string="Gross Perimum")
     t_permimum = fields.Float(string="Net Permium", compute="_compute_t_premium")
 
-    salesperson = fields.Many2one('res.partner', string='Salesperson')
-    commission_per = fields.Float(string="Commission Percentage",compute="_compute_commission_per")
+    salesperson = fields.Many2one('res.partner', string='Salesperson',domain="[('agent','=',True)]")
+    commission_per = fields.Float(string="Commission",compute="_compute_commission_per")
     share_commission=fields.One2many('insurance.share.commission','policy_id',string='Share Commissions')
 
     @api.multi
     def _compute_commission_per(self):
-        self.commission_per=(self.product_policy.commission_per/100)*self.total_commision
+        self.commission_per=(self.product_policy.commission_per/100)*self.t_permimum
 
 
     @api.onchange("t_permimum","term")
@@ -247,9 +223,9 @@ class PolicyBroker(models.Model):
 
     customer = fields.Many2one('res.partner', 'Customer')
 
-    insurance_type = fields.Selection([('life', 'Life'),
-                                       ('p&c', 'P&C'),
-                                       ('health', 'Health'), ],
+    insurance_type = fields.Selection([('Life', 'Life'),
+                                       ('P&C', 'P&C'),
+                                       ('Health', 'Health'), ],
                                       'Insurance Type', track_visibility='onchange')
     ins_type = fields.Selection([('Individual', 'Individual'),
                                  ('Group', 'Group'), ],
@@ -274,7 +250,7 @@ class PolicyBroker(models.Model):
 
     name_cover_rel_ids = fields.One2many("covers.lines","policy_rel_id",string="Covers Details" )
     currency_id = fields.Many2one("res.currency","Currency Code")
-    benefit =fields.Char("Beneifciary")
+    benefit =fields.Char("Beneficiary")
 
     checho = fields.Boolean()
     count_claim = fields.Integer(compute="compute_true")
@@ -316,6 +292,14 @@ class PolicyBroker(models.Model):
             rec.earl_commision = (rec.product_policy.brokerage.early_collection * rec.t_permimum) / 100
             rec.fixed_commision = (rec.product_policy.brokerage.fixed_commission * rec.t_permimum) / 100
             rec.total_commision = rec.commision + rec.com_commision + rec.fixed_commision + rec.earl_commision
+
+
+
+
+
+
+
+
 
 
     @api.multi
@@ -472,7 +456,7 @@ class PolicyBroker(models.Model):
                     'insured_lOB': self.line_of_bussines.id,
                     'insured_insurer': self.company.id,
                     'insured_product': self.product_policy.id,
-                    'date_due':self.record.date,
+                    'date_due':record.date,
                     'invoice_line_ids': [(0, 0, {
                         'name': str(self.line_of_bussines.line_of_business),
                         'quantity': 1,
@@ -494,7 +478,7 @@ class PolicyBroker(models.Model):
                     'insured_lOB': self.line_of_bussines.id,
                     'insured_insurer': self.company.id,
                     'insured_product': self.product_policy.id,
-                    'date_due': self.record.date,
+                    'date_due': record.date,
                     'invoice_line_ids': [(0, 0, {
                         'name': str(self.line_of_bussines.line_of_business),
                         'quantity': 1,
@@ -563,11 +547,7 @@ class AccountInvoiceRelate(models.Model):
 
 class Extra_Covers(models.Model):
     _name = "covers.lines"
-
-
-
-
-    riskk = fields.Many2one("new.risks", "Risk ID")
+    riskk = fields.Many2one("new.risks", "Risk")
     # risk_description = fields.Text(string="Risk Description")
     #
     insurerd = fields.Many2one(related="policy_rel_id.company")
@@ -627,7 +607,7 @@ class Extra_Covers(models.Model):
             self.limitone = self.name1.limitone
             self.limittotal = self.name1.limittotal
 
-    @api.onchange('rate')
+    @api.onchange('rate','sum_insure')
     def compute_premium(self):
         if self.name1:
             self.net_perimum = (self.sum_insure * self.rate) / 100

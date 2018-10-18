@@ -10,9 +10,6 @@ class PolicyBroker(models.Model):
     _name = "policy.broker"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-
-
-
     @api.multi
     def show_claim(self):
         return {
@@ -160,9 +157,6 @@ class PolicyBroker(models.Model):
                 duration = duration + timedelta(days=30)
             self.rella_installment_id = phone_numbers
 
-    # def proposalselected(self):
-    #     ids = self.env['proposal.bb'].search([('id', '=', self.prop_id)]).ids
-    #     self.selected_proposal = [(6, 0, ids)]
 
     @api.onchange('line_of_bussines')
     def _compute_comment_policy(self):
@@ -173,32 +167,11 @@ class PolicyBroker(models.Model):
     def print_policy(self):
         return self.env.ref('insurance_broker_system_blackbelts.policy_report').report_action(self)
 
-
-
-    @api.multi
-    def To_renewal(self):
-        form_view = self.env.ref('insurance_broker_system_blackbelts.Renewal_Policy_form_one')
-
-        return {
-                   'name': ('Renwal'),
-                   'view_type': 'form',
-                   'view_mode': 'form',
-                   'views': [(form_view.id, 'form')],
-                   'res_model': 'renewal.again',
-                   'target': 'current',
-                   'type': 'ir.actions.act_window',
-                   'context': {'default_old_number':self.id},
-        }
-
     @api.model
     def compute_date(self):
         if (datetime.today().strftime('%Y-%m-%d')):
             if (datetime.today().strftime('%Y-%m-%d')) >= self.end_date:
                 self.renewal_state=True
-
-
-
-
 
 
     bool = fields.Boolean()
@@ -221,20 +194,22 @@ class PolicyBroker(models.Model):
 
     term = fields.Selection(
         [("onetime", "One Time"), ("year", "yearly"), ("quarter", "Quarterly"), ("month", "Monthly")],
-        string="payment frequency")
-    number = fields.Integer(string="No Of Years", default=1)
+        string="Payment Frequency")
+    number = fields.Integer(string="No. Years", default=1)
 
 
     gross_perimum = fields.Float(string="Gross Perimum")
     t_permimum = fields.Float(string="Net Permium", compute="_compute_t_premium")
 
+
     salesperson = fields.Many2one('res.partner', string='Salesperson' ,domain="[('agent','=',1)]")
-    commission_per = fields.Float(string="Commission Percentage",compute="_compute_commission_per")
+
+    commission_per = fields.Float(string="Commission",compute="_compute_commission_per")
     share_commission=fields.One2many('insurance.share.commission','policy_id',string='Share Commissions')
 
     @api.multi
     def _compute_commission_per(self):
-        self.commission_per=(self.product_policy.commission_per/100)*self.total_commision
+        self.commission_per=(self.product_policy.commission_per/100)*self.t_permimum
 
 
     @api.onchange("t_permimum","term")
@@ -337,7 +312,7 @@ class PolicyBroker(models.Model):
     # nohamed saber code
 
     policy_status = fields.Selection([('pending', 'Pending'),
-                                      ('approved', 'Approved'), ],
+                                      ('approve', 'Approve'), ],
                                      'Status', required=True, default='pending')
     hide_inv_button = fields.Boolean(copy=False)
     invoice_ids = fields.One2many('account.invoice', 'insurance_id', string='Invoices', readonly=True)
@@ -462,7 +437,7 @@ class PolicyBroker(models.Model):
     @api.multi
     def confirm_policy(self):
         if self.term and self.customer and self.line_of_bussines and self.company:
-            self.policy_status = 'approved'
+            self.policy_status = 'approve'
             self.hide_inv_button = True
         else:
             raise UserError(_("Customer ,Line of Bussines , Company or Payment Frequency  should be Selected"))
@@ -574,10 +549,6 @@ class AccountInvoiceRelate(models.Model):
 
 class Extra_Covers(models.Model):
     _name = "covers.lines"
-
-
-
-
     riskk = fields.Many2one("new.risks", "Risk")
     # risk_description = fields.Text(string="Risk Description")
     #
@@ -647,13 +618,6 @@ class Extra_Covers(models.Model):
     def onchange_risc_desc(self):
         if self.riskk:
             self.risk_description = self.riskk.risk_description
-
-
-
-
-
-
-
 
 class ShareCommition(models.Model):
     _name = "insurance.share.commission"

@@ -73,6 +73,7 @@
             </data>
         </field>
     </record>
+
     <record id="res_partner_view_remove" model="ir.ui.view">
             <field name="name">res.partner.view.buttons</field>
             <field name="model">res.partner</field>
@@ -82,6 +83,9 @@
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='%(sale.act_res_partner_2_sale_order)d']" position="attributes">
                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='%(crm.crm_lead_opportunities)d']" position="attributes">
+                  <attribute name="attrs">{'invisible':[('insurer_type','!=', False)]}</attribute>>
                 </xpath>
                 <xpath expr="//button[@name='%(sale.act_res_partner_2_sale_order)d']" position="attributes">
                    <attribute name="invisible">1</attribute>
@@ -100,7 +104,7 @@
         <field name="res_model">res.partner</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
-        <field name="domain">[('insurer_type','=', False)]</field>
+        <field name="domain">[('insurer_type','=', False),('agent','=', False)]</field>
         <field name="context">{"search_default_customer":1,"own_customer_only":1}</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Create the Customer
@@ -127,6 +131,7 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="domain">[('agent','=', True)]</field>
         <field name="context">{"search_default_agent":1,'default_customer': 0,'default_agent': 1}</field>
+
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Create the Agent
             </p>

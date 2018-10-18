@@ -24,13 +24,6 @@ class Endorsement_edit(models.Model):
         self.last_policy=last_confirmed_edit.id
         self.number_edit=(last_confirmed_edit.edit_number)+1
 
-
-
-    #     if self.covers_crm:
-    #         return {'domain': {'risk_id_covers': [('id', 'in', self.covers_crm.objectrisks.ids)]}}
-    #
-    # record_ids = self.search([('meter_no', '=', self.meter_no.id)], order='id desc', limit=1)
-    # last_id = record_ids.id
     @api.multi
     def create_endorsement(self):
         form_view = self.env.ref('insurance_broker_system_blackbelts.my_view_for_policy_form_kmlo1')
@@ -124,8 +117,6 @@ class Endorsement_edit(models.Model):
                     'default_branch':self.last_policy.branch.id,
 
                     'default_salesperson':self.last_policy.salesperson.id,
-                    'default_onlayer':self.last_policy.onlayer,
-
                     'default_currency_id':self.last_policy.currency_id.id,
                     'default_benefit':self.last_policy.benefit,
                     'default_gross_perimum': self.last_policy.gross_perimum,

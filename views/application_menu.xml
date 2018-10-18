@@ -6,7 +6,9 @@
             <field name="model">dash</field>
             <field name="arch" type="xml">
 
-                <form string="Embedded Webpage" version="7.0" edit="false" create="false">
+
+                <form string="Embedded Webpage" version="7.0" >
+
 
                     <center>
 
@@ -20,21 +22,20 @@
 
             </field>
         </record>
-        <record id="action_dashboard" model="ir.actions.act_window">
-            <field name="name">Renewal</field>
+        <!--<record id="action_dashboard" model="ir.actions.act_window">-->
+            <!--<field name="name">DashBoard</field>-->
+            <!--<field name="res_model">dash</field>-->
+            <!--<field name="target">inline</field>-->
+            <!--<field name="view_mode">tree,form</field>-->
+            <!--<field name="view_type">form</field>-->
+        <!--</record>-->
+       <record id="dashboard_action" model="ir.actions.act_window">
+            <field name="name">DashBoard</field>
             <field name="res_model">dash</field>
-            <field name="target">inline</field>
-
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">form,tree</field>
             <field name="view_type">form</field>
-
-        </record>
-        <record model="ir.actions.act_window.view" id="action_dash">
-            <field name="sequence" eval="1"/>
-            <field name="view_mode">form</field>
             <field name="view_id" ref="dashboard"/>
-            <field name="act_window_id" ref="action_dashboard"/>
-
+            <field name="context">{'create':False,'edit':False}</field>
         </record>
         <record id="external_link" model="ir.actions.act_url">
             <field name="name">Dashboard</field>
@@ -46,7 +47,7 @@
 
         <!--Dashboards-->
 
-        <menuitem id="dashboard_views_menu" name="Dashboard" action="action_dashboard"
+        <menuitem id="dashboard_views_menu" name="Dashboard" action="dashboard_action"
                   parent="main_ibs_menu" sequence="0"/>
         <menuitem id="agent_dashboard_view_menu" name="Agent Dashboard" parent="dashboard_views_menu"/>
         <menuitem id="admin_dashboard_menu" name="Admin Dashboard" parent="dashboard_views_menu"/>
@@ -54,7 +55,7 @@
         <!--Partners-->
 
         <menuitem id="partners_views_menu" name="Partners"
-                  parent="main_ibs_menu" sequence="0"/>
+                  parent="main_ibs_menu" sequence="1"/>
         <menuitem id="customers_view_menu" name="Customer" parent="partners_views_menu"
                   action="action_customer_view"/>
         <menuitem id="insurer_view_menu" name="Insurer" parent="partners_views_menu"
@@ -66,7 +67,7 @@
 
         <!--HR-->
         <menuitem id="hr_management_views_menu" name="Human Resources"
-                  parent="main_ibs_menu" sequence="6"/>
+                  parent="main_ibs_menu" sequence="7"/>
         <menuitem id="employees_view_menu" name="Employees" parent="hr_management_views_menu"
                   action="hr.open_view_employee_list_my"/>
         <menuitem id="employees_list_view_menu" name="Employees" parent="employees_view_menu"
@@ -111,34 +112,9 @@
                   action="hr_expense.action_hr_expense_sheet_all_to_approve"/>
         <menuitem id="expense_report_pay_view_menu" name="Expense Reports To Pay" parent="account_exp_view_menu"
                   action="hr_expense.action_hr_expense_sheet_all_to_pay"/>
-        <menuitem id="appraisals_view_menu" name="Appraisals" parent="hr_management_views_menu"
-                  action=""/>
-        <menuitem id="recruitment_view_menu" name="Recruitment" parent="hr_management_views_menu"/>
-        <menuitem id="recruitment_job_views_menu" name="Job Positions" parent="recruitment_view_menu"
-                  action="hr_recruitment.action_hr_job"/>
-        <menuitem id="recruitment_applications_views_menu" name="Applications" parent="recruitment_view_menu"/>
-        <menuitem id="recruitment_all_app_views_menu" name="All Applications" parent="recruitment_applications_views_menu"
-                  action="hr_recruitment.crm_case_categ0_act_job"/>
-        <menuitem id="recruitment_next_active_views_menu" name="Next Activities" parent="recruitment_applications_views_menu"
-                  action="hr_recruitment.hr_applicant_action_activity"/>
-        <menuitem id="recruitment_resume_views_menu" name="Resumes and Letters" parent="recruitment_view_menu"
-                  action="hr_recruitment.hr_applicant_resumes"/>
-        <menuitem id="recruitment_configurations_views_menu" name="Configurations" parent="recruitment_view_menu"/>
-        <menuitem id="recruitment_conf_stages_views_menu" name="Stages" parent="recruitment_configurations_views_menu"
-                  action="hr_recruitment.hr_recruitment_stage_act"/>
-        <menuitem id="recruitment_conf_tags_views_menu" name="Tags" parent="recruitment_configurations_views_menu"
-                  action="hr_recruitment.hr_applicant_category_action"/>
-        <menuitem id="recruitment_conf_degree_views_menu" name="Degree" parent="recruitment_configurations_views_menu"
-                  action="hr_recruitment.hr_recruitment_degree_action"/>
-        <menuitem id="recruitment_conf_positions_views_menu" name="Job Positions" parent="recruitment_configurations_views_menu"
-                  action="hr_recruitment.action_hr_job_config"/>
-        <menuitem id="recruitment_conf_sources_applicants_views_menu" name="Sources of Applicants" parent="recruitment_configurations_views_menu"
-                  action="hr_recruitment.hr_recruitment_source_action"/>
-        <menuitem id="recruitment_conf_departments_views_menu" name="Departments" parent="recruitment_configurations_views_menu"
-                  action="hr_recruitment.action_hr_department"/>
 
         <!--Sales-->
-        <menuitem id="ibs_sales_menu" name="Sales" parent="main_ibs_menu" sequence="1"/>
+        <menuitem id="ibs_sales_menu" name="Sales" parent="main_ibs_menu" sequence="2"/>
         <menuitem id="leads_view_menu" name="Leads" parent="ibs_sales_menu"
                   action="crm.crm_lead_all_leads" sequence="0"/>
         <menuitem id="opportunities_view_menu" name="Opportunities" parent="ibs_sales_menu"
@@ -150,7 +126,7 @@
 
         <!--Policy-->
         <menuitem id="policy_management_views_menu" name="Policies"
-                  parent="main_ibs_menu" sequence="2"/>
+                  parent="main_ibs_menu" sequence="3"/>
         <menuitem id="policy_view_menu" name="Policy" parent="policy_management_views_menu"
                   action="my_action_for_second_menu" sequence="0"/>
         <menuitem id="endorsement_view_menu" name="Endorsement" parent="policy_management_views_menu"
@@ -167,7 +143,7 @@
                   action="action_for_insured_Cargo" sequence="2"/>
 
         <!--Claim-->
-        <menuitem id="claim_parent_view_menu" name="Claims" parent="main_ibs_menu" sequence="3"/>
+        <menuitem id="claim_parent_view_menu" name="Claims" parent="main_ibs_menu" sequence="4"/>
         <menuitem id="claim_view_menu" name="Claim" parent="claim_parent_view_menu"
                   action="claim_view_action" sequence="0"/>
         <menuitem id="settlements_view_menu" name="Settlements" parent="claim_parent_view_menu" sequence="1"/>
@@ -181,7 +157,7 @@
                   action="action_payment" sequence="2"/>
 
         <!--Invoices-->
-        <menuitem id="ibs_invoices_view_menu" name="Invoices" parent="main_ibs_menu" sequence="4"/>
+        <menuitem id="ibs_invoices_view_menu" name="Invoices" parent="main_ibs_menu" sequence="5"/>
         <menuitem id="customer_inv_view_menu" name="Customer Invoices" parent="ibs_invoices_view_menu"
                   action="action_ibs_customer_invoice" sequence="0"/>
         <menuitem id="bill_view_menu" name="Insurer Bills" parent="ibs_invoices_view_menu"
@@ -193,7 +169,7 @@
 
         <!--Accounting-->
         <menuitem id="accounting_management_views_menu" name="Accounting"
-                  parent="main_ibs_menu" sequence="5"/>
+                  parent="main_ibs_menu" sequence="6"/>
         <menuitem id="document_accounting_view_menu" name="Documents" parent="accounting_management_views_menu"/>
         <menuitem id="document_invoices_accounting_view_menu" name="Invoices" parent="document_accounting_view_menu"/>
         <menuitem id="invoices_view_menu" name="Customer Invoices" parent="document_invoices_accounting_view_menu"
@@ -214,6 +190,17 @@
                   action="analytic.account_analytic_line_action_entries"/>
         <menuitem id="asset_entries_view_menu" name="Assets" parent="accounting_entries_view_menu"
                   action="account_asset.action_account_asset_asset_form"/>
+        <menuitem id="menu_finance_legal_statement" name="PDF Reports" parent="accounting_management_views_menu"/>
+        <menuitem id="menu_general_ledger" name="General Ledger" parent="menu_finance_legal_statement" action="account.action_account_general_ledger_menu" groups="account.group_account_user"/>
+        <menuitem id="menu_partner_ledger" name="Partner Ledger" parent="menu_finance_legal_statement" action="account.action_account_partner_ledger_menu" groups="account.group_account_user"/>
+        <menuitem id="menu_print_journal" name="Journals Audit" parent="menu_finance_legal_statement" action="account.action_account_print_journal_menu" groups="account.group_account_manager,account.group_account_user"/>
+        <menuitem id="menu_aged_trial_balance" name="Aged Partner Balance" action="account.action_account_aged_balance_view" parent="menu_finance_legal_statement"/>
+        <menuitem id="menu_account_report_bs" name="Balance Sheet" action="account.action_account_report_bs" parent="menu_finance_legal_statement" groups="account.group_account_user"/>
+        <menuitem id="menu_account_report_pl" name="Profit and Loss" action="account.action_account_report_pl" parent="menu_finance_legal_statement" groups="account.group_account_user"/>
+        <menuitem id="menu_account_report" name="Financial Report" action="account.action_account_report" parent="menu_finance_legal_statement" sequence="100" groups="account.group_account_user"/>
+        <menuitem id="menu_general_Balance_report" name="Trial Balance" parent="menu_finance_legal_statement" action="account.action_account_balance_menu" groups="account.group_account_user"/>
+        <menuitem id="menu_account_report" name="Tax Report" action="account.action_account_tax_report" parent="menu_finance_legal_statement" groups="account.group_account_manager,account.group_account_user"/>
+
         <menuitem id="accounting_configuration_view_menu" name="Configuration" parent="accounting_management_views_menu"/>
         <menuitem id="chart_of_account_view_menu" name="Chart of Accounts" parent="accounting_configuration_view_menu"
                   action="account.action_account_form"/>
@@ -229,7 +216,7 @@
                   action="account.action_account_journal_form"/>
 
         <!--Configuration-->
-        <menuitem id="configuration_view_menu" name="Configuration" parent="main_ibs_menu" sequence="7"/>
+        <menuitem id="configuration_view_menu" name="Configuration" parent="main_ibs_menu" sequence="8"/>
         <menuitem id="line_of_business_view_menu" name="Line of Business" parent="configuration_view_menu"
                   action="insurance_line_business_action" sequence="0"/>
         <menuitem id="product_view_menu" name="Products" parent="configuration_view_menu"

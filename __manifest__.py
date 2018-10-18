@@ -28,6 +28,8 @@
 
     # always loaded
     'data': [
+        'security/security.xml',
+        'security/ir.model.access.csv',
         'reports/report_crm.xml',
         'reports/crm_report_template.xml',
         'reports/claim_report.xml',

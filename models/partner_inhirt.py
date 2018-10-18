@@ -177,12 +177,7 @@ class inhertResPartner(models.Model):
 
 
 
-class InheritUsers(models.Model):
-    _inherit = "res.users"
 
-    layer = fields.Selection(
-        [("l1", "Layer 1"), ("l2", "Layer 2"), ("l3", "Layer 3"), ("l4", "Layer 4"), ("l5", "Layer 5"),
-         ("l6", "Layer 6"), ("l7", "Layer 7"), ("l8", "Layer 8")], string="Layer", required=True)
 
     # @api.multi
     # def partner_report_opp_agent(self):

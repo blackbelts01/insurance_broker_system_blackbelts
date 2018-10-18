@@ -22,7 +22,7 @@ class claimPolicy(models.Model):
     totalunpaid = fields.Float(string='Total Unpaid')
 
     claimstatus=fields.Many2one('insurance.setup.item',string='Claim Status',domain="[('setup_id.setup_key','=','state')]")
-    policy_number = fields.Many2one('policy.broker',string='Policy Number',required=True,domain="[('policy_status','=','approve'),('edit_number','=',0)]")
+    policy_number = fields.Many2one('policy.broker',string='Policy Number',required=True,domain="[('policy_status','=','approved'),('edit_number','=',0)]")
     endorsement= fields.Many2one('policy.broker',string='Endorsement Number',domain="[('edit_number','!=',0),('std_id','=',related_policy)]")
     related_policy=fields.Char(related='policy_number.std_id',store=True,readonly=True)
     customer_policy=fields.Many2one('res.partner',string='Customer',store=True,readonly=True)

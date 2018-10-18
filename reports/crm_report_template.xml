@@ -5,7 +5,7 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <h3><strong>Opportunity: <span t-field="o.name"/></strong></h3>
+                            <h3><strong>Proposals: <span t-field="o.name"/></strong></h3>
                             <div class="row">
                                 <div class="col-xs-6" t-if="o.partner_id">
                                     <t>
@@ -33,24 +33,24 @@
                             <div class="row">
 
                             </div>
-                             <br/>
+                            <br/>
 
-                            <table class="table table-condensed">
-                                 <h4>Risks:</h4>
-                                <thead>
-                                    <tr>
-                                        <th>Risk </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr t-foreach="o.objectrisks" t-as="risk">
-                                        <td><span t-field="risk.risk_description"/></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                             <br/>
-                            <table class="table table-condensed">
-                                <h4>Propsals:</h4>
+                            <!--<table class="table table-condensed">-->
+                            <!--<h4>Risks:</h4>-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                            <!--<th>Risk </th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody>-->
+                            <!--<tr t-foreach="o.objectrisks" t-as="risk">-->
+                            <!--<td><span t-field="risk.risk_description"/></td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                            <!--</table>-->
+                            <!--<br/>-->
+                            <table class="" t-foreach="o.proposal_opp" t-as="p">
+                                <h4>Propsal:</h4>
                                 <thead>
                                     <tr>
                                         <th>Insurer</th>
@@ -59,40 +59,75 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr t-foreach="o.proposal_opp" t-as="p">
+                                    <t t-set="totalprem" t-value="0"/>
+
+                                    <tr>
                                         <td><span t-field="p.Company"/></td>
                                         <td><span t-field="p.product_pol"/></td>
                                         <td><span t-field="p.premium"/></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                              <br/>
+                                        <tr>
+                                            <td colspan="3">
+                                                <table class="table table-condensed">
+                                                    <h4>Risks:</h4>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Risk </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr t-foreach="o.objectrisks" t-as="risk">
+                                                            <td><span t-field="risk.risk_description"/></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <table class="table table-condensed">
+                                                    <h4>Covers:</h4>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Risk</th>
+                                                            <th>Cover</th>
+                                                            <th>SI</th>
+                                                            <th>Rate</th>
+                                                            <th>Net Premium</th>
+                                                            <th>Limit one</th>
+                                                            <th>Limit total</th>
+                                                            <th>Deductible</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr t-foreach="o.coverage_line" t-as="cover">
+                                                            <t t-if="cover.proposal_id.id==p.id" >
+                                                                <td align="right"><span t-field="cover.risk_id_covers"/></td>
+                                                                <td align="right"><span t-field="cover.covers"/></td>
+                                                                <td align="right"><span t-field="cover.sum_insured"/></td>
+                                                                <td align="right"><span t-field="cover.rate"/></td>
+                                                                <td align="right"><span t-field="cover.net_premium"/></td>
+                                                                <t t-set="totalprem" t-value="totalprem+cover.net_premium"/>
+                                                                <td align="right"><span t-field="cover.limitone"/></td>
+                                                                <td align="right"><span t-field="cover.limittotal"/></td>
+                                                                <td align="right"><span t-field="cover.deductible"/></td>
 
-                            <table class="table table-condensed">
-                                <h4>Covers lines:</h4>
-                                <thead>
-                                    <tr>
-                                        <th>Proposal ID</th>
-                                        <th>Insurer</th>
-                                        <th>Product</th>
-                                        <th>Risk</th>
-                                        <th>Cover</th>
-                                        <th>Sum Insured</th>
-                                        <th>Rate</th>
-                                        <th>Net Premium</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr t-foreach="o.coverage_line" t-as="cover">
-                                        <td><span t-field="cover.proposal_id"/></td>
-                                        <td><span t-field="cover.insurer"/></td>
-                                        <td><span t-field="cover.product"/></td>
-                                        <td><span t-field="cover.risk_id_covers"/></td>
+                                                            </t>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td align="right">  <span t-esc="totalprem"/></td>
 
-                                        <td><span t-field="cover.covers"/></td>
-                                        <td><span t-field="cover.sum_insured"/></td>
-                                        <td><span t-field="cover.rate"/></td>
-                                        <td><span t-field="cover.net_premium"/></td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+                                            </td>
+                                        </tr>
+
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -103,7 +138,7 @@
             </t>
 
         </template>
-         <template id="policy_report_document">
+        <template id="policy_report_document">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
@@ -134,10 +169,10 @@
                                 </div>
                             </div>
 
-                             <br/>
+                            <br/>
 
                             <table class="table table-condensed">
-                                 <h4>Risks:</h4>
+                                <h4>Risks:</h4>
                                 <thead>
                                     <tr>
                                         <th>Risk </th>
@@ -151,7 +186,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                             <br/>
+                            <br/>
 
 
 
@@ -162,18 +197,35 @@
                                         <th>Risk </th>
 
                                         <th>Cover</th>
-                                        <th>Sum insure</th>
+                                        <th>SI</th>
                                         <th>Rate</th>
                                         <th>Net Premium</th>
+                                        <th>Limit one</th>
+                                        <th>Limit total</th>
+                                        <th>Deductible</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <t t-set="totalprem" t-value="0"/>
+
                                     <tr t-foreach="o.name_cover_rel_ids" t-as="cover">
-                                        <td><span t-field="cover.riskk"/></td>
-                                        <td><span t-field="cover.name1"/></td>
-                                        <td><span t-field="cover.sum_insure"/></td>
-                                        <td><span t-field="cover.rate"/></td>
-                                        <td><span t-field="cover.net_premium"/></td>
+                                        <td align="right"><span t-field="cover.riskk"/></td>
+                                        <td align="right"><span t-field="cover.name1"/></td>
+                                        <td align="right"><span t-field="cover.sum_insure"/></td>
+                                        <td align="right"><span t-field="cover.rate"/></td>
+                                        <td align="right"><span t-field="cover.net_premium"/></td>
+                                        <t t-set="totalprem" t-value="totalprem+cover.net_premium"/>
+                                        <td align="right"><span t-field="cover.limitone"/></td>
+                                        <td align="right"><span t-field="cover.limittotal"/></td>
+                                        <td align="right"><span t-field="cover.deductible"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td align="right">  <span t-esc="totalprem"/></td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -138,7 +138,7 @@
                                 </form>
                             </field>
 
-                            <button name="generate_covers" string="Validate" class="oe_highlight"  style="width:15%;" type="object" attrs="{'invisible': [('checho', '=', False)]}" /><br/>
+                            <button name="generate_covers" string="Validate" class="oe_highlight"  style="width:15%;" type="object" attrs="{'invisible': [('check_item', '=', False)]}" /><br/>
                             <label string="Coverage" style="font-size: 30px; color:#2e70b8; " attrs="{'invisible': ['|',('checho', '=', False)]}" ></label>
                             <field name="checho" invisible="1"/>
                             <field name="name_cover_rel_ids" nolabel="1" force_save="1"  attrs="{'invisible': [('checho', '=', False)]}" >

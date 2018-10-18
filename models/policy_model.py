@@ -174,7 +174,7 @@ class PolicyBroker(models.Model):
         return self.env.ref('insurance_broker_system_blackbelts.policy_report').report_action(self)
 
 
-    
+
     @api.multi
     def To_renewal(self):
         form_view = self.env.ref('insurance_broker_system_blackbelts.Renewal_Policy_form_one')
@@ -234,7 +234,7 @@ class PolicyBroker(models.Model):
 
     @api.multi
     def _compute_commission_per(self):
-        self.commission_per=(self.product_policy.commission_per/100)*self.t_permimum
+        self.commission_per=(self.product_policy.commission_per/100)*self.total_commision
 
 
     @api.onchange("t_permimum","term")
@@ -483,7 +483,7 @@ class PolicyBroker(models.Model):
                     'insured_lOB': self.line_of_bussines.id,
                     'insured_insurer': self.company.id,
                     'insured_product': self.product_policy.id,
-                    'date_due':self.record.date,
+                    'date_due':record.date,
                     'invoice_line_ids': [(0, 0, {
                         'name': str(self.line_of_bussines.line_of_business),
                         'quantity': 1,
@@ -505,7 +505,7 @@ class PolicyBroker(models.Model):
                     'insured_lOB': self.line_of_bussines.id,
                     'insured_insurer': self.company.id,
                     'insured_product': self.product_policy.id,
-                    'date_due': self.record.date,
+                    'date_due': record.date,
                     'invoice_line_ids': [(0, 0, {
                         'name': str(self.line_of_bussines.line_of_business),
                         'quantity': 1,

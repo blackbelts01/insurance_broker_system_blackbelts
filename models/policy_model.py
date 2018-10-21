@@ -312,7 +312,7 @@ class PolicyBroker(models.Model):
     # nohamed saber code
 
     policy_status = fields.Selection([('pending', 'Pending'),
-                                      ('approve', 'Approve'), ],
+                                      ('approved', 'Approved'), ],
                                      'Status', required=True, default='pending')
     hide_inv_button = fields.Boolean(copy=False)
     invoice_ids = fields.One2many('account.invoice', 'insurance_id', string='Invoices', readonly=True)
@@ -437,7 +437,7 @@ class PolicyBroker(models.Model):
     @api.multi
     def confirm_policy(self):
         if self.term and self.customer and self.line_of_bussines and self.company:
-            self.policy_status = 'approve'
+            self.policy_status = 'approved'
             self.hide_inv_button = True
         else:
             raise UserError(_("Customer ,Line of Bussines , Company or Payment Frequency  should be Selected"))

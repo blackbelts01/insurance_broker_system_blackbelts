@@ -33,7 +33,7 @@ class claimPolicy(models.Model):
     product = fields.Many2one('insurance.product', string='Product', store=True,readonly=True)
     insurer = fields.Many2one('res.partner', string='Insurer', store=True,readonly=True)
     insurer_branch= fields.Many2one('insurance.setup.item', string='Insurer Branch')
-    insurer_contact= fields.Many2one('res.partner',string='Insurer Contact',domain="[('insurer_type','=',1)]")
+    insurer_contact= fields.Many2one('res.partner',string='Insurer Contact')
     total_paid_amount=fields.Float(string='Total Paid Amount',compute='_compute_payment_history')
     settlement_type=fields.Many2one('insurance.setup.item',string='Settlement Type',domain="[('setup_id.setup_key','=','setltype')]")
     settle_history=fields.One2many('settle.history','claimheader',string='Settle History')
@@ -88,6 +88,10 @@ class claimPolicy(models.Model):
       if self.insurer:
            return {'domain': {'insurer_branch': [('setup_id.setup_key','=','branch'),('setup_id.setup_id','=',self.insurer.name)]}}
 
+    @api.onchange('insurer')
+    def _onchange_insurer_contact(self):
+        if self.insurer:
+            return {'domain': {'insurer_contact': [('parent_id','=',self.insurer.id)]}}
 
     @api.onchange('endorsement','policy_number')
     def _onchange_policy_details(self):
@@ -97,6 +101,7 @@ class claimPolicy(models.Model):
             self.lob = self.endorsement.line_of_bussines
             self.product = self.endorsement.product_policy
             self.insurer = self.endorsement.company
+            self.insurer_branch=self.endorsement.branch
             self.beneficiary = self.endorsement.benefit
             self.currency = self.endorsement.currency_id.id
 
@@ -106,6 +111,7 @@ class claimPolicy(models.Model):
             self.lob=self.policy_number.line_of_bussines
             self.product=self.policy_number.product_policy
             self.insurer=self.policy_number.company
+            self.insurer_branch = self.policy_number.branch
             self.beneficiary=self.policy_number.benefit
             self.currency = self.policy_number.currency_id.id
 

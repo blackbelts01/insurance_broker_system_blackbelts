@@ -73,7 +73,7 @@
                                 <field name="gross_perimum" attrs="{'readonly': [('policy_status', '=', 'approve')]}"/>
                                 <field name="t_permimum"/>
                                 <field name="term" attrs="{'readonly': [('policy_status', '=', 'approve')]}"/>
-                                <field name="number"  attrs="{'invisible': [('term', '!=', 'year')],'readonly': [('policy_status', '=', 'approve')]}" />
+                                <field name="no_years"  attrs="{'invisible': [('term', '!=', 'year')],'readonly': [('policy_status', '=', 'approve')]}" />
 
                             </group>
                             <group>

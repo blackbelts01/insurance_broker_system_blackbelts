@@ -108,7 +108,7 @@ class PolicyBroker(models.Model):
 
 
 
-    @api.onchange("t_permimum","term", "number")
+    @api.onchange("t_permimum","term")
     def _cmpute_date_and_amount(self):
         if self.term == "onetime":
             self.rella_installment_id = [(0, 0, {
@@ -121,7 +121,7 @@ class PolicyBroker(models.Model):
             duration = timedelta(days=365)
 
             phone_numbers = []
-            for i in range(int(self.number)):
+            for i in range(int(self.no_years)):
                 x = (0, 0, {
                     "date": start + duration,
                     "amount": self.t_permimum / 1
@@ -195,7 +195,7 @@ class PolicyBroker(models.Model):
     term = fields.Selection(
         [("onetime", "One Time"), ("year", "yearly"), ("quarter", "Quarterly"), ("month", "Monthly")],
         string="Payment Frequency")
-    number = fields.Integer(string="No. Years", default=1)
+    no_years = fields.Integer(string="No. Years", default=1)
 
 
     gross_perimum = fields.Float(string="Gross Perimum")
@@ -450,7 +450,7 @@ class PolicyBroker(models.Model):
                     'type': 'out_invoice',
                     'partner_id': self.customer.id,
                     'insured_invoice': 'customer_invoice',
-                    'name': 'Customer Invoice of ' +str(self.customer.name),
+                    'name': 'Customer Invoice from ' +str(self.customer.name),
                     'user_id': self.env.user.id,
                     'insurance_id': self.id,
                     'origin': self.policy_number,
@@ -472,7 +472,7 @@ class PolicyBroker(models.Model):
                     'type': 'in_invoice',
                     'partner_id': self.company.id,
                     'insured_invoice': 'insurer_bill',
-                    'name': 'Insurer Bill  of ' +str(self.company.name),
+                    'name': 'Insurer Bill for ' +str(self.company.name),
                     'user_id': self.env.user.id,
                     'insurance_id': self.id,
                     'origin': self.policy_number,
@@ -490,49 +490,53 @@ class PolicyBroker(models.Model):
                 })
                 ins_bill.action_invoice_open()
 
-        if self.total_commision !=0:
-            brok_invoice = self.env['account.invoice'].create({
-                'type': 'out_invoice',
-                'partner_id': self.company.id,
-                'insured_invoice':'brokerage',
-                'name':'Brokerage  of ' +str(self.company.name),
-                'user_id': self.env.user.id,
-                'insurance_id': self.id,
-                'origin': self.policy_number,
-                'insured_type':self.insurance_type,
-                'insured_lOB':self.line_of_bussines.id,
-                'insured_insurer':self.company.id,
-                'insured_product':self.product_policy.id,
-                'invoice_line_ids': [(0, 0, {
-                    'name': str(self.line_of_bussines.line_of_business),
-                    'quantity': 1,
-                    'price_unit': self.total_commision,
-                    'account_id': self.line_of_bussines.income_account.id,
-                })],
-            })
-            brok_invoice.action_invoice_open()
+            if self.total_commision != 0:
+                brok_invoice = self.env['account.invoice'].create({
+                    'type': 'out_invoice',
+                    'partner_id': self.company.id,
+                    'insured_invoice': 'brokerage',
+                    'name': 'Brokerage  for ' + str(self.company.name),
+                    'user_id': self.env.user.id,
+                    'insurance_id': self.id,
+                    'origin': self.policy_number,
+                    'insured_type': self.insurance_type,
+                    'insured_lOB': self.line_of_bussines.id,
+                    'insured_insurer': self.company.id,
+                    'insured_product': self.product_policy.id,
+                    'date_due': record.date,
+                    'invoice_line_ids': [(0, 0, {
+                        'name': str(self.line_of_bussines.line_of_business),
+                        'quantity': 1,
+                        'price_unit': self.total_commision,
+                        'account_id': self.line_of_bussines.income_account.id,
+                    })],
+                })
+                brok_invoice.action_invoice_open()
 
-        for record in self.share_commission:
-            com_bill = self.env['account.invoice'].create({
-                'type': 'in_invoice',
-                'partner_id':record.agent.id,
-                'insured_invoice':'commission',
-                'name':'Commission  of ' +str(record.agent.name),
-                'user_id': self.env.user.id,
-                'insurance_id': self.id,
-                'origin': self.policy_number,
-                'insured_type':self.insurance_type,
-                'insured_lOB':self.line_of_bussines.id,
-                'insured_insurer':self.company.id,
-                'insured_product':self.product_policy.id,
-                'invoice_line_ids': [(0, 0, {
-                    'name': str(self.line_of_bussines.line_of_business),
-                    'quantity': 1,
-                    'price_unit': record.amount,
-                    'account_id': self.line_of_bussines.expense_account.id,
-                })],
-            })
-            com_bill.action_invoice_open()
+            for com in self.share_commission:
+                com_bill = self.env['account.invoice'].create({
+                    'type': 'in_invoice',
+                    'partner_id': com.agent.id,
+                    'insured_invoice': 'commission',
+                    'name': 'Commission for ' + str(com.agent.name),
+                    'user_id': self.env.user.id,
+                    'insurance_id': self.id,
+                    'origin': self.policy_number,
+                    'insured_type': self.insurance_type,
+                    'insured_lOB': self.line_of_bussines.id,
+                    'insured_insurer': self.company.id,
+                    'insured_product': self.product_policy.id,
+                    'date_due': record.date,
+                    'invoice_line_ids': [(0, 0, {
+                        'name': str(self.line_of_bussines.line_of_business),
+                        'quantity': 1,
+                        'price_unit': com.amount,
+                        'account_id': self.line_of_bussines.expense_account.id,
+                    })],
+                })
+                com_bill.action_invoice_open()
+
+
 
         self.hide_inv_button = False
 

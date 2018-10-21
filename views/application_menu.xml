@@ -66,8 +66,7 @@
 
         <!--HR-->
         <menuitem id="hr_management_views_menu" name="Human Resources"
-
-          parent="main_ibs_menu" sequence="7" groups="ibs_admin_group"/>
+                  parent="main_ibs_menu" sequence="7" groups="ibs_admin_group"/>
         <menuitem id="employees_view_menu" name="Employees" parent="hr_management_views_menu"
                   action="hr.open_view_employee_list_my"/>
         <menuitem id="employees_list_view_menu" name="Employees" parent="employees_view_menu"

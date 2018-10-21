@@ -22,21 +22,21 @@
         </field>
     </record>
     <record id="crm_lead_partner_kanban_view_2" model="ir.ui.view">
-            <field name="name">res.partner.kanban.inherit</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
-            <field name="priority" eval="10"/>
-            <field name="arch" type="xml">
-                <field name="mobile" position="after">
-                    <field name="policy_count"/>
-                    <field name="claim_count"/>
-                </field>
-                <xpath expr="//div[hasclass('oe_kanban_partner_links')]" position="inside">
-                    <span class="badge" t-if="record.policy_count.value>0"><i class="fa fa-fw fa-star"/><t t-esc="record.policy_count.value"/></span>
-                    <span class="badge" t-if="record.claim_count.value>0"><i class="fa fa-fw fa-star"/><t t-esc="record.claim_count.value"/></span>
-                </xpath>
+        <field name="name">res.partner.kanban.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <field name="mobile" position="after">
+                <field name="policy_count"/>
+                <field name="claim_count"/>
             </field>
-        </record>
+            <xpath expr="//div[hasclass('oe_kanban_partner_links')]" position="inside">
+                <span class="badge" t-if="record.policy_count.value>0"><i class="fa fa-fw fa-star"/><t t-esc="record.policy_count.value"/></span>
+                <span class="badge" t-if="record.claim_count.value>0"><i class="fa fa-fw fa-star"/><t t-esc="record.claim_count.value"/></span>
+            </xpath>
+        </field>
+    </record>
     <record id="view_partners_form_policy" model="ir.ui.view">
         <field name="name">view.res.partner.form.crm.inherited2</field>
         <field name="model">res.partner</field>
@@ -83,8 +83,9 @@
             <data>
                 <button name="show_partner_policies" position="before">
                     <button class="oe_stat_button o_res_partner_tip_opp" type="object"
-                            icon="fa-star">
-                        <!--<field string="Opportunities" name="" widget="statinfo"/>-->
+                            icon="fa-star"
+                            name="show_partner_opp">
+                        <field string="Opportunities" name="opp_count" widget="statinfo"/>
                     </button>
                 </button>
                 <button name="show_partner_claim" position="after">
@@ -109,29 +110,29 @@
 
 
     <record id="res_partner_view_remove" model="ir.ui.view">
-            <field name="name">res.partner.view.buttons</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form" />
-            <field name="priority" eval="20"/>
-            <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
-            <field name="arch" type="xml">
-                <xpath expr="//button[@name='%(sale.act_res_partner_2_sale_order)d']" position="attributes">
-                   <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//button[@name='%(crm.crm_lead_opportunities)d']" position="attributes">
-                  <attribute name="invisible">1</attribute>>
-                </xpath>
-                <xpath expr="//field[@name='parent_id']" position="attributes">
-                   <attribute name="invisible">1</attribute>
-               </xpath>
-                <xpath expr="//field[@name='vat']" position="attributes">
-                   <attribute name="invisible">1</attribute>
-               </xpath>
-                <xpath expr="//button[@name='action_view_partner_invoices']" position="attributes">
-                  <attribute name="invisible">[('insurer_type','=',True)]</attribute>>
-                </xpath>
+        <field name="name">res.partner.view.buttons</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="priority" eval="20"/>
+        <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(sale.act_res_partner_2_sale_order)d']" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='%(crm.crm_lead_opportunities)d']" position="attributes">
+              <attribute name="invisible">1</attribute>>
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="attributes">
+               <attribute name="invisible">1</attribute>
+           </xpath>
+            <xpath expr="//field[@name='vat']" position="attributes">
+               <attribute name="invisible">1</attribute>
+           </xpath>
+            <xpath expr="//button[@name='action_view_partner_invoices']" position="attributes">
+              <attribute name="invisible">[('insurer_type','=',True)]</attribute>>
+            </xpath>
 
-            </field>
+        </field>
     </record>
 
     <record model="ir.actions.act_window" id="action_customer_view">

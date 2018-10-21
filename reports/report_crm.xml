@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 <report id="crm_report"
-                string="Opportunity"
+                string="Proposals"
                 model="crm.lead"
                 report_type="qweb-pdf"
                 file="insurance_broker_system_blackbelts.crm_report_document"

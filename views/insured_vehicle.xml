@@ -22,7 +22,7 @@
             <field name="view_id" ref="my_view_for_vehicle_risks_tree"/>
             <field name='domain'>[('test','=','vehicle')]</field>
 
-            <!--<field name="context">{'create': False,'edit':False}</field>-->
+            <field name="context">{'create': False,'edit':False}</field>
         </record>
     </data>
 </odoo>

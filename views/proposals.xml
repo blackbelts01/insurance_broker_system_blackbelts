@@ -9,8 +9,6 @@
                     <field name="Company"/>
                     <field name="product_pol"/>
                     <field name="premium"/>
-                    <button name="select_proposal" string="Select" class="oe_highlight" type="object"/>
-
                 </tree>
 
             </field>
@@ -31,7 +29,6 @@
                         <!--<label for="product_pol"/>-->
                         <field name="product_pol"/>
                         <!--<label for="premium"/>-->
-                        <field name="premium"/>
                         <field name="proposal_crm" invisible="1"/>
                         <field name="show_risks_covers" invisible="1"/>
                         <field name="test" invisible="1"/>

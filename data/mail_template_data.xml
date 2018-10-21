@@ -44,7 +44,7 @@ eslam abady
 
         <record id="policy_email_template" model="mail.template">
             <field name="name">Example e-mail template</field>
-            <field name="email_from">${object.salesperson.id and object.salesperson.login/ or ''}</field>
+            <field name="email_from">${object.salesperson.id and object.salesperson.email/ or ''}</field>
             <field name="subject">Opportunity ${object.name}</field>
             <field name="email_to">${object.customer.email|safe}</field>
             <field name="lang">${object.lang}</field>

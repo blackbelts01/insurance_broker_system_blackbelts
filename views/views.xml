@@ -3,15 +3,18 @@
         <!---edit opportuinty-->
 
 
-        <!--<record model="ir.ui.view" id="crm__lead_form_view_sale">-->
-        <!--<field name="model">crm.lead</field>-->
-        <!--<field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>-->
-        <!--<field name="arch" type="xml">-->
-        <!--<xpath expr="//button[@name='384']" position="attributes">-->
-        <!--<attribute name="invisible">1</attribute>-->
-        <!--</xpath>-->
-        <!--</field>-->
-        <!--</record>-->
+        <record model="ir.ui.view" id="crm__lead_form_view_sale">
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='384']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='385']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
 
         <record model="ir.ui.view" id="crm__lead_form_view">
             <field name="model">crm.lead</field>
@@ -20,8 +23,8 @@
 
                 <header>
                     <button name="create_policy" string="Convert Policy" class="oe_highlight" type="object" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}"/>
-                    <button name="print_opp" string="Print" type="object"  class="btn-primary o_sale_print" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}"/>
-                    <button name="send_mail_template" string="Send by Mail" type="object"  class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}"/>
+                    <button name="print_opp" string="Print" type="object"  class="btn-primary o_sale_print" />
+                    <button name="send_mail_template" string="Send by Mail" type="object"  class="oe_highlight" />
                 </header>
                 <notebook >
 
@@ -72,7 +75,6 @@
 
                     <field name="insurance_type" />
                     <field name="LOB"   />
-
                 </field>
                 <field name="tag_ids" position="after">
                     <field name="policy_number"   />
@@ -174,6 +176,7 @@
                             <field name="insurer" invisible="1"/>
                             <field name="product" invisible="1"/>
                             <field name="risk_id_covers" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="covers" options="{'no_create': True, 'no_open': True}"/>
                             <!--<field name="risk_desc"/>-->
                             <field name="check" invisible="1"/>
                             <field name="sum_insured" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>

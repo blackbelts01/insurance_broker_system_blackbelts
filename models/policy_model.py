@@ -62,7 +62,7 @@ class PolicyBroker(models.Model):
             res['ins_type'] = lead.ins_type
             # res['propoasl_ids'] = records_proposal
             res['customer'] = lead.partner_id.id
-            res['salesperson'] = lead.user_id.id
+            res['salesperson'] = lead.user_id.partner_id.id
             res['std_id'] = lead.policy_number
             res['name_cover_rel_ids'] = records_covers
             # res['checho'] = True
@@ -201,7 +201,9 @@ class PolicyBroker(models.Model):
     gross_perimum = fields.Float(string="Gross Perimum")
     t_permimum = fields.Float(string="Net Permium", compute="_compute_t_premium")
 
-    salesperson = fields.Many2one('res.partner', string='Salesperson',domain="[('agent','=',True)]")
+
+    salesperson = fields.Many2one('res.partner', string='Salesperson' ,domain="[('agent','=',1)]")
+
     commission_per = fields.Float(string="Commission",compute="_compute_commission_per")
     share_commission=fields.One2many('insurance.share.commission','policy_id',string='Share Commissions')
 

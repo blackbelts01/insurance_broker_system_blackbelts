@@ -129,7 +129,7 @@
                <attribute name="invisible">1</attribute>
            </xpath>
             <xpath expr="//button[@name='action_view_partner_invoices']" position="attributes">
-              <attribute name="invisible">[('insurer_type','=',True)]</attribute>>
+              <attribute name="attrs">{'invisible': [('insurer_type','=',True)]}</attribute>>
             </xpath>
 
         </field>

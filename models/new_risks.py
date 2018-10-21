@@ -119,9 +119,9 @@ class New_Risks(models.Model):
     #         result.append((s.id, name))
     #     return result
 
-
     _sql_constraints = [
         ('risk_unique', 'unique(policy_risk_id,risk_description)', 'ID already exists!')]
 
 class dash(models.Model):
     _name="dash"
+

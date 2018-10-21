@@ -24,5 +24,6 @@
 
             <field name="context">{'create': False,'edit':False}</field>
         </record>
+
     </data>
 </odoo>

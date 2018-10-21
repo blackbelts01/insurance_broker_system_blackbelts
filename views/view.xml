@@ -89,7 +89,7 @@
                                 <form>
                                     <group>
                                         <!--<field name="risk"/>-->
-                                        <field name="risk_description"/>
+                                        <field name="risk_description" invisible="1"/>
                                         <field name="policy_risk_id" invisible="1"/>
                                         <field name="test" invisible="1"/>
                                     </group>
@@ -223,7 +223,7 @@
             <field name="name">Policy List</field>
             <field name="model">policy.broker</field>
             <field name="arch" type="xml">
-                <tree decoration-info="policy_status == 'approve'" string="my_tree_for_policy">
+                <tree decoration-info="policy_status == 'approved'" string="my_tree_for_policy">
                     <field name="insurance_type" string="Type"/>
                     <field name="line_of_bussines" string="LOB"/>
                     <field name="company" string="Insurer"/>

@@ -1,5 +1,19 @@
 <odoo>
     <data>
+        <report id="crm_report"
+                string="Proposals"
+                model="crm.lead"
+                report_type="qweb-pdf"
+                file="insurance_broker_system_blackbelts.crm_report_document"
+                name="insurance_broker_system_blackbelts.crm_report_document"
+        />
+<report id="policy_report"
+                string="Policy"
+                model="policy.broker"
+                report_type="qweb-pdf"
+                file="insurance_broker_system_blackbelts.policy_report_document"
+                name="insurance_broker_system_blackbelts.policy_report_document"
+        />
         <template id="crm_report_document">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -99,17 +113,18 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+
                                                         <tr t-foreach="o.coverage_line" t-as="cover">
                                                             <t t-if="cover.proposal_id.id==p.id" >
-                                                                <td align="right"><span t-field="cover.risk_id_covers"/></td>
-                                                                <td align="right"><span t-field="cover.covers"/></td>
-                                                                <td align="right"><span t-field="cover.sum_insured"/></td>
-                                                                <td align="right"><span t-field="cover.rate"/></td>
-                                                                <td align="right"><span t-field="cover.net_premium"/></td>
+                                                                <td align="right"><span t-esc="cover.risk_id_covers.risk_description"/></td>
+                                                                <td align="right"><span t-esc="cover.covers.Name"/></td>
+                                                                <td align="right"><span t-esc="'{0:,.2f}'.format(int(cover.sum_insured))"/></td>
+                                                                <td align="right"><span t-esc="cover.rate"/></td>
+                                                                <td align="right"><span t-esc="'{0:,.2f}'.format(int(cover.net_premium))"/></td>
                                                                 <t t-set="totalprem" t-value="totalprem+cover.net_premium"/>
-                                                                <td align="right"><span t-field="cover.limitone"/></td>
-                                                                <td align="right"><span t-field="cover.limittotal"/></td>
-                                                                <td align="right"><span t-field="cover.deductible"/></td>
+                                                                <td align="right"><span t-esc="'{0:,.2f}'.format(int(cover.limitone))"/></td>
+                                                                <td align="right"><span t-esc="'{0:,.2f}'.format(int(cover.limittotal))"/></td>
+                                                                <td align="right"><span t-esc="'{0:,.2f}'.format(int(cover.deductible))"/></td>
 
                                                             </t>
                                                         </tr>
@@ -118,7 +133,7 @@
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
-                                                            <td align="right">  <span t-esc="totalprem"/></td>
+                                                            <td align="right">  <span t-esc="'{0:,.2f}'.format(int(totalprem))"/></td>
 
                                                         </tr>
                                                     </tbody>
@@ -210,22 +225,23 @@
                                     <t t-set="totalprem" t-value="0"/>
 
                                     <tr t-foreach="o.name_cover_rel_ids" t-as="cover">
-                                        <td align="right"><span t-field="cover.riskk"/></td>
-                                        <td align="right"><span t-field="cover.name1"/></td>
-                                        <td align="right"><span t-field="cover.sum_insure"/></td>
-                                        <td align="right"><span t-field="cover.rate"/></td>
-                                        <td align="right"><span t-field="cover.net_premium"/></td>
-                                        <t t-set="totalprem" t-value="totalprem+cover.net_premium"/>
-                                        <td align="right"><span t-field="cover.limitone"/></td>
-                                        <td align="right"><span t-field="cover.limittotal"/></td>
-                                        <td align="right"><span t-field="cover.deductible"/></td>
+                                        <td align="right"><span t-esc="cover.riskk.risk_description"/></td>
+                                        <td align="right"><span t-esc="cover.name1.Name"/></td>
+                                        <td align="right"><span t-esc="'{0:,.2f}'.format(int(cover.sum_insure))"/></td>
+                                        <td align="right"><span t-esc="cover.rate"/></td>
+                                        <td align="right"><span t-esc="'{0:,.2f}'.format(int(cover.net_perimum))"/></td>
+                                        <t t-set="totalprem" t-value="totalprem+cover.net_perimum"/>
+                                        <td align="right"><span t-esc="'{0:,.2f}'.format(int(cover.limitone))"/></td>
+                                        <td align="right"><span t-esc="'{0:,.2f}'.format(int(cover.limittotal))"/></td>
+                                        <td align="right"><span t-esc="'{0:,.2f}'.format(int(cover.deductible))"/></td>
+
                                     </tr>
                                     <tr>
                                         <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td align="right">  <span t-esc="totalprem"/></td>
+                                        <td align="right">  <span t-esc="'{0:,.2f}'.format(int(totalprem))"/></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -236,6 +252,17 @@
             </t>
 
         </template>
+
+        <odoo>
+    <data>
+
+        <template id="report_quotation_inherit_demo" inherit_id="account.report_overdue_document">
+            <xpath expr="//table[@class='table table-condensed']//thead//tr//th[2]" position="replace">
+
+            </xpath>
+        </template>
+    </data>
+</odoo>
 
     </data>
 </odoo>

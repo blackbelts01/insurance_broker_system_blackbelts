@@ -255,7 +255,7 @@ class PolicyBroker(models.Model):
     benefit =fields.Char("Beneficiary")
 
     checho = fields.Boolean()
-    count_claim = fields.Integer(compute="compute_true")
+    count_claim = fields.Integer(compute="_compute_claim")
 
     @api.onchange('company')
     def _onchange_branch(self):
@@ -268,12 +268,11 @@ class PolicyBroker(models.Model):
 
 
 
-    @api.multi
-    def compute_true(self):
+    @api.one
+    def _compute_claim(self):
         # self.count_claim = 0
-        ids = self.env['insurance.claim'].search([('policy_number', '=', self.std_id)])
-        for id in ids:
-            self.count_claim +=1
+        self.count_claim = self.env['insurance.claim'].search_count([('policy_number', '=', self.id)])
+
 
     @api.one
     @api.depends("name_cover_rel_ids")

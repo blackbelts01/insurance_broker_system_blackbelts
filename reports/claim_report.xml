@@ -32,7 +32,7 @@
                                 <thead>
                                     <tr>
                                         <th>Risk ID</th>
-                                        <th>Risk Description</th>
+                                        <!--<th>Risk Description</th>-->
                                         <th>Coverage</th>
                                         <th>Sum Insured</th>
                                         <th>Settle Amount</th>
@@ -43,7 +43,7 @@
                                 <tbody>
                                     <tr t-foreach="doc.settle_history" t-as="settle">
                                         <td><span t-field="settle.risk_id"/></td>
-                                        <td><span t-field="settle.risk_details"/></td>
+                                        <!--<td><span t-field="settle.risk_details"/></td>-->
                                         <td><span t-field="settle.coverage"/></td>
                                         <td><span t-field="settle.sum_insured"/></td>
                                         <td><span t-field="settle.settle_amount"/></td>

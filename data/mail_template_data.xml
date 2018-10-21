@@ -66,7 +66,7 @@ eslam abady
             <field name="name">Example e-mail template claim</field>
             <field name="email_from">${object.uid.id and object.uid.login/ or ''}</field>
             <field name="subject">Claim ${object.name}</field>
-            <field name="email_to">${object.customer_policy.email|safe}</field>
+            <field name="email_to">${object.insurer.email|safe}</field>
             <field name="lang">${object.lang}</field>
             <field name="report_template" ref="insurance_broker_system_blackbelts.insurance_claim"/>
             <field name="model_id" ref="insurance_broker_system_blackbelts.model_insurance_claim"/>

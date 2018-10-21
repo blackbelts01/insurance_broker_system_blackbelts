@@ -89,7 +89,7 @@
                                 <form>
                                     <group>
                                         <!--<field name="risk"/>-->
-                                        <field name="risk_description"/>
+                                        <field name="risk_description" invisible="1"/>
                                         <field name="policy_risk_id" invisible="1"/>
                                         <field name="test" invisible="1"/>
                                     </group>

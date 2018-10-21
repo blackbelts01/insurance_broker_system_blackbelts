@@ -58,7 +58,7 @@
                                         <!--</t>-->
                                         <td>  <span t-esc="opp.name"/></td>
                                         <td>  <span t-esc="opp.term"/></td>
-                                        <td align="right">  <span t-esc="opp.planned_revenue"/></td>
+                                        <td align="right">  <span t-esc="'{0:,.2f}'.format(int(opp.planned_revenue))"/></td>
                                         <t t-set="exp_sum" t-value="(exp_sum+opp.planned_revenue)"/>
                                         <td align="right">  <span t-esc="opp.probability"/></td>
                                         <td>  <span t-esc="opp.stage_id.name"/></td>
@@ -69,7 +69,7 @@
                                         <td> <span/></td>
                                         <td> <span/></td>
                                         <td> <span/></td>
-                                        <td align="right">  <span t-esc="exp_sum"/></td>
+                                        <td align="right">  <span t-esc="'{0:,.2f}'.format(int(exp_sum))"/></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -119,9 +119,9 @@
                                         <td>  <span t-esc="policy.start_date"/></td>
                                         <td>  <span t-esc="policy.end_date"/></td>
                                         <td>  <span t-esc="policy.policy_status"/></td>
-                                        <td align="right">  <span t-esc="policy.gross_perimum"/></td>
+                                        <td align="right">  <span t-esc="'{0:,.2f}'.format(int(policy.gross_perimum))"/></td>
                                         <t t-set="gross_sum" t-value="(gross_sum+policy.gross_perimum)"/>
-                                        <td align="right">  <span t-esc="policy.t_permimum"/></td>
+                                        <td align="right">  <span t-esc= "'{0:,.2f}'.format(int(policy.t_permimum))"/></td>
                                         <t t-set="net_sum" t-value="(net_sum+policy.t_permimum)"/>
                                     </tr>
                                     <tr>
@@ -136,11 +136,8 @@
                                         <td> <span/></td>
                                         <td> <span/></td>
                                         <td> <span/></td>
-                                        <td align="right">  <span t-esc="gross_sum"/></td>
-
-                                        <td align="right">  <span t-esc="net_sum"/></td>
-
-
+                                        <td align="right">  <span t-esc="'{0:,.2f}'.format(int(gross_sum))"/></td>
+                                        <td align="right">  <span t-esc="'{0:,.2f}'.format(int(net_sum))"/></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -177,11 +174,11 @@
                                         <td>  <span t-esc="claim.customer_policy.name"/></td>
                                         <td>  <span t-esc="claim.policy_number.std_id"/></td>
                                         <td>  <span t-esc="claim.name"/></td>
-                                        <td align="right">  <span t-esc="claim.totalclaimexp"/></td>
+                                        <td align="right">  <span t-esc="'{0:,.2f}'.format(int(claim.totalclaimexp))"/></td>
                                         <t t-set="totalclaimexp_sum" t-value="(totalclaimexp_sum+claim.totalclaimexp)"/>
-                                        <td align="right">  <span t-esc="claim.totalsettled"/></td>
+                                        <td align="right">  <span t-esc="'{0:,.2f}'.format(int(claim.totalsettled))"/></td>
                                         <t t-set="totalsettled_sum" t-value="(totalsettled_sum+claim.totalsettled)"/>
-                                        <td align="right">  <span t-esc="claim.total_paid_amount"/></td>
+                                        <td align="right">  <span t-esc=" '{0:,.2f}'.format(int(claim.total_paid_amount))"/></td>
                                         <t t-set="total_paid_amount_sum" t-value="(total_paid_amount_sum+claim.total_paid_amount)"/>
                                         <td>  <span t-esc="claim.claimstatus.name"/></td>
                                     </tr>
@@ -193,10 +190,9 @@
                                         <td> <span/></td>
                                         <td> <span/></td>
                                         <td> <span/></td>
-                                        <td align="right">  <span t-esc="totalclaimexp_sum"/></td>
-                                        <td align="right">  <span t-esc="totalsettled_sum"/></td>
-                                        <td align="right">  <span t-esc="total_paid_amount_sum"/></td>
-
+                                        <td align="right">  <span t-esc="'{0:,.2f}'.format(int(totalclaimexp_sum))"/></td>
+                                        <td align="right">  <span t-esc="'{0:,.2f}'.format(int(totalsettled_sum))"/></td>
+                                        <td align="right">  <span t-esc="'{0:,.2f}'.format(int(total_paid_amount_sum))"/></td>
                                     </tr>
                                 </tbody>
                             </table>

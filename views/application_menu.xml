@@ -33,7 +33,7 @@
             <field name="name">DashBoard</field>
             <field name="res_model">dash</field>
             <field name="view_mode">form,tree</field>
-            <field name="view_type">form</field>
+            <!--<field name="view_type">form</field>-->
             <field name="view_id" ref="dashboard"/>
             <field name="context">{'create':False,'edit':False}</field>
         </record>

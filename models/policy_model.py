@@ -552,6 +552,8 @@ class AccountInvoiceRelate(models.Model):
 
 class Extra_Covers(models.Model):
     _name = "covers.lines"
+    _rec_name= 'name1'
+
     riskk = fields.Many2one("new.risks", "Risk")
     # risk_description = fields.Text(string="Risk Description")
     #
@@ -574,13 +576,13 @@ class Extra_Covers(models.Model):
         ('cover_unique', 'unique(policy_rel_id,riskk,name1)', 'Cover already exists!')]
 
 
-    @api.multi
-    def name_get(self):
-        result = []
-        for s in self:
-            name = str(s.name1.Name) + ' , ' +str(s.riskk.risk_description)
-            result.append((s.id, name))
-        return result
+    # @api.multi
+    # def name_get(self):
+    #     result = []
+    #     for s in self:
+    #         name = str(s.name1.Name) + ' , ' +str(s.riskk.risk_description)
+    #         result.append((s.id, name))
+    #     return result
 
 
     @api.onchange("check")

@@ -1,24 +1,29 @@
 <odoo>
     <data>
 
-        <record id="dashboard" model="ir.ui.view">
+     <record id="dashboard" model="ir.ui.view">
             <field name="name"> DashBoard</field>
             <field name="model">dash</field>
             <field name="arch" type="xml">
 
+                <template id="assets_backend" name="js assets" inherit_id="web.assets_backend">
+                    <iframe src="http://178.128.197.205/newibsdash/production/index.html" marginwidth="0" marginheight="0" frameborder="no"  style="border-width:0px;"></iframe>
+                    <xpath expr="." position="inside">
+                        <script
+                            type="text/javascript"
+                            src="/insurance_broker_system_blackbelts/static/src/js/custome_js.js"
+                        >
+                        console.log("good");
+                        </script>
+                        <link
+                            href="/insurance_broker_system_blackbelts/static/src/css/custom_style.css"
+                            rel="stylesheet"
+                            type="text/css"/>
+                    </xpath>
+                </template>
 
-                <form string="Embedded Webpage" version="7.0" >
 
 
-                    <center>
-
-                        <iframe src="http://178.128.197.205/newibsdash/production/index.html" marginwidth="0" marginheight="0" frameborder="no"  style="height: 100%; width: 100%; border-width:0px;">
-
-                        </iframe>
-
-                    </center>
-
-                </form>
 
             </field>
         </record>

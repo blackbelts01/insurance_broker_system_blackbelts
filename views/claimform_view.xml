@@ -63,7 +63,7 @@
                             <field name="lob" readonly="1" force_save="1"/>
                             <field name="product" readonly="1" force_save="1"/>
                             <field name="insurer" readonly="1" force_save="1"/>
-                            <field name="insurer_branch" widget="selection"/>
+                            <field name="insurer_branch" readonly="1" force_save="1" />
                             <field name="insurer_contact" context="{'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}"/>
                             <field name="total_paid_amount" readonly="1" force_save="1" style="color:green;"/>
                             <field name="settlement_type" widget="selection"/>

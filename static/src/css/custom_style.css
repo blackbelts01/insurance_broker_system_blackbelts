@@ -1,0 +1,14 @@
+body {
+  margin: 0px;
+}
+.o_form_view.o_form_nosheet {
+  padding: 0;
+}
+iframe {
+  display: block;
+  border: none;
+  height: calc(100vh - 46px);
+  width: 1px;
+  min-width: 100%;
+  *width: 100%;
+}

@@ -89,7 +89,7 @@
                                 <tbody>
                                     <tr t-foreach="doc.claim_action" t-as="action">
                                         <td><span t-field="action.action"/></td>
-                                        <td><span t-field="action.completed"/></td>
+                                        <!--<td><span t-field="action.completed"/></td>-->
                                         <td><span t-field="action.comments"/></td>
                                     </tr>
                                 </tbody>

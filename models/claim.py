@@ -101,7 +101,7 @@ class claimPolicy(models.Model):
             self.lob = self.endorsement.line_of_bussines
             self.product = self.endorsement.product_policy
             self.insurer = self.endorsement.company
-            self.insurer_branch=self.endorsement.branch
+            self.insurer_branch=self.endorsement.branch.id
             self.beneficiary = self.endorsement.benefit
             self.currency = self.endorsement.currency_id.id
 
@@ -111,7 +111,7 @@ class claimPolicy(models.Model):
             self.lob=self.policy_number.line_of_bussines
             self.product=self.policy_number.product_policy
             self.insurer=self.policy_number.company
-            self.insurer_branch = self.policy_number.branch
+            self.insurer_branch = self.policy_number.branch.id
             self.beneficiary=self.policy_number.benefit
             self.currency = self.policy_number.currency_id.id
 

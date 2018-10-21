@@ -142,7 +142,8 @@ class settleHistory(models.Model):
     _name ="settle.history"
 
     risk_type=fields.Char(related='claimheader.insured',string='Risk Type',readonly=True,store=True)
-    risk_id=fields.Many2one('new.risks',string='Risk')
+    risk_id=fields.Many2one('new.risks',string='Risk',domain="[('policy_risk_id','=',endorsement_related)]")
+    risk=fields.Integer(related='risk_id.id',string='Risk')
     #Vehicle details
     vcar_type = fields.Many2one(related='risk_id.car_tybe',string='Vehicle Type')
     vmotor_cc = fields.Char(related='risk_id.motor_cc',string="Motor cc")
@@ -160,7 +161,7 @@ class settleHistory(models.Model):
     cweight = fields.Float(related='risk_id.weight',string='Weight')
 
     # risk_details = fields.Char(related='risk_id.risk_description',string='Risk Description')
-    coverage = fields.Many2one('covers.lines',string='Coverage')
+    coverage = fields.Many2one('covers.lines',string='Coverage',domain="[('policy_rel_id','=',endorsement_related),('riskk.id', '=',risk_id)]")
     sum_insured=fields.Float(related='coverage.sum_insure',string='Sum Insured',store=True,readonly=True)
     settle_amount=fields.Float(string='Settle Amount',compute='_onchange_settle_amount')
     settle_date=fields.Date(string='Settle Date')
@@ -173,19 +174,23 @@ class settleHistory(models.Model):
     def _onchange_endo(self):
       if self.claimheader.endorsement:
           self.endorsement_related=self.claimheader.endorsement.id
+          print("end =====" + str(self.endorsement_related.std_id))
+
       else:
           self.endorsement_related = self.claimheader.policy_number.id
+          print("pol =====" + str(self.endorsement_related.std_id))
 
 
-    @api.onchange('claimheader')
-    def _onchange_risk_id(self):
-      if self.endorsement_related:
-           return {'domain': {'risk_id': [('policy_risk_id','=',self.endorsement_related.id if self.endorsement_related else False)]}}
 
     @api.onchange('risk_id')
-    def _onchange_cover(self):
-      if self.endorsement_related:
-          return {'domain': {'coverage': [('policy_rel_id', '=', self.endorsement_related.id if self.endorsement_related else False),('riskk', '=', self.risk_id.id if self.risk_id else False)]}}
+    def _onchange_risk_id(self):
+        print("risk =====" + str(self.risk_id))
+
+
+    # @api.onchange('risk_id')
+    # def _onchange_cover(self):
+    #   if self.endorsement_related:
+    #       return {'domain': {'coverage': [('policy_rel_id', '=', self.endorsement_related.id if self.endorsement_related else False),('riskk', '=', self.risk_id.id if self.risk_id else False)]}}
 
     @api.one
     @api.depends('claim_item')

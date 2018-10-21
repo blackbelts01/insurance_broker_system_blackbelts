@@ -28,46 +28,64 @@ class PolicyBroker(models.Model):
     @api.model
     def default_get(self, fields):
             res = super(PolicyBroker, self).default_get(fields)
-            if self._context.get('active_model') != 'crm.lead':
-                return res
-            lead = self.env['crm.lead'].browse(self._context.get('active_id'))
+            if self._context.get('active_model') == 'crm.lead':
 
-            recordrisks = self.env['new.risks'].search([('id', 'in', lead.objectrisks.ids)])
-            print(recordrisks)
-            records_risks = []
-            for rec in recordrisks:
-                records_risks.append(rec.id)
+                lead = self.env['crm.lead'].browse(self._context.get('active_id'))
 
-            recordproposal = self.env['proposal.opp.bb'].search([('id', '=', lead.selected_coverage.id)])
-            print(recordproposal.id)
-            recordcovers = self.env['coverage.line'].search([('proposal_id', '=', recordproposal.id)])
+                recordrisks = self.env['new.risks'].search([('id', 'in', lead.objectrisks.ids)])
+                print(recordrisks)
+                records_risks = []
+                for rec in recordrisks:
+                    records_risks.append(rec.id)
 
-            records_covers = []
-            for rec in recordcovers:
-                coversline = (
-                    0, 0,
-                    {'riskk': rec.risk_id_covers.id ,'insurerd': rec.insurer.id,
-                     'prod_product': rec.product.id, 'name1': rec.covers.id, 'sum_insure': rec.sum_insured,
-                     'deductible' : rec.deductible, 'limitone' :rec.limitone ,'limittotal': rec.limittotal ,
-                     'net_perimum': rec.net_premium, 'rate': rec.rate})
-                print(coversline)
-                records_covers.append(coversline)
-                print(records_covers)
+                recordproposal = self.env['proposal.opp.bb'].search([('id', '=', lead.selected_coverage.id)])
+                print(recordproposal.id)
+                recordcovers = self.env['coverage.line'].search([('proposal_id', '=', recordproposal.id)])
 
-            # print(records_covers)
+                records_covers = []
+                for rec in recordcovers:
+                    coversline = (
+                        0, 0,
+                        {'riskk': rec.risk_id_covers.id ,'insurerd': rec.insurer.id,
+                         'prod_product': rec.product.id, 'name1': rec.covers.id, 'sum_insure': rec.sum_insured,
+                         'deductible' : rec.deductible, 'limitone' :rec.limitone ,'limittotal': rec.limittotal ,
+                         'net_perimum': rec.net_premium, 'rate': rec.rate})
+                    print(coversline)
+                    records_covers.append(coversline)
+                    print(records_covers)
 
-            res['new_risk_ids'] = [(6, 0, records_risks)]
-            res['insurance_type'] = lead.insurance_type
-            res['line_of_bussines'] = lead.LOB.id
-            res['ins_type'] = lead.ins_type
-            # res['propoasl_ids'] = records_proposal
-            res['customer'] = lead.partner_id.id
-            res['salesperson'] = lead.user_id.partner_id.id
-            res['std_id'] = lead.policy_number
-            res['name_cover_rel_ids'] = records_covers
-            # res['checho'] = True
-            res['company'] = lead.selected_coverage.Company.id
-            res['product_policy'] = lead.selected_coverage.product_pol.id
+                # print(records_covers)
+
+                res['new_risk_ids'] = [(6, 0, records_risks)]
+                res['insurance_type'] = lead.insurance_type
+                res['line_of_bussines'] = lead.LOB.id
+                res['ins_type'] = lead.ins_type
+                # res['propoasl_ids'] = records_proposal
+                res['customer'] = lead.partner_id.id
+                res['salesperson'] = lead.user_id.partner_id.id
+                res['std_id'] = lead.policy_number
+                res['name_cover_rel_ids'] = records_covers
+                # res['checho'] = True
+                res['company'] = lead.selected_coverage.Company.id
+                res['product_policy'] = lead.selected_coverage.product_pol.id
+            elif self._context.get('active_model') == 'endorsement.edit':
+                lead = self.env['endorsement.edit'].browse(self._context.get('active_id'))
+                recordrisks = self.env['new.risks'].search([('id', 'in', lead.last_policy.new_risk_ids.ids)])
+                print(recordrisks)
+                records_risks = []
+                for rec in recordrisks:
+                    records_risks.append(rec.id)
+
+                coverlines = self.env["covers.lines"].search([('id', 'in', lead.last_policy.name_cover_rel_ids.ids)])
+                records_covers = []
+                for rec in coverlines:
+                    records_covers.append(rec.id)
+
+                res['new_risk_ids'] = [(6, 0, records_risks)]
+                res['insurance_type'] = lead.last_policy.ins_type
+                res['line_of_bussines'] = lead.last_policy.line_of_bussines.id
+                res['name_cover_rel_ids'] = records_covers
+
 
             return res
 
@@ -554,7 +572,7 @@ class Extra_Covers(models.Model):
     _name = "covers.lines"
     _rec_name= 'name1'
 
-    riskk = fields.Many2one("new.risks", "Risk")
+    riskk = fields.Many2one("new.risks", "Risk",domain="[('id','in',new_risk_ids)]")
     # risk_description = fields.Text(string="Risk Description")
     #
     insurerd = fields.Many2one(related="policy_rel_id.company")
@@ -570,6 +588,8 @@ class Extra_Covers(models.Model):
     rate = fields.Float(string="Rate")
     net_perimum = fields.Float(string="Net Perimum")
     policy_rel_id = fields.Many2one("policy.broker")
+    new_risk_ids =fields.One2many(related='policy_rel_id.new_risk_ids')
+
 
 
     _sql_constraints = [
@@ -591,10 +611,10 @@ class Extra_Covers(models.Model):
             self.net_perimum = self.sum_insure
 
 
-    @api.onchange('policy_rel_id')
-    def onchange_field_id(self):
-        if self.policy_rel_id:
-           return {'domain': {"riskk": [('id', 'in', self.policy_rel_id.new_risk_ids.ids)]}}
+    # @api.onchange('policy_rel_id')
+    # def onchange_field_id(self):
+    #     if self.policy_rel_id:
+    #        return {'domain': {"riskk": [('id', 'in', self.policy_rel_id.new_risk_ids.ids)]}}
 
     # @api.onchange('policy_rel_id')
     # def _change_domain(self):

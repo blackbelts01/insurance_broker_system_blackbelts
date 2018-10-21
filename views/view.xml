@@ -127,7 +127,7 @@
                             <field name="name_cover_rel_ids" nolabel="1" force_save="1"  attrs="{'invisible': [('checho', '=', False)],'readonly': [('policy_status', '=', 'approved')]}">
                                 <tree editable="1">
                                     <field name="riskk" options="{'no_create': True, 'no_open': True}" style="color:#2e70b8 ;"/>
-                                    <!--<field name="risk_description"/>-->
+                                    <field name="new_risk_ids" invisible="1"/>
                                     <field name="policy_rel_id" invisible="1"/>
                                     <field name="insurerd" invisible="1"/>
                                     <field name="prod_product" invisible="1"/>

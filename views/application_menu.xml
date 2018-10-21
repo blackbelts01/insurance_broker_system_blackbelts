@@ -46,13 +46,8 @@
         <menuitem id="main_ibs_menu" name="IBS"/>
 
         <!--Dashboards-->
-
-
         <menuitem id="dashboard_views_menu" name="Dashboard" action="dashboard_action"
                   parent="main_ibs_menu" sequence="0" groups="ibs_admin_group"/>
-
-
-
         <menuitem id="agent_dashboard_view_menu" name="Agent Dashboard" parent="dashboard_views_menu"/>
         <menuitem id="admin_dashboard_menu" name="Admin Dashboard" parent="dashboard_views_menu"/>
 
@@ -71,10 +66,7 @@
 
         <!--HR-->
         <menuitem id="hr_management_views_menu" name="Human Resources"
-
-          parent="main_ibs_menu" sequence="7" groups="ibs_admin_group"/>
-
-
+                  parent="main_ibs_menu" sequence="7" groups="ibs_admin_group"/>
         <menuitem id="employees_view_menu" name="Employees" parent="hr_management_views_menu"
                   action="hr.open_view_employee_list_my"/>
         <menuitem id="employees_list_view_menu" name="Employees" parent="employees_view_menu"

@@ -88,9 +88,26 @@
                         <field string="Opportunities" name="opp_count" widget="statinfo"/>
                     </button>
                 </button>
+                <button name="show_partner_claim" position="after">
+                    <button class="oe_stat_button o_res_partner_tip_opp" type="object"
+                            name="show_brok_inv"
+                            icon="fa-pencil-square-o"
+                            attrs="{'invisible': [('insurer_type','=',False)]}">
+                        <field string="Brokerage Invoices" name="brok_inv_count" widget="statinfo"/>
+                    </button>
+                </button>
+                <button name="show_partner_claim" position="after">
+                    <button class="oe_stat_button o_res_partner_tip_opp" type="object"
+                            name="show_prem_bill"
+                            icon="fa-pencil-square-o"
+                            attrs="{'invisible': [('insurer_type','=',False)]}">
+                        <field string="Premium Bills" name="prem_bill_count" widget="statinfo"/>
+                    </button>
+                </button>
             </data>
         </field>
     </record>
+
 
     <record id="res_partner_view_remove" model="ir.ui.view">
         <field name="name">res.partner.view.buttons</field>
@@ -100,17 +117,21 @@
         <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='%(sale.act_res_partner_2_sale_order)d']" position="attributes">
-                <attribute name="invisible">1</attribute>
+               <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//button[@name='%(crm.crm_lead_opportunities)d']" position="attributes">
-                <attribute name="invisible">1</attribute>>
+              <attribute name="invisible">1</attribute>>
             </xpath>
             <xpath expr="//field[@name='parent_id']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
+               <attribute name="invisible">1</attribute>
+           </xpath>
             <xpath expr="//field[@name='vat']" position="attributes">
-                <attribute name="invisible">1</attribute>
+               <attribute name="invisible">1</attribute>
+           </xpath>
+            <xpath expr="//button[@name='action_view_partner_invoices']" position="attributes">
+              <attribute name="invisible">[('insurer_type','=',True)]</attribute>>
             </xpath>
+
         </field>
     </record>
 

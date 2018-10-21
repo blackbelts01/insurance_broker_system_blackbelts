@@ -14,6 +14,10 @@ class inhertResPartner(models.Model):
     numberofchildren=fields.Integer('Number of Children')
     policy_count=fields.Integer(compute='_compute_policy_count')
     claim_count=fields.Integer(compute='_compute_claim_count')
+
+    brok_inv_count=fields.Integer(compute='_compute_brok_inv_count')
+    prem_bill_count=fields.Integer(compute='_compute_prem_bill_count')
+
     opp_count = fields.Integer(compute='_compute_opp_count')
 
     C_industry=fields.Many2one('insurance.setup.item',string='Industry',domain="[('setup_id.setup_key','=','industry')]")
@@ -193,6 +197,49 @@ class inhertResPartner(models.Model):
                 'type': 'ir.actions.act_window',
                 # 'context': {'default_agent': self.id},
                 'domain': [('policy_number.salesperson', '=', self.id)]
+            }
+
+    @api.one
+    def _compute_brok_inv_count(self):
+        if self.insurer_type == 1:
+            for partner in self:
+                operator = 'child_of' if partner.is_company else '='
+                partner.brok_inv_count= self.env['account.invoice'].search_count(
+                    [('partner_id', operator, partner.id),('insured_invoice', '=', 'brokerage')])
+    @api.one
+    def _compute_prem_bill_count(self):
+        if self.insurer_type == 1:
+            for partner in self:
+                operator = 'child_of' if partner.is_company else '='
+                partner.prem_bill_count= self.env['account.invoice'].search_count(
+                    [('partner_id', operator, partner.id),('insured_invoice', '=', 'insurer_bill')])
+
+    @api.multi
+    def show_brok_inv(self):
+        if self.insurer_type == 1:
+            return {
+                'name': ('Brokerage Invoices'),
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'account.invoice',  # model name ?yes true ok
+                'target': 'current',
+                'type': 'ir.actions.act_window',
+                'context': {'default_partner_id': self.id},
+                'domain': [('type','=','out_invoice'),('partner_id', '=', self.id),('insured_invoice','=','brokerage')]
+            }
+
+    @api.multi
+    def show_prem_bill(self):
+        if self.insurer_type == 1:
+            return {
+                'name': ('Premium Bills'),
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'account.invoice',  # model name ?yes true ok
+                'target': 'current',
+                'type': 'ir.actions.act_window',
+                'context': {'default_partner_id': self.id},
+                'domain': [('partner_id', '=', self.id),('type','=','in_invoice'),('insured_invoice','=','insurer_bill')]
             }
 
     @api.multi

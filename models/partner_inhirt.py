@@ -14,7 +14,7 @@ class inhertResPartner(models.Model):
     numberofchildren=fields.Integer('Number of Children')
     policy_count=fields.Integer(compute='_compute_policy_count')
     claim_count=fields.Integer(compute='_compute_claim_count')
-    opp_count = fields.Integer(compute='_compute_claim_count')
+    opp_count = fields.Integer(compute='_compute_opp_count')
 
     C_industry=fields.Many2one('insurance.setup.item',string='Industry',domain="[('setup_id.setup_key','=','industry')]")
     DOB=fields.Date('Date of Birth')
@@ -82,54 +82,60 @@ class inhertResPartner(models.Model):
         if self.customer == 1:
             for partner in self:
                 operator = 'child_of' if partner.is_company else '='
-                partner.policy_count = self.env['policy.broker'].search_count(
-                    [('customer', operator, partner.id)])
+                partner.opp_count = self.env['crm.lead'].search_count(
+                    [('partner_id', operator, partner.id)])
 
         elif self.insurer_type == 1:
             for partner in self:
-                operator = 'child_of' if partner.is_company else '='
-                partner.policy_count = self.env['policy.broker'].search_count(
-                    [('company', operator, partner.id)])
+                proposal = self.env['proposal.opp.bb'].search([('Company', '=', self.id)]).ids
+                partner.opp_count = self.env['crm.lead'].search_count(
+                    [('proposal_opp','in', proposal)])
         elif self.agent == 1:
             for partner in self:
                 operator = 'child_of' if partner.is_company else '='
-                partner.policy_count = self.env['policy.broker'].search_count(
-                    [('salesperson', operator, partner.id)])
+                partner.opp_count = self.env['crm.lead'].search_count(
+                    [('user_id.partner_id', operator, partner.id)])
 
     @api.multi
     def show_partner_opp(self):
+        tree_view = self.env.ref('insurance_broker_system_blackbelts.ibs_crm_case_tree_view_oppor')
+        form_view = self.env.ref('insurance_broker_system_blackbelts.crm__lead_form_view')
+
+
         if self.customer == 1:
             return {
-                'name': ('Policy'),
+                'name': ('Opportunity'),
                 'view_type': 'form',
                 'view_mode': 'tree,form',
-                'res_model': 'policy.broker',  # model name ?yes true ok
+                'res_model': 'crm.lead',  # model name ?yes true ok
+                'views': [(tree_view.id, 'tree'),(form_view.id, 'form')],
                 'target': 'current',
                 'type': 'ir.actions.act_window',
-                'context': {'default_customer': self.id},
-                'domain': [('customer', '=', self.id)]
+                'context': {'default_partner_id': self.id},
+                'domain': [('partner_id', '=', self.id)]
             }
         elif self.insurer_type == 1:
             return {
-                'name': ('Policy'),
+                'name': ('Opportunity'),
                 'view_type': 'form',
                 'view_mode': 'tree,form',
-                'res_model': 'policy.broker',  # model name ?yes true ok
+                'res_model': 'crm.lead',  # model name ?yes true ok
+                'views': [(tree_view.id, 'tree'),(form_view.id, 'form')],
                 'target': 'current',
                 'type': 'ir.actions.act_window',
-                'context': {'default_company': self.id},
-                'domain': [('company', '=', self.id)]
+                'domain': [('proposal_opp.Company', '=', self.id)],
+
             }
         elif self.agent == 1:
             return {
-                'name': ('Policy'),
+                'name': ('Opportunity'),
                 'view_type': 'form',
                 'view_mode': 'tree,form',
-                'res_model': 'policy.broker',  # model name ?yes true ok
+                'res_model': 'crm.lead',  # model name ?yes true ok
+                'views': [(tree_view.id, 'tree'),(form_view.id, 'form')],
                 'target': 'current',
                 'type': 'ir.actions.act_window',
-                'context': {'default_salesperson': self.id},
-                'domain': [('salesperson', '=', self.id)]
+                'domain': [('user_id.partner_id', '=', self.id)],
             }
     @api.one
     def _compute_claim_count(self):

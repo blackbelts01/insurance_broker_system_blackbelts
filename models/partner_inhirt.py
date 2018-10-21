@@ -14,6 +14,7 @@ class inhertResPartner(models.Model):
     numberofchildren=fields.Integer('Number of Children')
     policy_count=fields.Integer(compute='_compute_policy_count')
     claim_count=fields.Integer(compute='_compute_claim_count')
+    opp_count = fields.Integer(compute='_compute_claim_count')
 
     C_industry=fields.Many2one('insurance.setup.item',string='Industry',domain="[('setup_id.setup_key','=','industry')]")
     DOB=fields.Date('Date of Birth')
@@ -42,6 +43,61 @@ class inhertResPartner(models.Model):
                     [('salesperson', operator, partner.id)])
     @api.multi
     def show_partner_policies(self):
+        if self.customer == 1:
+            return {
+                'name': ('Policy'),
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'policy.broker',  # model name ?yes true ok
+                'target': 'current',
+                'type': 'ir.actions.act_window',
+                'context': {'default_customer': self.id},
+                'domain': [('customer', '=', self.id)]
+            }
+        elif self.insurer_type == 1:
+            return {
+                'name': ('Policy'),
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'policy.broker',  # model name ?yes true ok
+                'target': 'current',
+                'type': 'ir.actions.act_window',
+                'context': {'default_company': self.id},
+                'domain': [('company', '=', self.id)]
+            }
+        elif self.agent == 1:
+            return {
+                'name': ('Policy'),
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'policy.broker',  # model name ?yes true ok
+                'target': 'current',
+                'type': 'ir.actions.act_window',
+                'context': {'default_salesperson': self.id},
+                'domain': [('salesperson', '=', self.id)]
+            }
+
+    @api.one
+    def _compute_opp_count(self):
+        if self.customer == 1:
+            for partner in self:
+                operator = 'child_of' if partner.is_company else '='
+                partner.policy_count = self.env['policy.broker'].search_count(
+                    [('customer', operator, partner.id)])
+
+        elif self.insurer_type == 1:
+            for partner in self:
+                operator = 'child_of' if partner.is_company else '='
+                partner.policy_count = self.env['policy.broker'].search_count(
+                    [('company', operator, partner.id)])
+        elif self.agent == 1:
+            for partner in self:
+                operator = 'child_of' if partner.is_company else '='
+                partner.policy_count = self.env['policy.broker'].search_count(
+                    [('salesperson', operator, partner.id)])
+
+    @api.multi
+    def show_partner_opp(self):
         if self.customer == 1:
             return {
                 'name': ('Policy'),

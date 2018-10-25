@@ -87,6 +87,7 @@ class PolicyBroker(models.Model):
                 res['name_cover_rel_ids'] = records_covers
 
 
+
             return res
 
     @api.multi
@@ -193,7 +194,7 @@ class PolicyBroker(models.Model):
 
 
     bool = fields.Boolean()
-    edit_number = fields.Integer(string="Endorsement Number")
+    edit_number = fields.Integer(string="Endorsement No.")
     edit_decr = fields.Text('Endorsement Description', readonly=True)
 
 
@@ -204,9 +205,9 @@ class PolicyBroker(models.Model):
     holding_cam = fields.Char(string="Holding Campany")
 
     std_id = fields.Char(string="Policy Number" ,required=True)
-    issue_date = fields.Date(string="Issue Date")
-    start_date = fields.Date(string="Effective From")
-    end_date = fields.Date(string="Effective To")
+    issue_date = fields.Date(string="Issue Date",required=True)
+    start_date = fields.Date(string="Effective From",required=True)
+    end_date = fields.Date(string="Effective To",required=True)
 
 
 
@@ -263,17 +264,57 @@ class PolicyBroker(models.Model):
     fixed_commision = fields.Float(string="Fixed Brokerage", compute="_compute_brokerage")
     earl_commision = fields.Float(string="Early Collection" , compute="_compute_brokerage")
     total_commision = fields.Float(string="total Brokerage", compute="_compute_brokerage")
-    new_risk_ids = fields.One2many("new.risks", 'policy_risk_id', string='Risk')
+    new_risk_ids = fields.One2many("new.risks", 'policy_risk_id', string='Risk',copy=True)
     company = fields.Many2one('res.partner', domain="[('insurer_type','=',1)]", string="Insurer")
     product_policy = fields.Many2one('insurance.product',domain="[('insurer','=',company),('line_of_bus','=',line_of_bussines)]", string="Product")
     hamda = fields.Many2one("new.risks")
 
-    name_cover_rel_ids = fields.One2many("covers.lines","policy_rel_id",string="Covers Details" )
+    name_cover_rel_ids = fields.One2many("covers.lines","policy_rel_id",string="Covers Details",copy=True)
     currency_id = fields.Many2one("res.currency","Currency Code")
     benefit =fields.Char("Beneficiary")
 
     checho = fields.Boolean()
     count_claim = fields.Integer(compute="_compute_claim")
+    validate_basic_mark = fields.Boolean(copy=False,default=True)
+    validate_risk_mark = fields.Boolean(copy=False)
+    validate_cover_mark = fields.Boolean(copy=False)
+    validate_comm_mark = fields.Boolean(copy=False)
+
+
+    @api.multi
+    def validate_basic(self):
+        self.validate_basic_mark = True
+        self.validate_risk_mark = False
+        self.validate_cover_mark = False
+        self.validate_comm_mark = False
+        return True
+
+    @api.multi
+    def validate_risk(self):
+        if self.line_of_bussines:
+            self.validate_basic_mark = False
+            self.validate_risk_mark = True
+            self.validate_cover_mark = False
+            self.validate_comm_mark = False
+            return True
+
+    @api.multi
+    def validate_cover(self):
+        if self.new_risk_ids:
+            self.validate_basic_mark = False
+            self.validate_risk_mark = False
+            self.validate_cover_mark = True
+            self.validate_comm_mark = False
+            return True
+
+    @api.multi
+    def validate_commission(self):
+        self.validate_basic_mark = False
+        self.validate_risk_mark = False
+        self.validate_cover_mark = False
+        self.validate_comm_mark = True
+        return True
+
 
     @api.onchange('company')
     def _onchange_branch(self):
@@ -344,7 +385,7 @@ class PolicyBroker(models.Model):
 
     @api.multi
     def create_renewal(self):
-        view = self.env.ref('insurance_broker_system_blackbelts.my_view_for_policy_form_kmlo1')
+        view = self.env.ref('insurance_broker_system_blackbelts.policy_form_view')
 
         risk = self.env["new.risks"].search([('id', 'in', self.new_risk_ids.ids)])
         records_risk = []

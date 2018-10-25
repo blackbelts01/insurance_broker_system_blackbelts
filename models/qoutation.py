@@ -53,7 +53,7 @@ class crm_leads(models.Model):
     individual = fields.Boolean('Item by Item')
     test1=fields.Boolean(readonly=True)
 
-    objectrisks = fields.One2many('new.risks', 'risks_crm', string='car')  # where you are using this fiedl ? in xml
+    objectrisks = fields.One2many('new.risks', 'risks_crm', string='car',copy=True)  # where you are using this fiedl ? in xml
 
     # objectgroup = fields.One2many('group.group.opp', 'object_group_crm', string='Group')
 
@@ -160,7 +160,7 @@ class crm_leads(models.Model):
 
     @api.multi
     def create_policy(self):
-        form_view = self.env.ref('insurance_broker_system_blackbelts.my_view_for_policy_form_kmlo1')
+        form_view = self.env.ref('insurance_broker_system_blackbelts.policy_form_view')
         if self.policy_number and self.selected_coverage:
             return {
                 'name': ('Policy'),

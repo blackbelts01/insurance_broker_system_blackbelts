@@ -27,6 +27,49 @@ class crm_leads(models.Model):
                                     'Policy Duration Type',track_visibility='onchange')
     term=fields.Char(string='Term',compute='_compute_term',force_save=True)
 
+    validate_basic_mark_opp = fields.Boolean(copy=False, default=True)
+    validate_risk_mark_opp = fields.Boolean(copy=False)
+    validate_prop = fields.Boolean(copy=False)
+    validate_prop_line = fields.Boolean(copy=False)
+
+    @api.multi
+    def validate_basic_opp(self):
+        self.validate_basic_mark_opp = True
+        self.validate_risk_mark_opp = False
+        self.validate_prop = False
+        self.validate_prop_line = False
+        print(self.validate_basic_mark_opp)
+
+        return True
+
+    @api.multi
+    def validate_risk_opp(self):
+        if self.LOB:
+            self.validate_basic_mark_opp = False
+            self.validate_risk_mark_opp = True
+            self.validate_prop = False
+            self.validate_prop_line = False
+            print(self.validate_basic_mark_opp)
+            return True
+
+    @api.multi
+    def validate_proposal(self):
+        if self.objectrisks:
+            self.validate_basic_mark_opp = False
+            self.validate_risk_mark_opp = False
+            self.validate_prop = True
+            self.validate_prop_line = False
+            return True
+    @api.multi
+    def validate_proposal_line(self):
+        if self.objectrisks and self.proposal_opp:
+            self.validate_basic_mark_opp = False
+            self.validate_risk_mark_opp = False
+            self.validate_prop = False
+            self.validate_prop_line = True
+            return True
+
+
     @api.one
     def _compute_term(self):
         if self.duration_no and self.duration_type:
@@ -53,7 +96,7 @@ class crm_leads(models.Model):
     individual = fields.Boolean('Item by Item')
     test1=fields.Boolean(readonly=True)
 
-    objectrisks = fields.One2many('new.risks', 'risks_crm', string='car')  # where you are using this fiedl ? in xml
+    objectrisks = fields.One2many('new.risks', 'risks_crm', string='car',copy=True)  # where you are using this fiedl ? in xml
 
     # objectgroup = fields.One2many('group.group.opp', 'object_group_crm', string='Group')
 
@@ -160,7 +203,7 @@ class crm_leads(models.Model):
 
     @api.multi
     def create_policy(self):
-        form_view = self.env.ref('insurance_broker_system_blackbelts.my_view_for_policy_form_kmlo1')
+        form_view = self.env.ref('insurance_broker_system_blackbelts.policy_form_view')
         if self.policy_number and self.selected_coverage:
             return {
                 'name': ('Policy'),

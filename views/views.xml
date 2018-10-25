@@ -4,16 +4,16 @@
 
 
         <!--<record model="ir.ui.view" id="crm__lead_form_view_sale">-->
-            <!--<field name="model">crm.lead</field>-->
-            <!--<field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<xpath expr="//button[@name='384']" position="attributes">-->
-                    <!--<attribute name="invisible">1</attribute>-->
-                <!--</xpath>-->
-                <!--<xpath expr="//button[@name='385']" position="attributes">-->
-                    <!--<attribute name="invisible">1</attribute>-->
-                <!--</xpath>-->
-            <!--</field>-->
+        <!--<field name="model">crm.lead</field>-->
+        <!--<field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>-->
+        <!--<field name="arch" type="xml">-->
+        <!--<xpath expr="//button[@name='384']" position="attributes">-->
+        <!--<attribute name="invisible">1</attribute>-->
+        <!--</xpath>-->
+        <!--<xpath expr="//button[@name='385']" position="attributes">-->
+        <!--<attribute name="invisible">1</attribute>-->
+        <!--</xpath>-->
+        <!--</field>-->
         <!--</record>-->
 
         <record model="ir.ui.view" id="crm__lead_form_view">
@@ -35,6 +35,46 @@
                     </page>
                 </notebook>
 
+                <!--<notebook >-->
+                    <!--<page string="Proposal Line">-->
+                        <!--<field name="set_covers" invisible="1"/>-->
+                        <!--<button name="covers_button" string="Validate" class="oe_highlight" type="object"  attrs="{'invisible': ['|',('test', '=', False)]}"/><br/>-->
+                        <!--<label string="Proposal Lines" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('test', '=', False)]}" ></label>-->
+                        <!--<field name="coverage_line"  attrs="{'invisible': ['|',('set_covers', '=', False)]}">-->
+
+                            <!--<tree editable="bottom">-->
+                                <!--<field name="proposal_id"  style="color:#2e70b8 ;"/>-->
+                                <!--<field name="insurer" invisible="1"/>-->
+                                <!--<field name="product" invisible="1"/>-->
+                                <!--<field name="risk_id_covers" options="{'no_create': True, 'no_open': True}"/>-->
+                                <!--<field name="covers" options="{'no_create': True, 'no_open': True}"/>-->
+                                <!--&lt;!&ndash;<field name="risk_desc"/>&ndash;&gt;-->
+                                <!--<field name="check" invisible="1"/>-->
+                                <!--<field name="sum_insured" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+                                <!--<field name="rate" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+                                <!--<field name="net_premium" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+                                <!--<field name="limitone" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+                                <!--<field name="limittotal" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+                                <!--<field name="deductible" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
+
+                            <!--</tree>-->
+                            <!--&lt;!&ndash;<form>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<group>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<field name="proposal_id"/>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<field name="risk_id_covers"/>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<field name="risk_desc"/>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<field name="covers"/>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<field name="covers_crm" invisible="1"  />&ndash;&gt;-->
+
+                            <!--&lt;!&ndash;</group>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</form>&ndash;&gt;-->
+                        <!--</field>-->
+
+
+                    <!--</page>-->
+
+                <!--</notebook>-->
+
                 <!-- crm main form -->
                 <field name="partner_id" position="attributes" >
                     <attribute name="context">{'own_customer_only':1}</attribute>
@@ -52,15 +92,37 @@
                                 <field name="policy_number"  style="width:20%; font-size: 15px"/>
                                 <!--<field name="ammount" style="width:100px; font-size: 15px"/>-->
                             </div>
-
-
                         </div>
                     </group>
+
                 </xpath>
 
-                <!--<field name="user_id" position="attributes">-->
-                <!--<attribute name="context">{'filter_own_user': True}</attribute>-->
-                <!--</field>-->
+
+                <xpath expr="/form/sheet/group[1]" position="before">
+                    <div class="btn-group btn-group-justified" id="menu">
+                        <div class="btn-group" attrs="{'invisible': [('validate_basic_mark_opp', '=', True)]}">
+                            <button name="validate_basic_opp" string="Basic Information" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary"  />
+                        </div>
+                        <div class="btn-group" attrs="{'invisible': [('validate_risk_mark_opp', '=', True)]}">
+                            <button name="validate_risk_opp" string="Risk" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" />
+                        </div>
+                        <div class="btn-group" attrs="{'invisible': [('validate_prop', '=', True)]}">
+                            <button name="validate_proposal" string="Proposals" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" />
+                        </div>
+                        <div class="btn-group" attrs="{'invisible': [('validate_prop_line', '=', True)]}">
+                            <button name="validate_proposal_line" string="Proposal Lines" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" />
+                        </div>
+                    </div>
+
+                </xpath>
+
+
+
+
+
+
+
+
 
 
                 <!--new policy-->
@@ -69,9 +131,17 @@
                     <field name="oppor_type"/>
                     <field name="create_uid" readonly='True'/>
                     <field name="selected_coverage"  />
+                    <field name="test" style="width:20%; font-size: 15px"  invisible="1"  />
+
                 </field>
                 <field name="team_id" position="after">
                     <field name="test1"  invisible="1" />
+                    <field name="validate_basic_mark_opp"  invisible="1" />
+                    <field name="validate_risk_mark_opp"  invisible="1" />
+                    <field name="validate_prop"  invisible="1" />
+                    <field name="validate_prop_line"  invisible="1" />
+                    <!--<field name="validate_basic_mark_opp"  invisible="1" />-->
+                    <!--<field name="test1"  invisible="1" />-->
 
                     <field name="insurance_type" />
                     <field name="LOB"   />
@@ -91,30 +161,14 @@
 
 
                     <label string="Duration"/>
-                    <div class="o_row">
-                        <field name="duration_no"/>
+                    <div class="o_row">                        <field name="duration_no"/>
                         <field name="duration_type"/>
                     </div>
 
                 </field>
-
-
-
-
-                <xpath expr="/form/sheet/group[1]" position="after" >
-                    <field name="test" style="width:20%; font-size: 15px"  invisible="1"  />
-                    <!--<group string="Insured"  attrs="{'invisible': ['|',('test', '=', False)]}">-->
-
-                    <!--<group attrs="{'invisible': ['|',('ins_type', '!=', 'Group')]}">-->
-
-                    <!--<field name="group" />-->
-                    <!--</group>-->
-
-                    <!--<group >-->
-                    <!--<button name="Insured_button" string="Add Risk Details" class="oe_highlight" type="object" attrs="{'invisible': [('active','=',False)]}"/>-->
-                    <!--</group>-->
-                    <label string="Insured" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('test', '=', False)]}" ></label>
-                    <field name="objectrisks" attrs="{'invisible': ['|',('test', '=', False)]}" >
+                <xpath expr="/form/sheet/group[1]" position="after">
+                    <!--<group string="Risks" attrs="{'invisible': ['|',('validate_risk_mark_opp', '!=', True)]}">-->
+                    <field name="objectrisks" attrs="{'invisible': ['|',('validate_risk_mark_opp', '!=', True)]}" >
                         <tree>
                             <!--<field name="risk"/>-->
                             <field name="risk_description"/>
@@ -157,8 +211,8 @@
 
                         </form>
                     </field>
-                    <label string="Proposals" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('test', '=', False)]}" ></label>
-                    <field name="proposal_opp"  attrs="{'invisible': ['|',('test', '=', False)]}" >
+                    <!--<label string="Proposals" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('test', '=', False)]}" ></label>-->
+                    <field name="proposal_opp"  attrs="{'invisible': ['|',('validate_prop', '!=', True)]}" >
                         <tree>
                             <field name="Company"/>
                             <field name="product_pol"/>
@@ -166,10 +220,14 @@
                             <field name="premium"/>
                         </tree>
                     </field>
-                    <field name="set_covers" invisible="1"/>
-                    <button name="covers_button" string="Validate" class="oe_highlight" type="object"  attrs="{'invisible': ['|',('test', '=', False)]}"/><br/>
-                    <label string="Proposal Lines" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('test', '=', False)]}" ></label>
-                    <field name="coverage_line"  attrs="{'invisible': ['|',('set_covers', '=', False)]}">
+
+
+
+
+                    <!--<field name="set_covers" invisible="1"/>-->
+                    <!--<button name="covers_button" string="Validate" class="oe_highlight" type="object"  attrs="{'invisible': ['|',('test', '=', False)]}"/><br/>-->
+                    <!--<label string="Proposal Lines" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('test', '=', False)]}" ></label>-->
+                    <field name="coverage_line"  attrs="{'invisible': [('validate_prop_line', '!=', True)]}">
 
                         <tree editable="bottom">
                             <field name="proposal_id"  style="color:#2e70b8 ;"/>
@@ -187,6 +245,17 @@
                             <field name="deductible" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>
 
                         </tree>
+                        <!--</tree>-->
+                        <!--<form>-->
+                            <!--<group>-->
+                                <!--<field name="proposal_id"/>-->
+                                <!--<field name="risk_id_covers"/>-->
+                                <!--&lt;!&ndash;<field name="risk_desc"/>&ndash;&gt;-->
+                                <!--<field name="covers"/>-->
+                                <!--<field name="covers_crm" invisible="1"  />-->
+
+                            <!--</group>-->
+                        <!--</form>-->
                         <!--<form>-->
                         <!--<group>-->
                         <!--<field name="proposal_id"/>-->
@@ -200,7 +269,43 @@
                     </field>
 
 
+
+
+                    <!--</group>-->
                 </xpath>
+
+
+                <xpath expr="/form/sheet/group[1]" position="attributes">
+                    <attribute name="attrs">{'invisible': [('validate_basic_mark_opp','!=',True)]}</attribute>>
+                </xpath>
+
+                <!--<xpath expr="/form/sheet/group[1]" position="attributes" >-->
+                <!--<attribute name="attrs">{'invisible': [('validate_basic_mark_opp', '!=', True)]}</attribute>-->
+                <!--</xpath>-->
+                <!--&lt;!&ndash;<field name="test" style="width:20%; font-size: 15px"  invisible="1"  />&ndash;&gt;-->
+                <!--&lt;!&ndash;<group string="Insured"  attrs="{'invisible': ['|',('test', '=', False)]}">&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<group attrs="{'invisible': ['|',('ins_type', '!=', 'Group')]}">&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<field name="group" />&ndash;&gt;-->
+                <!--&lt;!&ndash;</group>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<group >&ndash;&gt;-->
+                <!--&lt;!&ndash;<button name="Insured_button" string="Add Risk Details" class="oe_highlight" type="object" attrs="{'invisible': [('active','=',False)]}"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;</group>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<label string="Proposals" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('test', '=', False)]}" ></label>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="proposal_opp"  attrs="{'invisible': ['|',('test', '=', False)]}" >&ndash;&gt;-->
+                <!--&lt;!&ndash;<tree>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="Company"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="product_pol"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="proposal_desc"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="premium"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;</tree>&ndash;&gt;-->
+                <!--&lt;!&ndash;</field>&ndash;&gt;-->
+
+
+                <!--</xpath>-->
 
                 <!--<xpath expr="/form/sheet/group[1]" position="after">-->
                 <!--<field name="test" style="width:20%; font-size: 15px"  invisible="1"  />-->
@@ -252,17 +357,7 @@
                 <!--<field name="limittotal" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
                 <!--<field name="deductible" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
 
-                <!--</tree>-->
-                <!--&lt;!&ndash;<form>&ndash;&gt;-->
-                <!--&lt;!&ndash;<group>&ndash;&gt;-->
-                <!--&lt;!&ndash;<field name="proposal_id"/>&ndash;&gt;-->
-                <!--&lt;!&ndash;<field name="risk_id_covers"/>&ndash;&gt;-->
-                <!--&lt;!&ndash;<field name="risk_desc"/>&ndash;&gt;-->
-                <!--&lt;!&ndash;<field name="covers"/>&ndash;&gt;-->
-                <!--&lt;!&ndash;<field name="covers_crm" invisible="1"  />&ndash;&gt;-->
 
-                <!--&lt;!&ndash;</group>&ndash;&gt;-->
-                <!--&lt;!&ndash;</form>&ndash;&gt;-->
                 <!--</field>-->
 
 

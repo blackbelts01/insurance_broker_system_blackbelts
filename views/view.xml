@@ -1,6 +1,6 @@
 <odoo>
     <data>
-        <record id="my_view_for_policy_form_kmlo1" model="ir.ui.view">
+        <record id="policy_form_view" model="ir.ui.view">
             <field name="name">Policy Form</field>
             <field name="model">policy.broker</field>
             <field name="arch" type="xml">
@@ -14,6 +14,22 @@
                         <button name="create_invoices" string="Create Invoices" type="object" class="oe_highlight"
                                 attrs="{'invisible': [('hide_inv_button', '!=', True)]}"/>
                         <field name="policy_status" widget="statusbar"/>
+                        <!--<template>-->
+                                    <!--<script type="text/javascript">-->
+                                        <!--var buttonsMenu = document.getElementById("menu");-->
+                                        <!--console.log(buttonsMenu);-->
+                                        <!--var buttonsList = buttonsMenu.getElementsByTagName("button");-->
+                                        <!--for (var i = 0; i  &lt; buttonsList.length; i++) {-->
+                                            <!--buttonsList[i].addEventListener("click", function () {-->
+                                                <!--var activeButtons=buttonsMenu.getElementsByClassName("active")[0];-->
+                                                <!--console.log(activeButtons);-->
+                                                <!--activeButtons.classList.remove("active");-->
+                                                <!--this.classList.add("active");-->
+                                            <!--})-->
+                                        <!--}-->
+
+                                    <!--</script>-->
+                        <!--</template>-->
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -21,46 +37,54 @@
                                     name = "show_claim"
                                     icon='fa-star'>
                                 <field name="count_claim" string="Claims" widget="statinfo"/>
-
                             </button>
                         </div>
                         <div class="oe_title">
-                            <label for="std_id" />
-                            <h1><field name="std_id" placeholder="e.g. Policy No." attrs="{'readonly': [('policy_status', '=', 'approvedd')]}"/></h1>
-                            <h4 class="o_row">
-                                <label for="edit_number"  />
-                                <div class="o_row">
-                                    <field name="edit_number" readonly="1" force_save="1" />
-                                    <field name="hide_inv_button" invisible="1"/>
-                                </div>
-                                <label for="renwal_check"  />
-                                <div class="o_row">
-                                    <field name="renwal_check" type="checkbox" readonly="1" force_save="1"/>
-                                </div>
-                                <label for="policy_number" string='Old Policy' attrs="{'invisible': [('renwal_check', '!=', True)]}"/>
-                                <div class="o_row">
-                                    <field name="policy_number"  readonly="1" force_save="1" attrs="{'invisible': [('renwal_check', '!=', True)]}"/>
-                                </div>
-                            </h4>
-                            <h3  class="o_row">
-                                <div>
-                                    <label for="edit_decr" attrs="{'invisible': [('edit_number', '&lt;=', 0)]}" />
-                                    <div class="o_row">
-                                        <field name="edit_decr" attrs="{'invisible': [('edit_number', '&lt;=', 0)]}"/>
-                                    </div>
-                                </div>
-                            </h3>
+                            <div class="o_row">
+                                <h1><field name="std_id" placeholder="e.g. Policy No." attrs="{'readonly': [('policy_status', '=', 'approved')]}"/></h1>
+                            </div>
                         </div>
                         <group>
+                            <field name="edit_number" readonly="1" force_save="1"/>
+                            <field name="edit_decr" attrs="{'invisible': [('edit_number', '&lt;=', 0)]}"/>
+                            <field name="renwal_check" type="checkbox" readonly="1" force_save="1"/>
+                            <field name="policy_number"  readonly="1" force_save="1" attrs="{'invisible': [('renwal_check', '!=', True)]}"/>
+                            <field name="check_item" invisible="1"/>
+                            <field name="group" invisible="1"/>
+                            <field name="checho" invisible="1"/>
+                            <field name="renewal_state" invisible="1" force_save="1"/>
+                            <field name="validate_basic_mark" invisible="1"/>
+                            <field name="validate_risk_mark" invisible="1"/>
+                            <field name="validate_cover_mark" invisible="1"/>
+                            <field name="validate_comm_mark" invisible="1"/>
+                            <field name="hide_inv_button" invisible="1"/>
+                        </group>
+
+                          <div class="btn-group btn-group-justified" id="menu">
+                                <div class="btn-group" style="border-bottom:2px solid #aaa" attrs="{'invisible': [('validate_basic_mark', '=', True)]}">
+                                    <button name="validate_basic" string="Basic Information" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary"  />
+                                </div>
+                                <div class="btn-group" style="border-bottom:2px solid #aaa" attrs="{'invisible': [('validate_risk_mark', '=', True)]}">
+                                    <button name="validate_risk" string="Risk" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" />
+                                </div>
+                                <div class="btn-group" style="border-bottom:2px solid #aaa" attrs="{'invisible': [('validate_cover_mark', '=', True)]}">
+                                    <button name="validate_cover" string="Coverages" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" />
+                                </div>
+                                <div class="btn-group" style="border-bottom:2px solid #aaa" attrs="{'invisible': [('validate_comm_mark', '=', True)]}">
+                                    <button name="validate_commission" string="Share Commission" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" />
+                                </div>
+                          </div>
+
+                        <group string="Basic Information" attrs="{'invisible': [('validate_basic_mark', '!=', True)]}">
                             <group >
-                                <field name="customer" attrs="{'readonly': [('policy_status', '=', 'approvedd')]}"/>
-                                <field name="company" attrs="{'readonly': [('policy_status', '=', 'approvedd')]}" context="{'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}"/>
-                                <field name="branch" widget="selection" attrs="{'readonly': [('policy_status', '=', 'approvedd')]}"/>
-                                <field name="issue_date" attrs="{'readonly': [('policy_status', '=', 'approvedd')]}"/>
-                                <field name="start_date" attrs="{'readonly': [('policy_status', '=', 'approvedd')]}"/>
-                                <field name="end_date" attrs="{'readonly': [('policy_status', '=', 'approvedd')]}"/>
-                                <field name="benefit" attrs="{'readonly': [('policy_status', '=', 'approvedd')]}"/>
-                                <field name="salesperson" attrs="{'readonly': [('policy_status', '=', 'approvedd')]}"/>
+                                <field name="customer" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
+                                <field name="company" attrs="{'readonly': [('policy_status', '=', 'approved')]}" context="{'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}"/>
+                                <field name="branch" widget="selection" attrs="{'readonly': [('policy_status', '=','approved')]}"/>
+                                <field name="issue_date" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
+                                <field name="start_date" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
+                                <field name="end_date" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
+                                <field name="benefit" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
+                                <field name="salesperson" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
                                 <field name="commission_per"/>
                             </group>
                             <group >
@@ -68,27 +92,20 @@
                                 <field name="line_of_bussines" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
                                 <field name="product_policy" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
                                 <field name="ins_type" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
-                                <field name="renewal_state" invisible="1" force_save="1"/>
                                 <field name="currency_id" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
                                 <field name="gross_perimum" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
                                 <field name="t_permimum"/>
                                 <field name="term" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
                                 <field name="no_years"  attrs="{'invisible': [('term', '!=', 'year')],'readonly': [('policy_status', '=', 'approved')]}" />
-
                             </group>
-                            <group>
-                                <field name="check_item" invisible="1"/>
-                                <field name="group" invisible="1"/>
-                            </group>
-                            <label string="Insured" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': [('check_item', '=', False)]}" ></label>
-
-                            <field name="new_risk_ids" attrs="{'invisible': ['|',('check_item', '=', False)],'readonly': [('policy_status', '=', 'approved')]}" >
+                        </group>
+                        <group string="Risks" attrs="{'invisible': [('validate_risk_mark', '!=', True)]}">
+                            <field name="new_risk_ids" attrs="{'readonly': [('policy_status', '=', 'approved')]}" >
                                 <tree>
                                     <field name="risk_description"  />
                                 </tree>
                                 <form>
                                     <group>
-                                        <!--<field name="risk"/>-->
                                         <field name="risk_description" invisible="1"/>
                                         <field name="policy_risk_id" invisible="1"/>
                                         <field name="test" invisible="1"/>
@@ -120,11 +137,9 @@
                                     </group>
                                 </form>
                             </field>
-
-                            <button name="generate_covers" string="Validate" class="oe_highlight"  style="width:15%;" type="object" attrs="{'invisible': [('check_item', '=', False)]}" /><br/>
-                            <label string="Coverage" style="font-size: 30px; color:#2e70b8; " attrs="{'invisible': ['|',('checho', '=', False)]}" ></label>
-                            <field name="checho" invisible="1"/>
-                            <field name="name_cover_rel_ids" nolabel="1" force_save="1"  attrs="{'invisible': [('checho', '=', False)],'readonly': [('policy_status', '=', 'approved')]}">
+                        </group>
+                        <group string="Coverages" attrs="{'invisible': [('validate_cover_mark', '!=', True)]}">
+                           <field name="name_cover_rel_ids" nolabel="1" force_save="1"  attrs="{'readonly': [('policy_status', '=', 'approved')]}">
                                 <tree editable="1">
                                     <field name="riskk" options="{'no_create': True, 'no_open': True}" style="color:#2e70b8 ;"/>
                                     <field name="new_risk_ids" invisible="1"/>
@@ -142,71 +157,70 @@
                                 </tree>
                             </field>
                         </group>
-                        <notebook>
-                            <page string='Brokerage Fees'>
+                        <group string="Share Commission" attrs="{'invisible': [('validate_comm_mark', '!=', True)]}">
+                            <field name="share_commission" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
+                                <tree editable="1">
+                                    <field name="agent"/>
+                                    <field name="commission_per"/>
+                                    <field name="amount"/>
+                                    <field name="policy_id" invisible="1"/>
+                                </tree>
+                                <form>
+                                    <field name="agent"/>
+                                    <field name="commission_per"/>
+                                    <field name="amount" readonly="1" force_save="1"/>
+                                    <field name="policy_id" invisible="1"/>
+                                </form>
+                            </field>
+                        </group>
+                        <notebook attrs="{'invisible': [('policy_status', '!=', 'approved')]}">
+                            <page string="Brokerages">
                                 <group>
                                     <group >
                                         <label string="Basic Brokerage"/>
                                         <field name="commision" nolabel="1"/>
-
                                         <label string="Complementary Brokerage"/>
                                         <field name="com_commision" nolabel="1"/>
-
                                         <label string="Early Brokerage"/>
                                         <field name="earl_commision" nolabel="1"/>
                                     </group>
                                     <group>
                                         <label string="Fixed Brokerage"/>
                                         <field name="fixed_commision" nolabel="1"/>
-
                                         <label string="total Brokerage"/>
                                         <field name="total_commision" nolabel="1"/>
                                     </group>
                                 </group>
                             </page>
-
-                            <page string='Share commission'>
-                                <field name="share_commission" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
-                                    <tree editable="1">
-                                        <field name="agent"/>
-                                        <field name="commission_per"/>
-                                        <field name="amount"/>
-                                        <field name="policy_id" invisible="1"/>
-                                    </tree>
-                                    <form>
-                                        <field name="agent"/>
-                                        <field name="commission_per"/>
-                                        <field name="amount" readonly="1" force_save="1"/>
-                                        <field name="policy_id" invisible="1"/>
-                                    </form>
-                                </field>
-
+                            <page string="Installments">
+                                <group>
+                                     <field name="rella_installment_id"  nolabel="1" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
+                                        <tree>
+                                            <field name="date" />
+                                            <field name="amount"/>
+                                        </tree>
+                                    </field>
+                                </group>
                             </page>
-                            <page string='Installment'>
-                                <field name="rella_installment_id"  nolabel="1" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
-                                    <tree>
-                                        <field name="date" />
-                                        <field name="amount"/>
-                                    </tree>
-                                </field>
-                            </page>
-                            <page string='Invoices'>
-                                <field name="invoice_ids"  nolabel="1" readonly="1" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
-                                    <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoices">
-                                        <field name="insured_type" />
-                                        <field name="insured_lOB" />
-                                        <field name="insured_insurer" />
-                                        <field name="insured_product" />
-                                        <field name="partner_id" groups="base.group_user" string="Partner"/>
-                                        <field name="date_invoice" string="Invoice Date"/>
-                                        <field name="number" string="Invoice Number"/>
-                                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                                        <field name="date_due"/>
-                                        <field name="amount_total_signed" string="Total" sum="Total"/>
-                                        <field name="residual_signed" string="Amount Due" sum="Amount Due"/>
-                                        <field name="state"/>
-                                    </tree>
-                                </field>
+                            <page string="Invoices">
+                                <group>
+                                    <field name="invoice_ids"  nolabel="1" readonly="1" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
+                                        <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoices">
+                                            <field name="insured_type" />
+                                            <field name="insured_lOB" />
+                                            <field name="insured_insurer" />
+                                            <field name="insured_product" />
+                                            <field name="partner_id" groups="base.group_user" string="Partner"/>
+                                            <field name="date_invoice" string="Invoice Date"/>
+                                            <field name="number" string="Invoice Number"/>
+                                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                            <field name="date_due"/>
+                                            <field name="amount_total_signed" string="Total" sum="Total"/>
+                                            <field name="residual_signed" string="Amount Due" sum="Amount Due"/>
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>
@@ -218,8 +232,7 @@
                 </form>
             </field>
         </record>
-
-        <record id="my_view_for_policy_tree" model="ir.ui.view">
+        <record id="policy_tree_view" model="ir.ui.view">
             <field name="name">Policy List</field>
             <field name="model">policy.broker</field>
             <field name="arch" type="xml">
@@ -241,7 +254,7 @@
                 </tree>
             </field>
         </record>
-        <record id="my_action_for_second_menu" model="ir.actions.act_window">
+        <record id="policy_form_action" model="ir.actions.act_window">
             <field name="name">Policy</field>
             <field name="res_model">policy.broker</field>
             <field name="view_mode">tree,form</field>

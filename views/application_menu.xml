@@ -132,7 +132,7 @@
         <menuitem id="policy_management_views_menu" name="Policies"
                   parent="main_ibs_menu" sequence="3" groups="ibs_admin_group,ibs_agent_group"/>
         <menuitem id="policy_view_menu" name="Policy" parent="policy_management_views_menu"
-                  action="my_action_for_second_menu" sequence="0"/>
+                  action="policy_form_action" sequence="0"/>
         <menuitem id="endorsement_view_menu" name="Endorsement" parent="policy_management_views_menu"
                   action="my_action_for_Endorsement" sequence="1"/>
         <menuitem id="renewal_view_menu" name="Renewal" parent="policy_management_views_menu"
@@ -174,7 +174,7 @@
         <!--Accounting-->
         <menuitem id="accounting_management_views_menu" name="Accounting"
                   parent="main_ibs_menu" sequence="6" groups="ibs_admin_group,ibs_accountant_group"/>
-        <menuitem id="document_accounting_view_menu" name="Documents" parent="accounting_management_views_menu"/>
+        <menuitem id="document_accounting_view_menu" name="Documents" parent="accounting_management_views_menu" sequence="0"/>
         <menuitem id="document_invoices_accounting_view_menu" name="Invoices" parent="document_accounting_view_menu"/>
         <menuitem id="invoices_view_menu" name="Customer Invoices" parent="document_invoices_accounting_view_menu"
                   action="account.action_invoice_tree1"/>
@@ -185,7 +185,7 @@
                   action="account.action_invoice_tree2"/>
         <menuitem id="bills_payments_view_menu" name="Payments" parent="document_bills_accounting_view_menu"
                   action="account.action_account_payments_payable"/>
-        <menuitem id="accounting_entries_view_menu" name="Accounting Entries" parent="accounting_management_views_menu"/>
+        <menuitem id="accounting_entries_view_menu" name="Accounting Entries" parent="accounting_management_views_menu" sequence="1"/>
         <menuitem id="journal_item_view_menu" name="Journal Items" parent="accounting_entries_view_menu"
                   action="account.action_account_moves_all_a"/>
         <menuitem id="journal_entries_view_menu" name="Journal Entries" parent="accounting_entries_view_menu"
@@ -194,7 +194,7 @@
                   action="analytic.account_analytic_line_action_entries"/>
         <menuitem id="asset_entries_view_menu" name="Assets" parent="accounting_entries_view_menu"
                   action="account_asset.action_account_asset_asset_form"/>
-        <menuitem id="menu_finance_legal_statement" name="PDF Reports" parent="accounting_management_views_menu"/>
+        <menuitem id="menu_finance_legal_statement" name="PDF Reports" parent="accounting_management_views_menu" sequence="2"/>
         <menuitem id="menu_general_ledger" name="General Ledger" parent="menu_finance_legal_statement" action="account.action_account_general_ledger_menu" groups="account.group_account_user"/>
         <menuitem id="menu_partner_ledger" name="Partner Ledger" parent="menu_finance_legal_statement" action="account.action_account_partner_ledger_menu" groups="account.group_account_user"/>
         <menuitem id="menu_print_journal" name="Journals Audit" parent="menu_finance_legal_statement" action="account.action_account_print_journal_menu" groups="account.group_account_manager,account.group_account_user"/>
@@ -205,7 +205,7 @@
         <menuitem id="menu_general_Balance_report" name="Trial Balance" parent="menu_finance_legal_statement" action="account.action_account_balance_menu" groups="account.group_account_user"/>
         <menuitem id="menu_account_report" name="Tax Report" action="account.action_account_tax_report" parent="menu_finance_legal_statement" groups="account.group_account_manager,account.group_account_user"/>
 
-        <menuitem id="accounting_configuration_view_menu" name="Configuration" parent="accounting_management_views_menu"/>
+        <menuitem id="accounting_configuration_view_menu" name="Configuration" parent="accounting_management_views_menu" sequence="3"/>
         <menuitem id="chart_of_account_view_menu" name="Chart of Accounts" parent="accounting_configuration_view_menu"
                   action="account.action_account_form"/>
         <menuitem id="currencies_view_menu" name="Currencies" parent="accounting_configuration_view_menu"
@@ -218,6 +218,8 @@
                   action="account.action_account_bank_journal_form"/>
         <menuitem id="Journals_view_menu" name="Journals" parent="accounting_configuration_view_menu"
                   action="account.action_account_journal_form"/>
+        <menuitem id="assets_view_menu" name="Assets Type" parent="accounting_configuration_view_menu"
+                  action="account_asset.action_account_asset_asset_list_normal_purchase"/>
 
         <!--Configuration-->
         <menuitem id="configuration_view_menu" name="Configuration" parent="main_ibs_menu" sequence="8" groups="ibs_admin_group"/>

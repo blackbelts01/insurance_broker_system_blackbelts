@@ -35,46 +35,6 @@
                     </page>
                 </notebook>
 
-                <!--<notebook >-->
-                    <!--<page string="Proposal Line">-->
-                        <!--<field name="set_covers" invisible="1"/>-->
-                        <!--<button name="covers_button" string="Validate" class="oe_highlight" type="object"  attrs="{'invisible': ['|',('test', '=', False)]}"/><br/>-->
-                        <!--<label string="Proposal Lines" style="font-size: 30px; color:#2e70b8 " attrs="{'invisible': ['|',('test', '=', False)]}" ></label>-->
-                        <!--<field name="coverage_line"  attrs="{'invisible': ['|',('set_covers', '=', False)]}">-->
-
-                            <!--<tree editable="bottom">-->
-                                <!--<field name="proposal_id"  style="color:#2e70b8 ;"/>-->
-                                <!--<field name="insurer" invisible="1"/>-->
-                                <!--<field name="product" invisible="1"/>-->
-                                <!--<field name="risk_id_covers" options="{'no_create': True, 'no_open': True}"/>-->
-                                <!--<field name="covers" options="{'no_create': True, 'no_open': True}"/>-->
-                                <!--&lt;!&ndash;<field name="risk_desc"/>&ndash;&gt;-->
-                                <!--<field name="check" invisible="1"/>-->
-                                <!--<field name="sum_insured" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
-                                <!--<field name="rate" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
-                                <!--<field name="net_premium" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
-                                <!--<field name="limitone" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
-                                <!--<field name="limittotal" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
-                                <!--<field name="deductible" attrs="{'readonly': [('check', '=', True)]}" force_save="1"/>-->
-
-                            <!--</tree>-->
-                            <!--&lt;!&ndash;<form>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<group>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<field name="proposal_id"/>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<field name="risk_id_covers"/>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<field name="risk_desc"/>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<field name="covers"/>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<field name="covers_crm" invisible="1"  />&ndash;&gt;-->
-
-                            <!--&lt;!&ndash;</group>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</form>&ndash;&gt;-->
-                        <!--</field>-->
-
-
-                    <!--</page>-->
-
-                <!--</notebook>-->
-
                 <!-- crm main form -->
                 <field name="partner_id" position="attributes" >
                     <attribute name="context">{'own_customer_only':1}</attribute>
@@ -99,18 +59,26 @@
 
 
                 <xpath expr="/form/sheet/group[1]" position="before">
+                    <br/>
+                         <template>
+                          <script type="text/javascript">
+                            var buttonsMenu = document.getElementById("menu");
+                              console.log(buttonsMenu);
+                            var buttonsList = buttonsMenu.getElementsByClassName("o_invisible_modifier")[0].style="display: inline-block !important;background:#fff;color:#777;border: 1px solid #ddd;border-bottom: none; ";
+                          </script>
+                        </template>
                     <div class="btn-group btn-group-justified" id="menu">
-                        <div class="btn-group" attrs="{'invisible': [('validate_basic_mark_opp', '=', True)]}">
-                            <button name="validate_basic_opp" string="Basic Information" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary"  />
+                        <div class="btn-group" >
+                            <button name="validate_basic_opp" string="Basic Information" type="object" style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" class="btn btn-primary" attrs="{'invisible': [('validate_basic_mark_opp', '=', True)]}" />
                         </div>
-                        <div class="btn-group" attrs="{'invisible': [('validate_risk_mark_opp', '=', True)]}">
-                            <button name="validate_risk_opp" string="Risk" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" />
+                        <div class="btn-group" >
+                            <button name="validate_risk_opp" string="Risk" type="object" style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" class="btn btn-primary"  attrs="{'invisible': [('validate_risk_mark_opp', '=', True)]}"/>
                         </div>
-                        <div class="btn-group" attrs="{'invisible': [('validate_prop', '=', True)]}">
-                            <button name="validate_proposal" string="Proposals" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" />
+                        <div class="btn-group" >
+                            <button name="validate_proposal" string="Proposals" type="object" style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" class="btn btn-primary" attrs="{'invisible': [('validate_prop', '=', True)]}" />
                         </div>
-                        <div class="btn-group" attrs="{'invisible': [('validate_prop_line', '=', True)]}">
-                            <button name="validate_proposal_line" string="Proposal Lines" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" />
+                        <div class="btn-group" >
+                            <button name="validate_proposal_line" string="Proposal Lines" type="object" style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" class="btn btn-primary" attrs="{'invisible': [('validate_prop_line', '=', True)]}" />
                         </div>
                     </div>
 

@@ -5,8 +5,7 @@ class claimPolicy(models.Model):
     _name ="insurance.claim"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string='Claim Number', required=True, copy=False, readonly=True, index=True,
-                       default=lambda self: _('New'))
+    name = fields.Char(string='Claim Number', required=True, copy=False, index=True)
     intimation_date=fields.Date(string='Intimation Date')
     intimation_no=fields.Char(string='Intimation No')
     dateofloss=fields.Date(string='Date of Loss')
@@ -77,11 +76,11 @@ class claimPolicy(models.Model):
             'context': ctx,
         }
 
-    @api.model
-    def create(self, vals):
-        if vals.get('name', 'New') == 'New':
-            vals['name'] = self.env['ir.sequence'].next_by_code('insurance.claim') or 'New'
-        return super(claimPolicy, self).create(vals)
+    # @api.model
+    # def create(self, vals):
+    #     if vals.get('name', 'New') == 'New':
+    #         vals['name'] = self.env['ir.sequence'].next_by_code('insurance.claim') or 'New'
+    #     return super(claimPolicy, self).create(vals)
 
     @api.onchange('insurer')
     def _onchange_insurer_branch(self):

@@ -45,7 +45,7 @@
         "views/insurer_partner.xml",
         "views/installments_view.xml",
         "views/views.xml",
-        "views/view.xml",
+        "views/policy_view.xml",
         'views/insured_cargo.xml',
         'views/insured_object.xml',
         'views/insured_vehicle.xml',

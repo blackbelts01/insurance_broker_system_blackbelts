@@ -75,8 +75,8 @@ class New_Risks(models.Model):
 
 
     #group person
-    name = fields.Char('Name')
-    DOB = fields.Date('Date Of Birth')
+    name = fields.Char('Name' ,copy=True)
+    DOB = fields.Date('Date Of Birth',copy=True)
     job = fields.Many2one('insurance.setup.item',string='Job Type',domain="[('setup_id.setup_key','=','jobtype')]")
 
 

@@ -275,6 +275,14 @@ class PolicyBroker(models.Model):
 
     checho = fields.Boolean()
     count_claim = fields.Integer(compute="_compute_claim")
+    validate=fields.Selection([('info', 'Info'),
+                                ('risk', 'Risk'),
+                                ('cover', 'Cover'),
+                                ('com', 'Com'),
+                                ('bro', 'Bro'),
+                                ('ins', 'Ins'),
+                                ('inv', 'Inv'),],
+                                      'validate', track_visibility='onchange',default='info')
     validate_basic_mark = fields.Boolean(copy=False,default=True)
     validate_risk_mark = fields.Boolean(copy=False)
     validate_cover_mark = fields.Boolean(copy=False)
@@ -283,37 +291,36 @@ class PolicyBroker(models.Model):
 
     @api.multi
     def validate_basic(self):
-        self.validate_basic_mark = True
-        self.validate_risk_mark = False
-        self.validate_cover_mark = False
-        self.validate_comm_mark = False
-        return True
+        self.validate = 'info'
 
     @api.multi
     def validate_risk(self):
         if self.line_of_bussines:
-            self.validate_basic_mark = False
-            self.validate_risk_mark = True
-            self.validate_cover_mark = False
-            self.validate_comm_mark = False
+            self.validate = 'risk'
+
             return True
 
     @api.multi
     def validate_cover(self):
         if self.new_risk_ids:
-            self.validate_basic_mark = False
-            self.validate_risk_mark = False
-            self.validate_cover_mark = True
-            self.validate_comm_mark = False
+            self.validate = 'cover'
             return True
 
     @api.multi
     def validate_commission(self):
-        self.validate_basic_mark = False
-        self.validate_risk_mark = False
-        self.validate_cover_mark = False
-        self.validate_comm_mark = True
-        return True
+        self.validate = 'com'
+
+    @api.multi
+    def validate_brokrage(self):
+        self.validate = 'bro'
+
+    @api.multi
+    def validate_installment(self):
+        self.validate = 'ins'
+
+    @api.multi
+    def validate_invoice(self):
+        self.validate = 'inv'
 
 
     @api.onchange('company')

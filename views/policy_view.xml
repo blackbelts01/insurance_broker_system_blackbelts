@@ -32,6 +32,12 @@
                         <!--</template>-->
                     </header>
                     <sheet>
+                        <template>
+                          <script type="text/javascript">
+                            var buttonsMenu = document.getElementById("menu");
+                            var buttonsList = buttonsMenu.getElementsByClassName("o_invisible_modifier")[0].style="display: inline-block !important;background:#fff;color:#777;border: 1px solid #ddd;border-bottom: none; ";
+                          </script>
+                        </template>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_inline oe_stat_button" type="object"
                                     name = "show_claim"
@@ -58,24 +64,50 @@
                             <field name="validate_cover_mark" invisible="1"/>
                             <field name="validate_comm_mark" invisible="1"/>
                             <field name="hide_inv_button" invisible="1"/>
+                            <field name="validate" invisible="1"/>
                         </group>
 
                           <div class="btn-group btn-group-justified" id="menu">
                                 <div class="btn-group">
-                                    <button name="validate_basic" string="Basic Information" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" attrs="{'invisible': [('validate_basic_mark', '=', True)]}" />
+                                    <button name="validate_basic" string="Basic Information" type="object"
+                                           style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'info')]}"/>
                                 </div>
                                 <div class="btn-group">
-                                    <button name="validate_risk" string="Risk" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" attrs="{'invisible': [('validate_risk_mark', '=', True)]}"/>
+                              <button name="validate_risk" string="Risk" type="object"
+                                      style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'risk')]}"/>
                                 </div>
                                 <div class="btn-group">
-                                    <button name="validate_cover" string="Coverages" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" attrs="{'invisible': [('validate_cover_mark', '=', True)]}"/>
+                                    <button name="validate_cover" string="Coverages" type="object"
+                                            style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'cover')]}"/>
                                 </div>
                                 <div class="btn-group">
-                                    <button name="validate_commission" string="Share Commission" type="object" style="border: 2px solid #e7e7e7 ; border-radius: 8px; font-size: 14px;" class="btn btn-primary" attrs="{'invisible': [('validate_comm_mark', '=', True)]}"/>
+                                    <button name="validate_commission" string="Share Commission" type="object"
+                                            style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'com')]}"/>
+                                </div>
+                              <div class="btn-group">
+                                    <button  string="Brokerages" type="object" name="validate_brokrage"
+                                             style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'bro')]}"/>
+                                </div>
+                              <div class="btn-group">
+                                    <button  string="Installments" type="object" name="validate_installment"
+                                             style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'ins')]}"/>
+                                </div>
+                              <div class="btn-group">
+                                    <button  string="Invoices" type="object" name="validate_invoice"
+                                             style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'inv')]}"/>
                                 </div>
                           </div>
+                        <!--<div>-->
+                              <!--<button name="validate_basic" string="Basic Information" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;" attrs="{'invisible': [('validate_basic_mark', '=', True)]}"/>-->
+                              <!--<button name="validate_risk" string="Risk" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
+                              <!--<button name="validate_cover" string="Coverages" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
+                              <!--<button name="validate_commission" string="Share Commission" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;" />-->
+                              <!--<button  string="Brokerages" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
+                              <!--<button  string="Installments" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
+                              <!--<button  string="Invoices" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ;border-right: 0.5px solid #000 ; font-size: 16px;"/>-->
+                        <!--</div>-->
 
-                        <group string="Basic Information" attrs="{'invisible': [('validate_basic_mark', '!=', True)]}">
+                        <group  attrs="{'invisible': [('validate', '!=', 'info')]}">
                             <group >
                                 <field name="customer" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
                                 <field name="company" attrs="{'readonly': [('policy_status', '=', 'approved')]}" context="{'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}"/>
@@ -99,7 +131,7 @@
                                 <field name="no_years"  attrs="{'invisible': [('term', '!=', 'year')],'readonly': [('policy_status', '=', 'approved')]}" />
                             </group>
                         </group>
-                        <group string="Risks" attrs="{'invisible': [('validate_risk_mark', '!=', True)]}">
+                        <group attrs="{'invisible': [('validate', '!=', 'risk')]}">
                             <field name="new_risk_ids" attrs="{'readonly': [('policy_status', '=', 'approved')]}" >
                                 <tree>
                                     <field name="risk_description"  />
@@ -138,7 +170,7 @@
                                 </form>
                             </field>
                         </group>
-                        <group string="Coverages" attrs="{'invisible': [('validate_cover_mark', '!=', True)]}">
+                        <group  attrs="{'invisible': [('validate', '!=', 'cover')]}">
                            <field name="name_cover_rel_ids" nolabel="1" force_save="1"  attrs="{'readonly': [('policy_status', '=', 'approved')]}">
                                 <tree editable="1">
                                     <field name="riskk" options="{'no_create': True, 'no_open': True}" style="color:#2e70b8 ;"/>
@@ -157,7 +189,7 @@
                                 </tree>
                             </field>
                         </group>
-                        <group string="Share Commission" attrs="{'invisible': [('validate_comm_mark', '!=', True)]}">
+                        <group  attrs="{'invisible': [('validate', '!=', 'com')]}">
                             <field name="share_commission" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
                                 <tree editable="1">
                                     <field name="agent"/>
@@ -173,56 +205,48 @@
                                 </form>
                             </field>
                         </group>
-                        <notebook attrs="{'invisible': [('policy_status', '!=', 'approved')]}">
-                            <page string="Brokerages">
-                                <group>
-                                    <group >
-                                        <label string="Basic Brokerage"/>
-                                        <field name="commision" nolabel="1"/>
-                                        <label string="Complementary Brokerage"/>
-                                        <field name="com_commision" nolabel="1"/>
-                                        <label string="Early Brokerage"/>
-                                        <field name="earl_commision" nolabel="1"/>
-                                    </group>
-                                    <group>
-                                        <label string="Fixed Brokerage"/>
-                                        <field name="fixed_commision" nolabel="1"/>
-                                        <label string="total Brokerage"/>
-                                        <field name="total_commision" nolabel="1"/>
-                                    </group>
-                                </group>
-                            </page>
-                            <page string="Installments">
-                                <group>
-                                     <field name="rella_installment_id"  nolabel="1" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
-                                        <tree>
-                                            <field name="date" />
-                                            <field name="amount"/>
-                                        </tree>
-                                    </field>
-                                </group>
-                            </page>
-                            <page string="Invoices">
-                                <group>
-                                    <field name="invoice_ids"  nolabel="1" readonly="1" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
-                                        <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoices">
-                                            <field name="insured_type" />
-                                            <field name="insured_lOB" />
-                                            <field name="insured_insurer" />
-                                            <field name="insured_product" />
-                                            <field name="partner_id" groups="base.group_user" string="Partner"/>
-                                            <field name="date_invoice" string="Invoice Date"/>
-                                            <field name="number" string="Invoice Number"/>
-                                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                                            <field name="date_due"/>
-                                            <field name="amount_total_signed" string="Total" sum="Total"/>
-                                            <field name="residual_signed" string="Amount Due" sum="Amount Due"/>
-                                            <field name="state"/>
-                                        </tree>
-                                    </field>
-                                </group>
-                            </page>
-                        </notebook>
+                         <group attrs="{'invisible': [('validate', '!=', 'bro')]}">
+                            <group >
+                                <label string="Basic Brokerage"/>
+                                <field name="commision" nolabel="1"/>
+                                <label string="Complementary Brokerage"/>
+                                <field name="com_commision" nolabel="1"/>
+                                <label string="Early Brokerage"/>
+                                <field name="earl_commision" nolabel="1"/>
+                            </group>
+                            <group>
+                                <label string="Fixed Brokerage"/>
+                                <field name="fixed_commision" nolabel="1"/>
+                                <label string="total Brokerage"/>
+                                <field name="total_commision" nolabel="1"/>
+                            </group>
+                        </group>
+                        <group attrs="{'invisible': [('validate', '!=', 'ins')]}">
+                             <field name="rella_installment_id"  nolabel="1" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
+                                <tree>
+                                    <field name="date" />
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group attrs="{'invisible': [('validate', '!=', 'inv')]}">
+                            <field name="invoice_ids"  nolabel="1" readonly="1" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
+                                <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoices">
+                                    <field name="insured_type" />
+                                    <field name="insured_lOB" />
+                                    <field name="insured_insurer" />
+                                    <field name="insured_product" />
+                                    <field name="partner_id" groups="base.group_user" string="Partner"/>
+                                    <field name="date_invoice" string="Invoice Date"/>
+                                    <field name="number" string="Invoice Number"/>
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                    <field name="date_due"/>
+                                    <field name="amount_total_signed" string="Total" sum="Total"/>
+                                    <field name="residual_signed" string="Amount Due" sum="Amount Due"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </group>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>

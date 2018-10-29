@@ -31,42 +31,26 @@
                 </header>
                 <sheet>
                     <div class="oe_title">
+                        <label for="name"/>
                         <h1>
                             <field name="name" />
                         </h1>
                     </div>
                     <group>
-                        <group>
-                            <field name="claimstatus" widget="selection"/>
-                        </group>
-                        <group>
-                            <field name="totalsettled" style="color:green;"/>
-                            <field name="totalunpaid" style="color:red;"/>
-                        </group>
-                        <group colspan="1" col="2">
-                            <field name="claimstatus" widget="selection"/>
-                            <field name="policy_number" widget="selection"/>
-                            <field name="endorsement" widget="selection"/>
-                            <field name="related_policy" invisible="1"/>
-                            <field name="customer_policy" readonly="1" force_save="1"/>
-                            <field name="insured" readonly="1" force_save="1"/>
-                            <field name="beneficiary" readonly="1" force_save="1"/>
-                            <field name="currency" readonly="1" force_save="1"/>
-                            <field name="lob" readonly="1" force_save="1"/>
-                            <field name="product" readonly="1" force_save="1"/>
-                            <field name="insurer" readonly="1" force_save="1"/>
-
-                            <field name="insurer_branch" readonly="1" force_save="1" />
-
-                            <field name="insurer_contact" context="{'default_customer': 0,'default_supplier': 1, 'default_insurer_type': 1,'default_company_type': 'company','default_is_company': 1}"/>
-
-                            <field name="total_paid_amount" readonly="1" force_save="1" style="color:green;"/>
-                        </group>
+                        <!--<group>-->
+                        <!--<field name="claimstatus" widget="selection"/>-->
+                        <!--</group>-->
+                        <!--<group>-->
+                        <!--<field name="totalsettled" style="color:green;"/>-->
+                        <!--<field name="totalunpaid" style="color:red;"/>-->
+                        <!--</group>-->
                     </group>
                     <notebook>
                         <page string="Claim Info">
                             <group>
                                 <group colspan="1" col="2">
+
+                                    <field name="claimstatus" widget="selection"/>
                                     <field name="intimation_date"/>
                                     <field name="intimation_no"/>
                                     <field name="dateofloss"/>
@@ -106,28 +90,39 @@
                             </group>
                         </page>
                         <page string="Settle History">
-                            <field name="settle_history">
-                                <tree>
-                                    <field name="risk_id" />
-                                    <field name="coverage"/>
-                                    <field name="sum_insured"/>
-                                    <field name="settle_amount"/>
-                                    <field name="settle_date"/>
-                                    <field name="status" widget="selection"/>
-                                </tree>
-                            </field>
+                            <group>
+                                <field name="settle_history" nolabel="1">
+                                    <tree>
+                                        <field name="risk_id" />
+                                        <field name="coverage"/>
+                                        <field name="sum_insured"/>
+                                        <field name="settle_amount"/>
+                                        <field name="settle_date"/>
+                                        <field name="status" widget="selection"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group>
+                                <field name="totalsettled" style="color:green;"/>
+                            </group>
+
                         </page>
                         <page string="Payment History">
-                            <field name="payment_history">
-                                <tree editable="1">
-                                    <field name="payment_date"/>
-                                    <field name="paid_amount"/>
-                                    <field name="currency"/>
-                                    <field name="check_bank"/>
-                                    <field name="check_number"/>
-                                    <field name="payee"/>
-                                </tree>
-                            </field>
+                            <group>
+                                <field name="payment_history" nolabel="1">
+                                    <tree editable="1">
+                                        <field name="payment_date"/>
+                                        <field name="paid_amount"/>
+                                        <field name="currency"/>
+                                        <field name="check_bank"/>
+                                        <field name="check_number"/>
+                                        <field name="payee"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group>
+                                <field name="totalunpaid" style="color:red;"/>
+                            </group>
                         </page>
                         <page string="Claim Procedure">
                             <field name="claim_action">

@@ -15,28 +15,28 @@
                                 attrs="{'invisible': [('hide_inv_button', '!=', True)]}"/>
                         <field name="policy_status" widget="statusbar"/>
                         <!--<template>-->
-                                    <!--<script type="text/javascript">-->
-                                        <!--var buttonsMenu = document.getElementById("menu");-->
-                                        <!--console.log(buttonsMenu);-->
-                                        <!--var buttonsList = buttonsMenu.getElementsByTagName("button");-->
-                                        <!--for (var i = 0; i  &lt; buttonsList.length; i++) {-->
-                                            <!--buttonsList[i].addEventListener("click", function () {-->
-                                                <!--var activeButtons=buttonsMenu.getElementsByClassName("active")[0];-->
-                                                <!--console.log(activeButtons);-->
-                                                <!--activeButtons.classList.remove("active");-->
-                                                <!--this.classList.add("active");-->
-                                            <!--})-->
-                                        <!--}-->
+                        <!--<script type="text/javascript">-->
+                        <!--var buttonsMenu = document.getElementById("menu");-->
+                        <!--console.log(buttonsMenu);-->
+                        <!--var buttonsList = buttonsMenu.getElementsByTagName("button");-->
+                        <!--for (var i = 0; i  &lt; buttonsList.length; i++) {-->
+                        <!--buttonsList[i].addEventListener("click", function () {-->
+                        <!--var activeButtons=buttonsMenu.getElementsByClassName("active")[0];-->
+                        <!--console.log(activeButtons);-->
+                        <!--activeButtons.classList.remove("active");-->
+                        <!--this.classList.add("active");-->
+                        <!--})-->
+                        <!--}-->
 
-                                    <!--</script>-->
+                        <!--</script>-->
                         <!--</template>-->
                     </header>
                     <sheet>
                         <template>
-                          <script type="text/javascript">
-                            var buttonsMenu = document.getElementById("menu");
-                            var buttonsList = buttonsMenu.getElementsByClassName("o_invisible_modifier")[0].style="display: inline-block !important;background:#fff;color:#777;border: 1px solid #ddd;border-bottom: none; ";
-                          </script>
+                            <script type="text/javascript">
+                                var buttonsMenu = document.getElementById("menu");
+                                var buttonsList = buttonsMenu.getElementsByClassName("o_invisible_modifier")[0].style="display: inline-block !important;background:#fff;color:#777;border: 1px solid #ddd;border-bottom: none; ";
+                            </script>
                         </template>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_inline oe_stat_button" type="object"
@@ -46,14 +46,15 @@
                             </button>
                         </div>
                         <div class="oe_title">
+                            <h1>  <label for="std_id"/></h1>
                             <div class="o_row">
                                 <h1><field name="std_id" placeholder="e.g. Policy No." attrs="{'readonly': [('policy_status', '=', 'approved')]}"/></h1>
                             </div>
                         </div>
-                        <group>
-                            <field name="edit_number" readonly="1" force_save="1"/>
-                            <field name="edit_decr" attrs="{'invisible': [('edit_number', '&lt;=', 0)]}"/>
-                            <field name="renwal_check" type="checkbox" readonly="1" force_save="1"/>
+                        <group invisible="1">
+                            <!--<field name="edit_number" readonly="1" force_save="1"/>-->
+                            <!--<field name="edit_decr" attrs="{'invisible': [('edit_number', '&lt;=', 0)]}"/>-->
+                            <!--<field name="renwal_check" type="checkbox" readonly="1" force_save="1"/>-->
                             <field name="policy_number"  readonly="1" force_save="1" attrs="{'invisible': [('renwal_check', '!=', True)]}"/>
                             <field name="check_item" invisible="1"/>
                             <field name="group" invisible="1"/>
@@ -66,48 +67,58 @@
                             <field name="hide_inv_button" invisible="1"/>
                             <field name="validate" invisible="1"/>
                         </group>
+                        <br/>
+                        <br/>
 
-                          <div class="btn-group btn-group-justified" id="menu">
+                        <div class="btn-group btn-group-justified" id="menu">
 
-                                <div class="btn-group">
-                                    <button name="validate_basic" string="Basic Information" type="object"
-                                           style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'info')]}"/>
-                                </div>
-                                <div class="btn-group">
-                              <button name="validate_risk" string="Risk" type="object"
-                                      style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'risk')]}"/>
-                                </div>
-                                <div class="btn-group">
-                                    <button name="validate_cover" string="Coverages" type="object"
-                                            style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'cover')]}"/>
-                                </div>
-                                <div class="btn-group">
-                                    <button name="validate_commission" string="Share Commission" type="object"
-                                            style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'com')]}"/>
-                                </div>
-                              <div class="btn-group">
-                                    <button  string="Brokerages" type="object" name="validate_brokrage"
-                                             style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'bro')]}"/>
-                                </div>
-                              <div class="btn-group">
-                                    <button  string="Installments" type="object" name="validate_installment"
-                                             style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'ins')]}"/>
-                                </div>
-                              <div class="btn-group">
-                                    <button  string="Invoices" type="object" name="validate_invoice"
-                                             style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'inv')]}"/>
-                                </div>
-                          </div>
+                            <div class="btn-group">
+                                <button name="validate_basic" string="Basic Info" type="object"
+                                        style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'info')]}"/>
+                            </div>
+                            <div class="btn-group">
+                                <button name="validate_risk" string="Risk" type="object"
+                                        style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'risk')]}"/>
+                            </div>
+                            <div class="btn-group">
+                                <button name="validate_cover" string="Coverages" type="object"
+                                        style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'cover')]}"/>
+                            </div>
+                            <div class="btn-group">
+                                <button name="validate_commission" string="Commission" type="object"
+                                        style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'com')]}"/>
+                            </div>
+                            <div class="btn-group">
+                                <button  string="Brokerage" type="object" name="validate_brokrage"
+                                         style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'bro')]}"/>
+                            </div>
+                            <div class="btn-group">
+                                <button  string="Installments" type="object" name="validate_installment"
+                                         style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'ins')]}"/>
+                            </div>
+                            <div class="btn-group">
+                                <button  string="Invoices" type="object" name="validate_invoice"
+                                         style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'inv')]}"/>
+                            </div>
+                        </div>
                         <!--<div>-->
-                              <!--<button name="validate_basic" string="Basic Information" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;" attrs="{'invisible': [('validate_basic_mark', '=', True)]}"/>-->
-                              <!--<button name="validate_risk" string="Risk" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
-                              <!--<button name="validate_cover" string="Coverages" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
-                              <!--<button name="validate_commission" string="Share Commission" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;" />-->
-                              <!--<button  string="Brokerages" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
-                              <!--<button  string="Installments" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
-                              <!--<button  string="Invoices" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ;border-right: 0.5px solid #000 ; font-size: 16px;"/>-->
+                        <!--<button name="validate_basic" string="Basic Information" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;" attrs="{'invisible': [('validate_basic_mark', '=', True)]}"/>-->
+                        <!--<button name="validate_risk" string="Risk" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
+                        <!--<button name="validate_cover" string="Coverages" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
+                        <!--<button name="validate_commission" string="Share Commission" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;" />-->
+                        <!--<button  string="Brokerages" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
+                        <!--<button  string="Installments" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ; font-size: 16px;"/>-->
+                        <!--<button  string="Invoices" type="object"  class="oe_inline oe_stat_button" style="border-left: 0.5px solid #000 ;border-top: 0.5px solid #000 ;border-right: 0.5px solid #000 ; font-size: 16px;"/>-->
                         <!--</div>-->
-
+                        <group attrs="{'invisible': [('validate', '!=', 'info')]}"  >
+                            <div class="o_row" style="width: 50% !important;">
+                                <label for="edit_number" style="font-weight:bold" />
+                                <field name="edit_number" readonly="1" force_save="1"/>
+                                <field name="edit_decr" attrs="{'invisible': [('edit_number', '&lt;=', 0)]}"/>
+                                <label for="renwal_check" style="font-weight:bold"/>
+                                <field name="renwal_check" type="checkbox" readonly="1" force_save="1"/>
+                            </div>
+                        </group>
                         <group  attrs="{'invisible': [('validate', '!=', 'info')]}">
                             <group >
                                 <field name="customer" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
@@ -120,6 +131,9 @@
                                 <field name="salesperson" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
                                 <field name="commission_per"/>
                             </group>
+
+
+
                             <group >
                                 <field name="insurance_type" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
                                 <field name="line_of_bussines" attrs="{'readonly': [('policy_status', '=', 'approved')]}"/>
@@ -133,7 +147,7 @@
                             </group>
                         </group>
                         <group attrs="{'invisible': [('validate', '!=', 'risk')]}">
-                            <field name="new_risk_ids" attrs="{'readonly': [('policy_status', '=', 'approved')]}" >
+                            <field name="new_risk_ids" attrs="{'readonly': [('policy_status', '=', 'approved')]}" nolabel="1" >
                                 <tree>
                                     <field name="risk_description"  />
                                 </tree>
@@ -172,7 +186,7 @@
                             </field>
                         </group>
                         <group  attrs="{'invisible': [('validate', '!=', 'cover')]}">
-                           <field name="name_cover_rel_ids" nolabel="1" force_save="1"  attrs="{'readonly': [('policy_status', '=', 'approved')]}">
+                            <field name="name_cover_rel_ids" nolabel="1" force_save="1"  attrs="{'readonly': [('policy_status', '=', 'approved')]}" >
                                 <tree editable="1">
                                     <field name="riskk" options="{'no_create': True, 'no_open': True}" style="color:#2e70b8 ;"/>
                                     <field name="new_risk_ids" invisible="1"/>
@@ -191,7 +205,7 @@
                             </field>
                         </group>
                         <group  attrs="{'invisible': [('validate', '!=', 'com')]}">
-                            <field name="share_commission" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
+                            <field name="share_commission" attrs="{'readonly': [('policy_status', '=', 'approved')]}" nolabel="1">
                                 <tree editable="1">
                                     <field name="agent"/>
                                     <field name="commission_per"/>
@@ -206,7 +220,7 @@
                                 </form>
                             </field>
                         </group>
-                         <group attrs="{'invisible': [('validate', '!=', 'bro')]}">
+                        <group attrs="{'invisible': [('validate', '!=', 'bro')]}">
                             <group >
                                 <label string="Basic Brokerage"/>
                                 <field name="commision" nolabel="1"/>
@@ -223,7 +237,7 @@
                             </group>
                         </group>
                         <group attrs="{'invisible': [('validate', '!=', 'ins')]}">
-                             <field name="rella_installment_id"  nolabel="1" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
+                            <field name="rella_installment_id"  nolabel="1" attrs="{'readonly': [('policy_status', '=', 'approved')]}">
                                 <tree>
                                     <field name="date" />
                                     <field name="amount"/>

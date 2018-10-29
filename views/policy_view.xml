@@ -14,22 +14,6 @@
                         <button name="create_invoices" string="Create Invoices" type="object" class="oe_highlight"
                                 attrs="{'invisible': [('hide_inv_button', '!=', True)]}"/>
                         <field name="policy_status" widget="statusbar"/>
-                        <!--<template>-->
-                                    <!--<script type="text/javascript">-->
-                                        <!--var buttonsMenu = document.getElementById("menu");-->
-                                        <!--console.log(buttonsMenu);-->
-                                        <!--var buttonsList = buttonsMenu.getElementsByTagName("button");-->
-                                        <!--for (var i = 0; i  &lt; buttonsList.length; i++) {-->
-                                            <!--buttonsList[i].addEventListener("click", function () {-->
-                                                <!--var activeButtons=buttonsMenu.getElementsByClassName("active")[0];-->
-                                                <!--console.log(activeButtons);-->
-                                                <!--activeButtons.classList.remove("active");-->
-                                                <!--this.classList.add("active");-->
-                                            <!--})-->
-                                        <!--}-->
-
-                                    <!--</script>-->
-                        <!--</template>-->
                     </header>
                     <sheet>
                         <template>
@@ -68,7 +52,6 @@
                         </group>
 
                           <div class="btn-group btn-group-justified" id="menu">
-
                                 <div class="btn-group">
                                     <button name="validate_basic" string="Basic Information" type="object"
                                            style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" attrs="{'invisible': [('validate', '=', 'info')]}"/>

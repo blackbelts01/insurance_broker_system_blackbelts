@@ -5,26 +5,23 @@
             <field name="name"> DashBoard</field>
             <field name="model">dash</field>
             <field name="arch" type="xml">
-
-                <template id="assets_backend" name="js assets" inherit_id="web.assets_backend">
-                    <iframe src="http://178.128.197.205/newibsdash/production/index.html" marginwidth="0" marginheight="0" frameborder="no"  style="border-width:0px;"></iframe>
-                    <xpath expr="." position="inside">
-                        <script
-                            type="text/javascript"
-                            src="/insurance_broker_system_blackbelts/static/src/js/custome_js.js"
-                        >
-                        console.log("good");
-                        </script>
-                        <link
-                            href="/insurance_broker_system_blackbelts/static/src/css/custom_style.css"
-                            rel="stylesheet"
-                            type="text/css"/>
-                    </xpath>
-                </template>
-
-
-
-
+                <form>
+                    <template id="assets_backend" name="js assets" inherit_id="web.assets_backend">
+                        <iframe src="http://178.128.197.205/newibsdash/production/index.html" marginwidth="0" marginheight="0" frameborder="no"  style="border-width:0px;"></iframe>
+                        <xpath expr="." position="inside">
+                            <script
+                                type="text/javascript"
+                                src="/insurance_broker_system_blackbelts/static/src/js/custome_js.js"
+                            >
+                            console.log("good");
+                            </script>
+                            <link
+                                href="/insurance_broker_system_blackbelts/static/src/css/custom_style.css"
+                                rel="stylesheet"
+                                type="text/css"/>
+                        </xpath>
+                    </template>
+                </form>
             </field>
         </record>
         <!--<record id="action_dashboard" model="ir.actions.act_window">-->

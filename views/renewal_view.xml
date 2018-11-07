@@ -15,8 +15,8 @@
                 <field name="issue_date" string="Issue on"/>
                 <field name="start_date" string="Effective F"/>
                 <field name="end_date" string="Effective To"/>
-                <field name="gross_perimum" string="Gross Prem"/>
-                <field name="t_permimum" string="Net Prem"/>
+                <field name="gross_perimum" string="Gross Prem" sum="Gross Prem"/>
+                <field name="t_permimum" string="Net Prem" sum="Net Prem"/>
             </tree>
         </field>
     </record>

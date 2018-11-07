@@ -6,20 +6,19 @@
             <field name="arch" type="xml">
                 <form string="my endorsement form">
                     <header>
-                        <button name="create_endorsement" string="Convert endorsement t0 Policy" class="oe_highlight" type="object" />
+                        <button name="create_endorsement" string="Convert to Policy" class="oe_highlight" type="object"
+                        attrs="{'invisible': [('converted', '=', True)]}"/>
                     </header>
                     <sheet>
                         <group>
-
                             <field name="number_policy"/>
-                             <field name="last_policy" invisible="1"/>
-
-                            <!--<field name="newone"/>-->
+                            <field name="last_policy" invisible="1"/>
                             <field name="number_edit"/>
                             <field name="reasonedit"/>
                             <field name="issue_date"/>
                             <field name="start_date"/>
                             <field name="end_date"/>
+                            <field name="converted" invisible="1"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -36,12 +35,10 @@
             <field name="arch" type="xml">
                 <tree string="my_tree_for_endorsement">
                     <field name="number_policy"/>
-                    <!--<field name="newone"/>-->
                     <field name="number_edit"/>
                     <field name="issue_date"/>
                     <field name="start_date"/>
                     <field name="end_date"/>
-
                 </tree>
             </field>
         </record>

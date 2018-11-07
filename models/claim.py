@@ -140,9 +140,10 @@ class claimPolicy(models.Model):
 class settleHistory(models.Model):
     _name ="settle.history"
 
+    endorsement_related=fields.Many2one('policy.broker')
     risk_type=fields.Char(related='claimheader.insured',string='Risk Type',readonly=True,store=True)
     risk_id=fields.Many2one('new.risks',string='Risk',domain="[('policy_risk_id','=',endorsement_related)]")
-    risk=fields.Integer(related='risk_id.id',string='Risk')
+    risk=fields.Char(related='risk_id.risk_description',string='Risk')
     #Vehicle details
     vcar_type = fields.Many2one(related='risk_id.car_tybe',string='Vehicle Type')
     vmotor_cc = fields.Char(related='risk_id.motor_cc',string="Motor cc")
@@ -160,24 +161,22 @@ class settleHistory(models.Model):
     cweight = fields.Float(related='risk_id.weight',string='Weight')
 
     # risk_details = fields.Char(related='risk_id.risk_description',string='Risk Description')
-    coverage = fields.Many2one('covers.lines',string='Coverage',domain="[('policy_rel_id','=',endorsement_related),('riskk.id', '=',risk_id)]")
+    coverage = fields.Many2one('covers.lines',string='Coverage',domain="[('policy_rel_id','=',endorsement_related),('riskk', '=',risk_id)]")
     sum_insured=fields.Float(related='coverage.sum_insure',string='Sum Insured',store=True,readonly=True)
     settle_amount=fields.Float(string='Settle Amount',compute='_onchange_settle_amount')
     settle_date=fields.Date(string='Settle Date')
     status=fields.Many2one('insurance.setup.item',string='Status',domain="[('setup_id.setup_key','=','state')]")
     claimheader=fields.Many2one('insurance.claim')
-    endorsement_related=fields.Many2one('policy.broker')
+
     claim_item=fields.One2many('insurance.claim.item','settle_history',string='Repair/Claim Items')
 
     @api.onchange('claimheader')
     def _onchange_endo(self):
       if self.claimheader.endorsement:
           self.endorsement_related=self.claimheader.endorsement.id
-          print("end =====" + str(self.endorsement_related.std_id))
 
       else:
           self.endorsement_related = self.claimheader.policy_number.id
-          print("pol =====" + str(self.endorsement_related.std_id))
 
 
 

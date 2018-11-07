@@ -33,7 +33,7 @@ class New_Risks(models.Model):
                                            str(self.cargo_type)+" - " if self.cargo_type else " " + "_") + "   " +"WGT: "+ (
                                            str(self.weight) if self.weight else " " + "_")
             if self.test == "location" or self.type_risk == 'location':
-                self.risk_description = "ADD: "+(str(self.address)+" - " if self.address else " " + "_") + "  " +"Typ: "+ (
+                self.risk_description = "ADD: "+(str(self.address)+" - " if self.address else " " + "_") + "  " +"TYPE: "+ (
                     str(self.type) if self.type else " " + "_")
         else:
             self.risk_descriptio="aya"
@@ -41,17 +41,13 @@ class New_Risks(models.Model):
             # if rec.test == "location":
             #     rec.risk_description = (str(rec.group_name) if rec.group_name else " " + "_") + "  " + (
             #         str(rec.count) if rec.count else " " + "_")
-
+    old_id= fields.Integer()
+    old_id_end = fields.Integer()
     policy_risk_id = fields.Many2one("policy.broker")
     risks_crm = fields.Many2one("crm.lead", string='Risks')
+    test = fields.Selection(related="policy_risk_id.check_item")
     type_risk = fields.Char(related='risks_crm.test')
-
-    # risk = fields.Char("Risk ID" ,required=True)
     risk_description = fields.Char("Risk Description", compute="_compute_risk_descriptionn", store=True)
-
-    test = fields.Char(related="policy_risk_id.check_item")
-
-
 
     #group car
     car_tybe = fields.Many2one('insurance.setup.item',string='Vehicle Type',domain="[('setup_id.setup_key','=','vehicletype')]")
@@ -60,7 +56,6 @@ class New_Risks(models.Model):
     plate_no = fields.Char("Plate Number")
     chassis_no = fields.Char("Chassis Number")
     engine = fields.Char("Engine Number")
-
     Man = fields.Many2one('insurance.setup',string='Maker',domain="[('setup_key','=','man')]")
     model = fields.Many2one('insurance.setup.item',string='Model')
 

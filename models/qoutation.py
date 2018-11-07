@@ -16,7 +16,7 @@ class crm_leads(models.Model):
     insurance_type = fields.Selection([('Life', 'Life'),
                                        ('P&C', 'P&C'),
                                        ('Health', 'Health'), ],
-                                      'Insurance Type', track_visibility='onchange')
+                                      'Insurance Type', track_visibility='onchange',required=True)
     ins_type = fields.Selection([('Individual', 'Individual'),
                                  ('Group', 'Group'),],
                                 'insured type', track_visibility='onchange')
@@ -31,6 +31,8 @@ class crm_leads(models.Model):
     validate_risk_mark_opp = fields.Boolean(copy=False)
     validate_prop = fields.Boolean(copy=False)
     validate_prop_line = fields.Boolean(copy=False)
+    validate_underwr=fields.Boolean(copy=False)
+    validate_contact = fields.Boolean(copy=False)
 
     @api.multi
     def validate_basic_opp(self):
@@ -38,6 +40,8 @@ class crm_leads(models.Model):
         self.validate_risk_mark_opp = False
         self.validate_prop = False
         self.validate_prop_line = False
+        self.validate_underwr = False
+        self.validate_contact = False
         print(self.validate_basic_mark_opp)
 
         return True
@@ -49,6 +53,8 @@ class crm_leads(models.Model):
             self.validate_risk_mark_opp = True
             self.validate_prop = False
             self.validate_prop_line = False
+            self.validate_underwr = False
+            self.validate_contact = False
             print(self.validate_basic_mark_opp)
             return True
 
@@ -59,6 +65,8 @@ class crm_leads(models.Model):
             self.validate_risk_mark_opp = False
             self.validate_prop = True
             self.validate_prop_line = False
+            self.validate_underwr = False
+            self.validate_contact = False
             return True
     @api.multi
     def validate_proposal_line(self):
@@ -67,7 +75,28 @@ class crm_leads(models.Model):
             self.validate_risk_mark_opp = False
             self.validate_prop = False
             self.validate_prop_line = True
+            self.validate_underwr = False
+            self.validate_contact = False
             return True
+
+    @api.multi
+    def validate_underwritting(self):
+                self.validate_basic_mark_opp = False
+                self.validate_risk_mark_opp = False
+                self.validate_prop = False
+                self.validate_prop_line = False
+                self.validate_underwr=True
+                self.validate_contact = False
+
+
+    @api.multi
+    def validate_continfo(self):
+        self.validate_basic_mark_opp = False
+        self.validate_risk_mark_opp = False
+        self.validate_prop = False
+        self.validate_prop_line = False
+        self.validate_underwr = False
+        self.validate_contact = True
 
 
     @api.one
@@ -75,7 +104,7 @@ class crm_leads(models.Model):
         if self.duration_no and self.duration_type:
             self.term = str(self.duration_no) + '-' + str(self.duration_type)
 
-    LOB = fields.Many2one('insurance.line.business', string='Line of business', domain="[('insurance_type','=',insurance_type)]")
+    LOB = fields.Many2one('insurance.line.business', string='Line of business', domain="[('insurance_type','=',insurance_type)]",required=True)
 
     oppor_type = fields.Char(
         string='Opportunity type',

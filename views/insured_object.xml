@@ -8,6 +8,7 @@
                     <field name="name"/>
                     <field name="DOB"/>
                     <field name="job"/>
+                    <field name="policy_risk_id"/>
                 </tree>
             </field>
         </record>

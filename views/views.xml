@@ -26,50 +26,176 @@
                     <button name="print_opp" string="Print" type="object"  class="btn-primary o_sale_print" />
                     <button name="send_mail_template" string="Send by Mail" type="object"  class="oe_highlight" />
                 </header>
-                <notebook >
+                <!--<notebook >-->
 
-                    <page string="Underwritting/Survey">
-                        <label for="my_notes"/>
-                        <field name="my_notes" />
+                <!--<page string="Underwritting/Survey">-->
+                <!--<label for="my_notes"/>-->
+                <!--<field name="my_notes" />-->
 
-                    </page>
-                </notebook>
+                <!--</page>-->
+                <!--</notebook>-->
 
                 <!-- crm main form -->
                 <field name="partner_id" position="attributes" >
                     <attribute name="context">{'own_customer_only':1}</attribute>
                 </field>
-                <xpath expr="//field[@name='name']" position="after">
-                    <group>
-                        <div class="o_row">
-                            <label for="c_type" style="font-weight:bold"/>
-                            <div class="o_row" style="width: 40% !important;">
-                                <field name="c_type"  style="width:20%; font-size: 15px"/>
-                                <field name="ammount" style="width:100px; font-size: 15px"/>
-                            </div>
-                            <label for="policy_number" style="font-weight:bold" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}"/>
-                            <div class="o_row" style="width: 47% !important;" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}" >
-                                <field name="policy_number"  style="width:20%; font-size: 15px"/>
-                                <!--<field name="ammount" style="width:100px; font-size: 15px"/>-->
-                            </div>
-                        </div>
+                <xpath expr="//field[@name='planned_revenue']/parent::div" position="attributes">
+                    <attribute name="invisible">1</attribute>>
+                </xpath>
+                <xpath expr="//field[@name='probability']/parent::div" position="attributes">
+                    <attribute name="invisible">1</attribute>>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="style">width: 50% !important;</attribute>>
+                </xpath>
+                <xpath expr="//label[@for='planned_revenue']" position="attributes">
+                    <attribute name="invisible">1</attribute>>
+                </xpath>
+                <xpath expr="//label[@for='probability']" position="attributes">
+                    <attribute name="invisible">1</attribute>>
+                </xpath>
+                <xpath expr="/form/sheet/group[1]" position="after">
+                    <group  attrs="{'invisible': ['|',('validate_underwr', '!=', True)]}">
+                        <field name="my_notes" />
                     </group>
+                    <group attrs="{'invisible': ['|',('validate_contact', '!=', True)]}" >
+                        <group>
+                            <field name="partner_name"/>
+                            <label for="street" string="Address"/>
+                            <div class="o_address_format">
+                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" options="{&quot;no_open&quot;: True}"/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                            </div>
+                            <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
+                        </group>
+
+                        <group>
+                            <label for="contact_name"/>
+                            <div class="o_row">
+                                <field name="contact_name"/>
+                                <field name="title" placeholder="Title" domain="[]" options="{&quot;no_open&quot;: True}"/>
+                            </div>
+                            <field name="function"/>
+                            <field name="mobile"/>
+                            <field name="opt_out"/>
+                        </group>
+                        <group string="Marketing">
+                            <field name="campaign_id"/>
+                            <field name="medium_id"/>
+                            <field name="source_id"/>
+                        </group>
+                        <group string="Misc" name="Misc">
+                            <field name="day_open" groups="base.group_no_one"/>
+                            <field name="day_close" groups="base.group_no_one"/>
+                            <field name="referred"/>
+                            <field name="type" invisible="1"/>
+                        </group>
+                    </group>
+                </xpath>
+
+                <!--//label[@for='module_account_followup']"-->
+                <xpath expr="/form/sheet/group[1]/group[4]" position="after">
+                    <group style="width: 50% !important;" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}">
+                        <field name="policy_number"  style="font-size: 15px;"/>
+                        <field name="selected_coverage" style="font-size: 15px;" widget="selection" />
+
+                        <!--<div >-->
+                        <!--<h2 class="o_row" >-->
+                        <!--<div>-->
+                        <!--<label for="policy_number" class="oe_edit_only" style="font-weight:bold"/>-->
+                        <!--<div class="o_row">-->
+                        <!--<field name="policy_number"  style="font-size: 15px;"/>-->
+                        <!--<span class="oe_grey" style="font-size: 15px;"> and </span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div>-->
+                        <!--<label for="selected_coverage" class="oe_edit_only" style="font-weight:bold"/>-->
+                        <!--<div class="o_row">-->
+                        <!--<field name="selected_coverage" style="font-size: 15px;" widget="selection" />-->
+
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</h2>-->
+                        <!--</div>-->
+                    </group>
+                    <br/>
 
                 </xpath>
 
+                <xpath expr="/form/sheet/group[1]/group[1]" position="before">
+                    <br/>
+                    <div>
+                        <div class="o_row">
+                            <label for="c_type" style="font-weight:bold"/>
+                            <div class="o_row" style="width: 100% !important;">
+                                <field name="c_type"  style="width:100%; font-size: 15px"/>
+                                <field name="ammount" style="width:100px; font-size: 15px"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <h2 class="o_row" >
+                            <div>
+                                <label for="planned_revenue" class="oe_edit_only" style="font-weight:bold"/>
+                                <div class="o_row">
+                                    <field name="company_currency" invisible="1" style="font-size: 15px;"/>
+                                    <field name="planned_revenue" widget="monetary" options="{'currency_field': 'company_currency'}" style="font-size: 15px;"/>
+                                    <span class="oe_grey"> at </span>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="probability" class="oe_edit_only" style="font-weight:bold"/>
+                                <div class="o_row">
+                                    <field name="probability" widget="integer" style="font-size: 15px;"/>
+                                    <span>%</span>
+                                </div>
+                            </div>
+                        </h2>
+                    </div>
+
+                    <group>
+
+
+                    </group>
+
+
+                    <!--<label string="policyNo and Propsal" style="font-weight:bold" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}"/>-->
+                    <!--<div class="o_row" style="width: 47% !important;" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}" >-->
+
+                    <!--<field name="policy_number"  style="width:20%; font-size: 15px"/>-->
+                    <!--&lt;!&ndash;<label for="selected_coverage" style="font-weight:bold" attrs="{'invisible': ['|', ('active','=',False), ('probability', '!=', 100)]}"/>&ndash;&gt;-->
+                    <!--<field name="selected_coverage" style="width:20%; font-size: 15px" />-->
+                    <!--&lt;!&ndash;<field name="ammount" style="width:100px; font-size: 15px"/>&ndash;&gt;-->
+                    <!--</div>-->
+
+
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[2]" position="attributes">
+
+                    <attribute name="invisible">1</attribute>>
+
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[1]" position="attributes">
+
+                    <attribute name="invisible">1</attribute>>
+
+                </xpath>
 
                 <xpath expr="/form/sheet/group[1]" position="before">
                     <br/>
-                         <template>
-                          <script type="text/javascript">
+                    <template>
+                        <script type="text/javascript">
                             var buttonsMenu = document.getElementById("menu");
-                              console.log(buttonsMenu);
+                            console.log(buttonsMenu);
                             var buttonsList = buttonsMenu.getElementsByClassName("o_invisible_modifier")[0].style="display: inline-block !important;background:#fff;color:#777;border: 1px solid #ddd;border-bottom: none; ";
-                          </script>
-                        </template>
+                        </script>
+                    </template>
                     <div class="btn-group btn-group-justified" id="menu">
                         <div class="btn-group" >
-                            <button name="validate_basic_opp" string="Basic Information" type="object" style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" class="btn btn-primary" attrs="{'invisible': [('validate_basic_mark_opp', '=', True)]}" />
+                            <button name="validate_basic_opp" string="Basic Info" type="object" style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" class="btn btn-primary" attrs="{'invisible': [('validate_basic_mark_opp', '=', True)]}" />
                         </div>
                         <div class="btn-group" >
                             <button name="validate_risk_opp" string="Risk" type="object" style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" class="btn btn-primary"  attrs="{'invisible': [('validate_risk_mark_opp', '=', True)]}"/>
@@ -79,6 +205,12 @@
                         </div>
                         <div class="btn-group" >
                             <button name="validate_proposal_line" string="Proposal Lines" type="object" style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" class="btn btn-primary" attrs="{'invisible': [('validate_prop_line', '=', True)]}" />
+                        </div>
+                        <div class="btn-group" >
+                            <button name="validate_underwritting" string="U/W-Survey" type="object" style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" class="btn btn-primary" attrs="{'invisible': [('validate_underwr', '=', True)]}" />
+                        </div>
+                        <div class="btn-group" >
+                            <button name="validate_continfo" string="Contact Info" type="object" style="color: #337AB7; background: white;border-bottom: 1px solid #ddd;" class="btn btn-primary" attrs="{'invisible': [('validate_contact', '=', True)]}" />
                         </div>
                     </div>
 
@@ -98,7 +230,7 @@
                 <field name="date_deadline" position="after">
                     <field name="oppor_type"/>
                     <field name="create_uid" readonly='True'/>
-                    <field name="selected_coverage"  />
+
                     <field name="test" style="width:20%; font-size: 15px"  invisible="1"  />
 
                 </field>
@@ -108,6 +240,8 @@
                     <field name="validate_risk_mark_opp"  invisible="1" />
                     <field name="validate_prop"  invisible="1" />
                     <field name="validate_prop_line"  invisible="1" />
+                    <field name="validate_underwr"  invisible="1" />
+                    <field name="validate_contact"  invisible="1" />
                     <!--<field name="validate_basic_mark_opp"  invisible="1" />-->
                     <!--<field name="test1"  invisible="1" />-->
 
@@ -129,7 +263,8 @@
 
 
                     <label string="Duration"/>
-                    <div class="o_row">                        <field name="duration_no"/>
+                    <div class="o_row">
+                        <field name="duration_no"/>
                         <field name="duration_type"/>
                     </div>
 
@@ -215,14 +350,14 @@
                         </tree>
                         <!--</tree>-->
                         <!--<form>-->
-                            <!--<group>-->
-                                <!--<field name="proposal_id"/>-->
-                                <!--<field name="risk_id_covers"/>-->
-                                <!--&lt;!&ndash;<field name="risk_desc"/>&ndash;&gt;-->
-                                <!--<field name="covers"/>-->
-                                <!--<field name="covers_crm" invisible="1"  />-->
+                        <!--<group>-->
+                        <!--<field name="proposal_id"/>-->
+                        <!--<field name="risk_id_covers"/>-->
+                        <!--&lt;!&ndash;<field name="risk_desc"/>&ndash;&gt;-->
+                        <!--<field name="covers"/>-->
+                        <!--<field name="covers_crm" invisible="1"  />-->
 
-                            <!--</group>-->
+                        <!--</group>-->
                         <!--</form>-->
                         <!--<form>-->
                         <!--<group>-->

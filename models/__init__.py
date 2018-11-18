@@ -12,6 +12,7 @@ from . import coverage_line
 # from . import risks_opp
 from . import partner_inhirt
 from . import employee_assets
+from . import mail
 
 
 

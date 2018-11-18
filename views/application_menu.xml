@@ -24,13 +24,21 @@
                 </form>
             </field>
         </record>
-        <!--<record id="action_dashboard" model="ir.actions.act_window">-->
-            <!--<field name="name">DashBoard</field>-->
-            <!--<field name="res_model">dash</field>-->
-            <!--<field name="target">inline</field>-->
-            <!--<field name="view_mode">tree,form</field>-->
-            <!--<field name="view_type">form</field>-->
-        <!--</record>-->
+       <record id="mail.action_view_mail_message" model="ir.actions.act_window">
+            <field name="name">New Messages</field>
+            <field name="res_model">mail.message</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="search_view_id" ref="mail.view_message_search"/>
+            <field name='domain'>[('author_id.user_id','=',user)]</field>
+        </record>
+        <record id="email_action" model="ir.actions.act_window">
+            <field name="name">Emails</field>
+            <field name="res_model">mail.mail</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name='domain'>[('author_id.user_id','=',uid)]</field>
+        </record>
        <record id="dashboard_action" model="ir.actions.act_window">
             <field name="name">DashBoard</field>
             <field name="res_model">dash</field>
@@ -52,6 +60,10 @@
                   parent="main_ibs_menu" sequence="0" groups="ibs_admin_group"/>
         <menuitem id="agent_dashboard_view_menu" name="Agent Dashboard" parent="dashboard_views_menu"/>
         <menuitem id="admin_dashboard_menu" name="Admin Dashboard" parent="dashboard_views_menu"/>
+        <menuitem id="discuss_views_menu" name="Discuss"
+                  parent="main_ibs_menu"  groups="ibs_admin_group"/>
+        <menuitem id="Inbox_view_menu" name="Inbox" parent="discuss_views_menu" action="mail.action_view_mail_message"/>
+        <menuitem id="send_menu" name="Send" parent="discuss_views_menu" action="email_action"/>
 
         <!--Partners-->
 

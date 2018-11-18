@@ -30,14 +30,14 @@
             <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
             <field name="search_view_id" ref="mail.view_message_search"/>
-            <field name='domain'>[('author_id.user_id','=',user)]</field>
+            <field name='domain'>[('author_id.user_ids','in',[uid])]</field>
         </record>
         <record id="email_action" model="ir.actions.act_window">
             <field name="name">Emails</field>
             <field name="res_model">mail.mail</field>
             <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
-            <field name='domain'>[('author_id.user_id','=',uid)]</field>
+            <field name='domain'>[('author_id.user_ids','in',[uid])]</field>
         </record>
        <record id="dashboard_action" model="ir.actions.act_window">
             <field name="name">DashBoard</field>

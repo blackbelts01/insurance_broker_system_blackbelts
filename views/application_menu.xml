@@ -182,7 +182,7 @@
                   action="action_ibs_commission" sequence="3"/>
         <menuitem id="collection_installments_view_menu" name="Collection Installments" parent="ibs_collection_view_menu" sequence="1"/>
         <menuitem id="installments_view_menu" name="Installments" parent="collection_installments_view_menu" sequence="0"
-                  action="action_ibs_commission"/>
+                  action="installments_line_action"/>
         <!--Accounting-->
         <menuitem id="accounting_management_views_menu" name="Accounting"
                   parent="main_ibs_menu" sequence="7" groups="ibs_admin_group,ibs_accountant_group"/>

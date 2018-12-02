@@ -60,15 +60,15 @@
                   parent="main_ibs_menu" sequence="0" groups="ibs_admin_group"/>
         <menuitem id="agent_dashboard_view_menu" name="Agent Dashboard" parent="dashboard_views_menu"/>
         <menuitem id="admin_dashboard_menu" name="Admin Dashboard" parent="dashboard_views_menu"/>
-        <menuitem id="discuss_views_menu" name="Discuss"
-                  parent="main_ibs_menu"  groups="ibs_admin_group"/>
+        <!--Discuss-->
+        <menuitem id="discuss_views_menu" name="Discuss" parent="main_ibs_menu"  groups="ibs_admin_group" sequence="1"/>
         <menuitem id="Inbox_view_menu" name="Inbox" parent="discuss_views_menu" action="mail.action_view_mail_message"/>
         <menuitem id="send_menu" name="Send" parent="discuss_views_menu" action="email_action"/>
 
         <!--Partners-->
 
         <menuitem id="partners_views_menu" name="Partners"
-                  parent="main_ibs_menu" sequence="1" groups="ibs_admin_group"/>
+                  parent="main_ibs_menu" sequence="2" groups="ibs_admin_group"/>
         <menuitem id="customers_view_menu" name="Customer" parent="partners_views_menu"
                   action="action_customer_view"/>
         <menuitem id="insurer_view_menu" name="Insurer" parent="partners_views_menu"
@@ -80,7 +80,7 @@
 
         <!--HR-->
         <menuitem id="hr_management_views_menu" name="Human Resources"
-                  parent="main_ibs_menu" sequence="7" groups="ibs_admin_group"/>
+                  parent="main_ibs_menu" sequence="8" groups="ibs_admin_group"/>
         <menuitem id="employees_view_menu" name="Employees" parent="hr_management_views_menu"
                   action="hr.open_view_employee_list_my"/>
         <menuitem id="employees_list_view_menu" name="Employees" parent="employees_view_menu"
@@ -127,7 +127,7 @@
                   action="hr_expense.action_hr_expense_sheet_all_to_pay"/>
 
         <!--Sales-->
-        <menuitem id="ibs_sales_menu" name="Sales" parent="main_ibs_menu" sequence="2" groups="ibs_admin_group,ibs_agent_group"/>
+        <menuitem id="ibs_sales_menu" name="Sales" parent="main_ibs_menu" sequence="3" groups="ibs_admin_group,ibs_agent_group"/>
         <menuitem id="leads_view_menu" name="Leads" parent="ibs_sales_menu"
                   action="crm.crm_lead_all_leads" sequence="0" />
         <menuitem id="opportunities_view_menu" name="Opportunities" parent="ibs_sales_menu"
@@ -139,7 +139,7 @@
 
         <!--Policy-->
         <menuitem id="policy_management_views_menu" name="Policies"
-                  parent="main_ibs_menu" sequence="3" groups="ibs_admin_group,ibs_agent_group"/>
+                  parent="main_ibs_menu" sequence="4" groups="ibs_admin_group,ibs_agent_group"/>
         <menuitem id="policy_view_menu" name="Policy" parent="policy_management_views_menu"
                   action="policy_form_action" sequence="0"/>
         <menuitem id="endorsement_view_menu" name="Endorsement" parent="policy_management_views_menu"
@@ -156,7 +156,7 @@
                   action="action_for_insured_Cargo" sequence="2"/>
 
         <!--Claim-->
-        <menuitem id="claim_parent_view_menu" name="Claims" parent="main_ibs_menu" sequence="4" groups="ibs_admin_group,ibs_agent_group"/>
+        <menuitem id="claim_parent_view_menu" name="Claims" parent="main_ibs_menu" sequence="5" groups="ibs_admin_group,ibs_agent_group"/>
         <menuitem id="claim_view_menu" name="Claim" parent="claim_parent_view_menu"
                   action="claim_view_action" sequence="0"/>
         <menuitem id="settlements_view_menu" name="Settlements" parent="claim_parent_view_menu" sequence="1"/>
@@ -170,20 +170,27 @@
                   action="action_payment" sequence="2"/>
 
         <!--Invoices-->
-        <menuitem id="ibs_invoices_view_menu" name="Invoices" parent="main_ibs_menu" sequence="5" groups="ibs_admin_group,ibs_accountant_group"/>
-        <menuitem id="customer_inv_view_menu" name="Customer Invoices" parent="ibs_invoices_view_menu"
+        <menuitem id="ibs_collection_view_menu" name="Collection" parent="main_ibs_menu" sequence="6" groups="ibs_admin_group,ibs_accountant_group"/>
+        <menuitem id="invoices_menu" name="Invoices" parent="ibs_collection_view_menu" sequence="0"/>
+        <menuitem id="customer_inv_view_menu" name="Customer Invoices" parent="invoices_menu"
                   action="action_ibs_customer_invoice" sequence="0"/>
-        <menuitem id="bill_view_menu" name="Insurer Bills" parent="ibs_invoices_view_menu"
+        <menuitem id="bill_view_menu" name="Insurer Bills" parent="invoices_menu"
                   action="action_ibs_insurer_bill" sequence="1"/>
-        <menuitem id="brokerage_view_menu" name="Brokerage" parent="ibs_invoices_view_menu"
+        <menuitem id="brokerage_view_menu" name="Brokerage" parent="invoices_menu"
                   action="action_ibs_brokerage" sequence="2"/>
-        <menuitem id="commission_view_menu" name="Commission" parent="ibs_invoices_view_menu"
+        <menuitem id="commission_view_menu" name="Commission" parent="invoices_menu"
                   action="action_ibs_commission" sequence="3"/>
-
+        <menuitem id="collection_installments_view_menu" name="Collection Installments" parent="ibs_collection_view_menu" sequence="1"/>
+        <menuitem id="installments_view_menu" name="Installments" parent="collection_installments_view_menu" sequence="0"
+                  action="action_ibs_commission"/>
         <!--Accounting-->
         <menuitem id="accounting_management_views_menu" name="Accounting"
-                  parent="main_ibs_menu" sequence="6" groups="ibs_admin_group,ibs_accountant_group"/>
-        <menuitem id="document_accounting_view_menu" name="Documents" parent="accounting_management_views_menu" sequence="0"/>
+                  parent="main_ibs_menu" sequence="7" groups="ibs_admin_group,ibs_accountant_group"/>
+
+         <menuitem id="accounting_dashboard_views_menu" name="Dashboard"
+                  parent="accounting_management_views_menu" sequence="0" groups="ibs_admin_group,ibs_accountant_group"
+                   action="account.open_account_journal_dashboard_kanban"/>
+        <menuitem id="document_accounting_view_menu" name="Documents" parent="accounting_management_views_menu" sequence="1"/>
         <menuitem id="document_invoices_accounting_view_menu" name="Invoices" parent="document_accounting_view_menu"/>
         <menuitem id="invoices_view_menu" name="Customer Invoices" parent="document_invoices_accounting_view_menu"
                   action="account.action_invoice_tree1"/>
@@ -194,7 +201,7 @@
                   action="account.action_invoice_tree2"/>
         <menuitem id="bills_payments_view_menu" name="Payments" parent="document_bills_accounting_view_menu"
                   action="account.action_account_payments_payable"/>
-        <menuitem id="accounting_entries_view_menu" name="Accounting Entries" parent="accounting_management_views_menu" sequence="1"/>
+        <menuitem id="accounting_entries_view_menu" name="Accounting Entries" parent="accounting_management_views_menu" sequence="2"/>
         <menuitem id="journal_item_view_menu" name="Journal Items" parent="accounting_entries_view_menu"
                   action="account.action_account_moves_all_a"/>
         <menuitem id="journal_entries_view_menu" name="Journal Entries" parent="accounting_entries_view_menu"
@@ -203,7 +210,7 @@
                   action="analytic.account_analytic_line_action_entries"/>
         <menuitem id="asset_entries_view_menu" name="Assets" parent="accounting_entries_view_menu"
                   action="account_asset.action_account_asset_asset_form"/>
-        <menuitem id="menu_finance_legal_statement" name="PDF Reports" parent="accounting_management_views_menu" sequence="2"/>
+        <menuitem id="menu_finance_legal_statement" name="PDF Reports" parent="accounting_management_views_menu" sequence="3"/>
         <menuitem id="menu_general_ledger" name="General Ledger" parent="menu_finance_legal_statement" action="account.action_account_general_ledger_menu" groups="account.group_account_user"/>
         <menuitem id="menu_partner_ledger" name="Partner Ledger" parent="menu_finance_legal_statement" action="account.action_account_partner_ledger_menu" groups="account.group_account_user"/>
         <menuitem id="menu_print_journal" name="Journals Audit" parent="menu_finance_legal_statement" action="account.action_account_print_journal_menu" groups="account.group_account_manager,account.group_account_user"/>
@@ -214,7 +221,7 @@
         <menuitem id="menu_general_Balance_report" name="Trial Balance" parent="menu_finance_legal_statement" action="account.action_account_balance_menu" groups="account.group_account_user"/>
         <menuitem id="menu_account_report" name="Tax Report" action="account.action_account_tax_report" parent="menu_finance_legal_statement" groups="account.group_account_manager,account.group_account_user"/>
 
-        <menuitem id="accounting_configuration_view_menu" name="Configuration" parent="accounting_management_views_menu" sequence="3"/>
+        <menuitem id="accounting_configuration_view_menu" name="Configuration" parent="accounting_management_views_menu" sequence="4"/>
         <menuitem id="chart_of_account_view_menu" name="Chart of Accounts" parent="accounting_configuration_view_menu"
                   action="account.action_account_form"/>
         <menuitem id="currencies_view_menu" name="Currencies" parent="accounting_configuration_view_menu"
@@ -230,8 +237,28 @@
         <menuitem id="assets_view_menu" name="Assets Type" parent="accounting_configuration_view_menu"
                   action="account_asset.action_account_asset_asset_list_normal_purchase"/>
 
+                <!--payroll-->
+        <menuitem id="payroll_view_menu" name="Payroll" parent="main_ibs_menu" sequence="9" groups="ibs_admin_group"/>
+        <menuitem id="employee_payslips_view_menu" name="Employee Payslips" parent="payroll_view_menu"
+                  action="hr_payroll.action_view_hr_payslip_form" sequence="0"/>
+        <menuitem id="payslips_batches_view_menu" name="Payslips Batches" parent="payroll_view_menu"
+                  action="hr_payroll.action_hr_payslip_run_tree" sequence="1"/>
+        <menuitem id="config_payroll_view_menu" name="Configuration" parent="payroll_view_menu" sequence="2"/>
+                <menuitem id="setting_view_menu" name="Setting" parent="config_payroll_view_menu"
+                          action="hr_payroll.action_hr_payroll_configuration"/>
+                <menuitem id="salary_structures_view_menu" name="Salary Structures" parent="config_payroll_view_menu"
+                           action="hr_payroll.action_view_hr_payroll_structure_list_form"/>
+                <menuitem id="salary_rule_categories_view_menu" name="Salary Rule Categories" parent="config_payroll_view_menu"
+                          action="hr_payroll.action_hr_salary_rule_category"/>
+                <menuitem id="salary_rules_view_menu" name="Salary Rules" parent="config_payroll_view_menu"
+                          action="hr_payroll.action_salary_rule_form"/>
+                <menuitem id="contribution_registers_view_menu" name="Contribution Registers" parent="config_payroll_view_menu"
+                          action="hr_payroll.action_contribution_register_form"/>
+                <menuitem id="contract_advantage_templates_view_menu" name="Contract Advantage Templates" parent="config_payroll_view_menu"
+                          action="hr_payroll.hr_contract_advantage_template_action"/>
+
         <!--Configuration-->
-        <menuitem id="configuration_view_menu" name="Configuration" parent="main_ibs_menu" sequence="8" groups="ibs_admin_group"/>
+        <menuitem id="configuration_view_menu" name="Configuration" parent="main_ibs_menu" sequence="10" groups="ibs_admin_group"/>
         <menuitem id="line_of_business_view_menu" name="Line of Business" parent="configuration_view_menu"
                   action="insurance_line_business_action" sequence="0"/>
         <menuitem id="product_view_menu" name="Products" parent="configuration_view_menu"
